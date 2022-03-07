@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
 
 public class User {
 
@@ -26,5 +27,7 @@ public class User {
 
     @Column
     private boolean isAdmin;
+
+
 
 }

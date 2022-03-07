@@ -2,9 +2,7 @@ package fi.experis.mefit.models;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 public class Set {
 
@@ -13,6 +11,10 @@ public class Set {
 
     @Column
     private int exercise_repetitions;
+
+    @OneToOne
+    @JoinColumn(name = "exercise_id")
+    private Long exercise_id;
 
 
 }
