@@ -7,6 +7,7 @@ public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "workout_id")
     private Long workoutId;
 
     @Column

@@ -9,15 +9,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @Column
     private String password;
 
-    @Column
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column
+    @Column(name = "last_name")
     private String lastName;
 
     @Column

@@ -7,6 +7,7 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "exercise_id")
     private Long exerciseId;
 
     @Column
@@ -15,12 +16,12 @@ public class Exercise {
     @Column
     private String description;
 
-    @Column
+    @Column(name = "target_muscle_group")
     private String targetMuscleGroup;
 
     @Column
     private String image;
 
-    @Column
+    @Column(name = "vid_link")
     private String vidLink;
 }

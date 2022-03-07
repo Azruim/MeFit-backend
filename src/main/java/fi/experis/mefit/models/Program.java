@@ -7,6 +7,7 @@ public class Program {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "program_id")
     private Long programId;
 
     @Column

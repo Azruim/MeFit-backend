@@ -8,13 +8,14 @@ public class Goal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "goal_id")
     private Long goalId;
 
-    @Column
+    @Column(name = "end_date")
     private Date endDate;
 
     @Column
-    private boolean archived;
+    private boolean achieved;
 
     // TODO add program_id foreign key
 }

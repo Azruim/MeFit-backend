@@ -8,6 +8,7 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "profile_id")
     private Long profileId;
 
     @Column
@@ -16,30 +17,30 @@ public class Profile {
     @Column
     private double height;
 
-    @Column
+    @Column(name = "medical_conditions")
     private String medicalConditions;
 
     @Column
     private String disabilities;
 
     @OneToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "addressId")
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany
-    @JoinColumn(name = "setId")
+    @JoinColumn(name = "set_id")
     List<Set> sets;
 
     @OneToMany
-    @JoinColumn(name = "workoutId")
+    @JoinColumn(name = "workout_id")
     List<Workout> workouts;
 
     @OneToMany
-    @JoinColumn(name = "programId")
+    @JoinColumn(name = "program_id")
     List<Program> programs;
 
 }

@@ -7,18 +7,19 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private Long addressId;
 
-    @Column
+    @Column(name = "address_line_1")
     private String addressLine1;
 
-    @Column
+    @Column(name = "address_line_2")
     private String addressLine2;
 
-    @Column
+    @Column(name = "address_line_3")
     private String addressLine3;
 
-    @Column
+    @Column(name = "postal_code")
     private String postalCode;
 
     @Column
