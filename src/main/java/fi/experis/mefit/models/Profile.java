@@ -10,7 +10,7 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profile_id;
+    private Long profileId;
 
     @Column
     private double weight;
@@ -19,7 +19,7 @@ public class Profile {
     private double height;
 
     @Column
-    private String medical_conditions;
+    private String medicalConditions;
 
     @Column
     private String disabilities;

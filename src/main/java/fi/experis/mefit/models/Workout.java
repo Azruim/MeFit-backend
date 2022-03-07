@@ -10,7 +10,7 @@ public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long workout_id;
+    private Long workoutId;
 
     @Column
     private String name;

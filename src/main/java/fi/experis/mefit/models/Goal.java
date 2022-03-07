@@ -11,10 +11,10 @@ public class Goal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long goal_id;
+    private Long goalId;
 
     @Column
-    private Date end_date;
+    private Date endDate;
 
     @Column
     private boolean archived;

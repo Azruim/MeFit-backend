@@ -10,19 +10,19 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long address_id;
+    private Long addressId;
 
     @Column
-    private String address_line_1;
+    private String addressLine1;
 
     @Column
-    private String address_line_2;
+    private String addressLine2;
 
     @Column
-    private String address_line_3;
+    private String addressLine3;
 
     @Column
-    private String postal_code;
+    private String postalCode;
 
     @Column
     private String city;

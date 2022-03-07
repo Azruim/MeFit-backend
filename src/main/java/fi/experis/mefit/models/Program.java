@@ -10,7 +10,7 @@ public class Program {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long program_id;
+    private Long programId;
 
     @Column
     private String name;

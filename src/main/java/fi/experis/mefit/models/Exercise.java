@@ -10,7 +10,7 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long exercise_id;
+    private Long exerciseId;
 
     @Column
     private String name;
@@ -19,11 +19,11 @@ public class Exercise {
     private String description;
 
     @Column
-    private String target_muscle_group;
+    private String targetMuscleGroup;
 
     @Column
     private String image;
 
     @Column
-    private String vid_link;
+    private String vidLink;
 }
