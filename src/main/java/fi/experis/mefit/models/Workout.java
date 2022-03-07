@@ -1,6 +1,7 @@
 package fi.experis.mefit.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Workout {
@@ -18,5 +19,12 @@ public class Workout {
     @Column
     private boolean complete;
 
-    // TODO add set_id foreign key
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "program_workout", joinColumns = { @JoinColumn(name = "workoutId")},inverseJoinColumns = {
+            @JoinColumn(name = "programId")})
+    private List<Program> programs;
+
+    @OneToMany(mappedBy = "workout")
+    private List<GoalWorkout> goalWorkouts;
+
 }
