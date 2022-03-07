@@ -2,7 +2,7 @@ package fi.experis.mefit.models;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "goal_workout")
 public class GoalWorkout {
 
     @Id
