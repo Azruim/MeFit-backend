@@ -18,7 +18,9 @@ public class Program {
     private String category;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "program_workout", joinColumns = { @JoinColumn(name = "programId")}, inverseJoinColumns = {
-            @JoinColumn(name = "workoutId")})
+    @JoinTable(
+            name = "program_workout",
+            joinColumns = { @JoinColumn(name = "program_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 }

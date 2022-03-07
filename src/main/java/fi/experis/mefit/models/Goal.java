@@ -19,7 +19,7 @@ public class Goal {
     private boolean achieved;
 
     @OneToOne
-    @JoinColumn(name = "programId")
+    @JoinColumn(name = "program_id")
     private Program program;
 
     @OneToMany(mappedBy = "goal")

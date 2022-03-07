@@ -21,8 +21,10 @@ public class Workout {
     private boolean complete;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "program_workout", joinColumns = { @JoinColumn(name = "workoutId")},inverseJoinColumns = {
-            @JoinColumn(name = "programId")})
+    @JoinTable(
+            name = "program_workout",
+            joinColumns = { @JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "program_id")})
     private List<Program> programs;
 
     @OneToMany(mappedBy = "workout")

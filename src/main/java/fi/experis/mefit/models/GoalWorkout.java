@@ -10,10 +10,10 @@ public class GoalWorkout {
     private Long goalWorkoutId;
 
     @ManyToOne
-    @JoinColumn(name = "workoutId")
+    @JoinColumn(name = "workout_id")
     private Workout workout;
 
     @ManyToOne
-    @JoinColumn(name = "goalId")
-    private Workout goal;
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
 }
