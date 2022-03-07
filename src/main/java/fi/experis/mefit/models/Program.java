@@ -6,21 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-public class Profile {
+public class Program {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
+    private Long programId;
 
     @Column
-    private double weight;
+    private String name;
 
     @Column
-    private double height;
-
-    @Column
-    private String medicalConditions;
-
-    @Column
-    private String disabilities;
+    private String category;
 }

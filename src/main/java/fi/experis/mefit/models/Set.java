@@ -12,7 +12,7 @@ public class Set {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column
-    private int exercise_repetitions;
+    private int exerciseRepetitions;
 
 
 }

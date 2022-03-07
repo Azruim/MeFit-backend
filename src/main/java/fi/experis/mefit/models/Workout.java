@@ -6,21 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-public class Profile {
+public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
+    private Long workoutId;
 
     @Column
-    private double weight;
+    private String name;
 
     @Column
-    private double height;
+    private String type;
 
     @Column
-    private String medicalConditions;
+    private boolean complete;
 
-    @Column
-    private String disabilities;
+    // TODO add set_id foreign key
 }

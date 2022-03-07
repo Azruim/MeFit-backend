@@ -5,22 +5,19 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.Date;
 
-public class Profile {
+public class Goal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
+    private Long goalId;
 
     @Column
-    private double weight;
+    private Date endDate;
 
     @Column
-    private double height;
+    private boolean archived;
 
-    @Column
-    private String medicalConditions;
-
-    @Column
-    private String disabilities;
+    // TODO add program_id foreign key
 }
