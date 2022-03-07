@@ -21,10 +21,10 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column
+    @Column(name = "is_contributor")
     private boolean isContributor;
 
-    @Column
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
 

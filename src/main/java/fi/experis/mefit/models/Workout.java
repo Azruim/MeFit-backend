@@ -1,6 +1,7 @@
 package fi.experis.mefit.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Workout {
@@ -19,5 +20,8 @@ public class Workout {
     @Column
     private boolean complete;
 
-    // TODO add set_id foreign key
+    @OneToOne
+    @JoinColumn(name = "set_id")
+    private Set set;
+
 }
