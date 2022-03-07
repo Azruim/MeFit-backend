@@ -2,6 +2,7 @@ package fi.experis.mefit.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Goal {
@@ -17,5 +18,10 @@ public class Goal {
     @Column
     private boolean achieved;
 
-    // TODO add program_id foreign key
+    @OneToOne
+    @JoinColumn(name = "programId")
+    private Program program;
+
+    @OneToMany(mappedBy = "goal")
+    private List<GoalWorkout> goalWorkouts;
 }

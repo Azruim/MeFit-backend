@@ -20,6 +20,14 @@ public class Workout {
     @Column
     private boolean complete;
 
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "program_workout", joinColumns = { @JoinColumn(name = "workoutId")},inverseJoinColumns = {
+            @JoinColumn(name = "programId")})
+    private List<Program> programs;
+
+    @OneToMany(mappedBy = "workout")
+    private List<GoalWorkout> goalWorkouts;
+
     @OneToOne
     @JoinColumn(name = "set_id")
     private Set set;

@@ -1,6 +1,7 @@
 package fi.experis.mefit.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Program {
@@ -15,4 +16,9 @@ public class Program {
 
     @Column
     private String category;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "program_workout", joinColumns = { @JoinColumn(name = "programId")}, inverseJoinColumns = {
+            @JoinColumn(name = "workoutId")})
+    private List<Workout> workouts;
 }
