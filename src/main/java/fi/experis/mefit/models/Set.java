@@ -1,20 +1,20 @@
 package fi.experis.mefit.models;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 
+@Entity
 public class Set {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long setId;
 
     @Column
     private int exerciseRepetitions;
 
     @OneToOne
-    @JoinColumn(name = "exercise_id")
-    private Long exercise_id;
+    @JoinColumn(name = "exerciseId")
+    private Exercise exercise;
 
 
 }

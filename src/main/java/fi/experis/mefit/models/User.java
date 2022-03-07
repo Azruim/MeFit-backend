@@ -1,12 +1,9 @@
 package fi.experis.mefit.models;
 
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+@Entity
 public class User {
 
     @Id

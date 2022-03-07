@@ -1,10 +1,9 @@
 package fi.experis.mefit.models;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Profile {
 
     @Id
@@ -24,23 +23,23 @@ public class Profile {
     private String disabilities;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private Long user_id;
+    @JoinColumn(name = "userId")
+    private User user;
 
     @OneToOne
-    @JoinColumn(name = "address_id")
-    private Long address_id;
+    @JoinColumn(name = "addressId")
+    private Address address;
 
     @OneToMany
-    @JoinColumn(name = "set_id")
+    @JoinColumn(name = "setId")
     List<Set> sets;
 
     @OneToMany
-    @JoinColumn(name = "workout_id")
+    @JoinColumn(name = "workoutId")
     List<Workout> workouts;
 
     @OneToMany
-    @JoinColumn(name = "program_id")
+    @JoinColumn(name = "programId")
     List<Program> programs;
 
 }
