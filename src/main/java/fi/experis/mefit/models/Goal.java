@@ -25,6 +25,10 @@ public class Goal {
     @OneToMany(mappedBy = "goal")
     private List<GoalWorkout> goalWorkouts;
 
+    public Goal() {
+        super();
+    }
+
     public Goal(Long goalId, Date endDate, boolean achieved, Program program, List<GoalWorkout> goalWorkouts) {
         this.goalId = goalId;
         this.endDate = endDate;

@@ -17,6 +17,10 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+    public Set() {
+        super();
+    }
+
     public Set(Long setId, int exerciseRepetitions, Exercise exercise) {
         this.setId = setId;
         this.exerciseRepetitions = exerciseRepetitions;

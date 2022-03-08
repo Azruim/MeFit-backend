@@ -28,6 +28,10 @@ public class Address {
     @Column
     private String country;
 
+    public Address() {
+        super();
+    }
+
     public Address(Long addressId, String addressLine1, String addressLine2, String addressLine3, String postalCode, String city, String country) {
         this.addressId = addressId;
         this.addressLine1 = addressLine1;

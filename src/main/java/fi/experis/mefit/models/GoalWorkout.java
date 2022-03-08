@@ -21,6 +21,10 @@ public class GoalWorkout {
     @JoinColumn(name = "goal_id")
     private Goal goal;
 
+    public GoalWorkout() {
+        super();
+    }
+
     public GoalWorkout(Long goalWorkoutId, Date endDate, Workout workout, Goal goal) {
         this.goalWorkoutId = goalWorkoutId;
         this.endDate = endDate;

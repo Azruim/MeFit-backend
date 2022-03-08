@@ -25,6 +25,10 @@ public class Exercise {
     @Column(name = "vid_link")
     private String vidLink;
 
+    public Exercise() {
+        super();
+    }
+
     public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String vidLink) {
         this.exerciseId = exerciseId;
         this.name = name;

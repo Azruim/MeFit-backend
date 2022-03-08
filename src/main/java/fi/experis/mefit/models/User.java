@@ -27,6 +27,10 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
+    public User() {
+        super();
+    }
+
     public User(Long userId, String password, String firstName, String lastName, boolean isContributor, boolean isAdmin) {
         this.userId = userId;
         this.password = password;

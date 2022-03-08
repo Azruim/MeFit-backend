@@ -24,6 +24,10 @@ public class Program {
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
+    public Program() {
+        super();
+    }
+
     public Program(Long programId, String name, String category, List<Workout> workouts) {
         this.programId = programId;
         this.name = name;

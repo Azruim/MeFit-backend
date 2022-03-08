@@ -43,6 +43,10 @@ public class Profile {
     @JoinColumn(name = "program_id")
     List<Program> programs;
 
+    public Profile() {
+        super();
+    }
+
     public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Set> sets, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
