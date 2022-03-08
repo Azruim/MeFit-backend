@@ -1,5 +1,6 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -23,6 +24,14 @@ public class Goal {
     @OneToOne
     @JoinColumn(name = "program_id")
     private Program program;
+
+    @JsonGetter("program")
+    public String programGetter() {
+        if (program != null) {
+            return "/api/v1/programs/" + program.getProgramId();
+        }
+        return null;
+    }
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
