@@ -37,8 +37,7 @@ public class Profile {
     @OneToMany(mappedBy = "workoutId")
     List<Workout> workouts;
 
-    @OneToMany
-    @JoinColumn(name = "program_id")
+    @OneToMany(mappedBy = "programId")
     List<Program> programs;
 
     public Profile() {

@@ -26,3 +26,5 @@ insert into workout (complete, name, type, set_id)
            (false, 'Pena lämpöö', 'Kestävyys', 1),
            (false, 'Haukka setti', 'Lihasmassa', 10);
 
+
+
