@@ -1,5 +1,7 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class Workout {
     @Column
     private boolean complete;
 
-    @ManyToMany(mappedBy = "workouts",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany
+    @JoinTable(name = "program_workout",
+            joinColumns = {@JoinColumn(name = "program_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
+    @JsonIgnore
     private List<Program> programs;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -29,7 +35,6 @@ public class Workout {
             joinColumns = { @JoinColumn(name = "workout_id")},
             inverseJoinColumns = {@JoinColumn(name = "goal_id")})
     private List<Goal> goals;
-
 
     @OneToOne
     @JoinColumn(name = "set_id")

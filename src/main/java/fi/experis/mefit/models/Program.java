@@ -1,6 +1,8 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,12 +21,10 @@ public class Program {
     @Column
     private String category;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "program_workout",
-            joinColumns = { @JoinColumn(name = "program_id")},
-            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
+    @ManyToMany
     private List<Workout> workouts;
+
+
 
     public Program() {
         super();
