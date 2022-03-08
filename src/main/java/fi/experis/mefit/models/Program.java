@@ -19,11 +19,9 @@ public class Program {
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "program_workout",
-            joinColumns = {@JoinColumn(name = "workout_id")},
-            inverseJoinColumns = {@JoinColumn(name = "program_id")})
+            joinColumns = {@JoinColumn(name = "program_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
-
-
 
     public Program() {
         super();
