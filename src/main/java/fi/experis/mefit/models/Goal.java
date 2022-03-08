@@ -29,7 +29,6 @@ public class Goal {
             name = "goal_workout",
             joinColumns = { @JoinColumn(name = "goal_id")},
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
-    @JsonIgnore
     private List<Workout> workouts;
 
     public Goal() {
