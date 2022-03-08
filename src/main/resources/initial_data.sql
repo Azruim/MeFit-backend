@@ -31,17 +31,23 @@ insert into workout_set (workout_id, set_id)
 insert into program (category, name)
     values ('Full body workout' ,'Henry`s sweatpants');
 
-insert into goal (achieved, end_date, program_id)
-    values (false, '2022-03-10', 1);
+insert into program_workout (program_id, workout_id)
+    values (1, 1),(1, 2),(1, 7);
+
+insert into "user" (first_name, is_admin, is_contributor, last_name, password)
+    values ('Pete', true, true, 'Hyrrä', 'admin');
+
+insert into address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
+    values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100');
+
+insert into profile (disabilities, height, medical_conditions, weight, address_id, user_id)
+    values ('None', 1.83, 'None', 91.3, 1, 1);
+
+insert into goal (achieved, end_date, profile_id, program_id)
+    values (false, '2022-03-10', 1, 1);
 
 insert into goal_workout (end_date, goal_id, workout_id)
     values ('2022-03-08', 1, 1),
-           ('2022-03-09', 1, 2);
+            ('2022-03-09', 1, 2);
 
-insert into program_workout (program_id, workout_id)
-    values (1, 1),
-           (1, 2),
-           (1, 7);
 
-insert into profile (disabilities, height, medical_conditions, weight, address_id, user_id)
-    values ('None', 1.83, 'Diabetes', 91.3, null, null);

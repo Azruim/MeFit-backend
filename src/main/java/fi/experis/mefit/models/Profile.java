@@ -46,7 +46,7 @@ public class Profile {
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
-            name = "profile_program",
+            name = "goal",
             joinColumns = { @JoinColumn(name = "profile_id")},
             inverseJoinColumns = {@JoinColumn(name = "program_id")})
     private List<Program> programs;
