@@ -1,33 +1,35 @@
 insert into exercise (description, image, name, target_muscle_group, vid_link)
-    values ('Penkki treeni', null, 'Pena', 'Rintalihakset', null),
-           ('Hauis treeni', null, 'Haukka', 'Hauislihakset', null),
-           ('Jalka treeni', null, 'Kyykky', 'Reisilihakset', null);
+    values ('Lift your arms', null, 'Bench Press', 'Pectoral muscle', null),
+           ('Fold your arm', null, 'Bicep Curl', 'Bicep', null),
+           ('Stand up', null, 'Squat', 'Quad', null);
 
 insert into set (exercise_repetitions, exercise_id)
-    values (10, 1),
-           (12, 1),
-           (10, 2),
-           (12, 2),
-           (10, 3),
-           (12, 3),
-           (8, 1),
-           (6, 2),
-           (6, 3),
-           (8, 2);
+    values (6, 1), (10, 1), (12, 1),
+           (10, 2), (12, 2), (8, 2),
+           (10, 3), (12, 3), (6, 3);
 
-insert into workout (complete, name, type, set_id)
-    values (false, 'Pena', 'Lihasmassa', 7),
-           (false, 'Penaan alkulämmöt', 'Kestävyys', 2),
-           (false, 'Haukkaan lämpöä', 'Kestävyys', 3),
-           (false, 'Haukka alkulämmöt', 'Kestävyys', 4),
-           (false, 'Jalkoihin lämpöä', 'Kestävyys', 5),
-           (false, 'Kunnon haukka', 'Lihasmassa', 8),
-           (false, 'Jalkapäivä', 'Lihasmassa', 9),
-           (false, 'Pena lämpöö', 'Kestävyys', 1),
-           (false, 'Haukka setti', 'Lihasmassa', 10);
+insert into workout (complete, name, type)
+    values (false, 'Tough bench press', 'Brawn'),
+           (false, 'Bench press warmup', 'Warm up'),
+           (false, 'Bench press stamina', 'Stamina'),
+           (false, 'Hard bicep training', 'Brawn'),
+           (false, 'Bicep warmup', 'Warm Up'),
+           (false, 'Bicep stamina training', 'Stamina'),
+           (false, 'Hard Squat training', 'Brawn'),
+           (false, 'Squat warmup', 'Warm up'),
+           (false, 'Squat Stamina', 'Stamina');
+
+insert into workout_set (workout_id, set_id)
+    values (1, 1), (1, 1), (1, 1),
+           (2, 2), (2, 2), (2, 3),
+           (3, 3), (3, 2), (3, 1),
+           (4, 6), (4, 6), (4, 6),
+           (5, 5), (5, 5), (5, 4),
+           (6, 5), (6, 4), (6, 6),
+           (7, 9), (7, 9), (7, 9);
 
 insert into program (category, name)
-    values ('Kokovartalotreeni' ,'Henkan hikijumppa');
+    values ('Full body workout' ,'Henry`s sweatpants');
 
 insert into goal (achieved, end_date, program_id)
     values (false, '2022-03-10', 1);

@@ -31,8 +31,8 @@ public class Profile {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "setId")
-    List<Set> sets;
+    @OneToMany(mappedBy = "goalId")
+    List<Goal> goals;
 
     @OneToMany(mappedBy = "workoutId")
     List<Workout> workouts;
@@ -44,7 +44,10 @@ public class Profile {
         super();
     }
 
-    public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Set> sets, List<Workout> workouts, List<Program> programs) {
+    public Profile(
+            Long profileId, double weight, double height, String medicalConditions,
+            String disabilities, User user, Address address, List<Goal> goals,
+            List<Set> sets, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -52,7 +55,7 @@ public class Profile {
         this.disabilities = disabilities;
         this.user = user;
         this.address = address;
-        this.sets = sets;
+        this.goals = goals;
         this.workouts = workouts;
         this.programs = programs;
     }
@@ -113,13 +116,6 @@ public class Profile {
         this.address = address;
     }
 
-    public List<Set> getSets() {
-        return sets;
-    }
-
-    public void setSets(List<Set> sets) {
-        this.sets = sets;
-    }
 
     public List<Workout> getWorkouts() {
         return workouts;
@@ -127,6 +123,14 @@ public class Profile {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
     }
 
     public List<Program> getPrograms() {
@@ -147,7 +151,7 @@ public class Profile {
                 ", disabilities='" + disabilities + '\'' +
                 ", user=" + user +
                 ", address=" + address +
-                ", sets=" + sets +
+                ", goals=" + goals +
                 ", workouts=" + workouts +
                 ", programs=" + programs +
                 '}';

@@ -37,22 +37,25 @@ public class Workout {
     @JsonIgnore
     private List<Goal> goals;
 
-    @OneToOne
-    @JoinColumn(name = "set_id")
-    private Set set;
+    @ManyToMany
+    @JoinTable(
+            name = "workout_set",
+            joinColumns = { @JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "set_id")})
+    private List<Set> sets;
 
     public Workout() {
         super();
     }
 
-    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, Set set) {
+    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, List<Set> sets) {
         this.workoutId = workoutId;
         this.name = name;
         this.type = type;
         this.complete = complete;
         this.programs = programs;
         this.goals = goals;
-        this.set = set;
+        this.sets = sets;
     }
 
     public Long getWorkoutId() {
@@ -103,12 +106,12 @@ public class Workout {
         this.programs = programs;
     }
 
-    public Set getSet() {
-        return set;
+    public List<Set> getSets() {
+        return sets;
     }
 
-    public void setSet(Set set) {
-        this.set = set;
+    public void setSets(List<Set> sets) {
+        this.sets = sets;
     }
 
     @Override
@@ -120,7 +123,7 @@ public class Workout {
                 ", complete=" + complete +
                 ", programs=" + programs +
                 ", goals=" + goals +
-                ", set=" + set +
+                ", sets=" + sets +
                 '}';
     }
 }

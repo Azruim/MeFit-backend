@@ -1,6 +1,9 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Set {
@@ -17,7 +20,13 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
-
+    @ManyToMany
+    @JoinTable(
+            name = "workout_set",
+            joinColumns = { @JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "set_id")})
+    @JsonIgnore
+    private List<Workout> workout;
 
     public Set() {
         super();
@@ -51,6 +60,14 @@ public class Set {
 
     public void setExercise(Exercise exercise) {
         this.exercise = exercise;
+    }
+
+    public List<Workout> getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(List<Workout> workout) {
+        this.workout = workout;
     }
 
     @Override
