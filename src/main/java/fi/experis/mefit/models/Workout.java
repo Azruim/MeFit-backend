@@ -27,8 +27,13 @@ public class Workout {
             inverseJoinColumns = {@JoinColumn(name = "program_id")})
     private List<Program> programs;
 
-    @OneToMany(mappedBy = "workout")
-    private List<GoalWorkout> goalWorkouts;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "goal_workout",
+            joinColumns = { @JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "goal_id")})
+    private List<Goal> goals;
+
 
     @OneToOne
     @JoinColumn(name = "set_id")
@@ -38,13 +43,13 @@ public class Workout {
         super();
     }
 
-    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<GoalWorkout> goalWorkouts, Set set) {
+    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, Set set) {
         this.workoutId = workoutId;
         this.name = name;
         this.type = type;
         this.complete = complete;
         this.programs = programs;
-        this.goalWorkouts = goalWorkouts;
+        this.goals = goals;
         this.set = set;
     }
 
@@ -68,6 +73,14 @@ public class Workout {
         return type;
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -88,14 +101,6 @@ public class Workout {
         this.programs = programs;
     }
 
-    public List<GoalWorkout> getGoalWorkouts() {
-        return goalWorkouts;
-    }
-
-    public void setGoalWorkouts(List<GoalWorkout> goalWorkouts) {
-        this.goalWorkouts = goalWorkouts;
-    }
-
     public Set getSet() {
         return set;
     }
@@ -112,7 +117,7 @@ public class Workout {
                 ", type='" + type + '\'' +
                 ", complete=" + complete +
                 ", programs=" + programs +
-                ", goalWorkouts=" + goalWorkouts +
+                ", goals=" + goals +
                 ", set=" + set +
                 '}';
     }

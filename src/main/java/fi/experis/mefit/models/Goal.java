@@ -1,5 +1,7 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -22,19 +24,24 @@ public class Goal {
     @JoinColumn(name = "program_id")
     private Program program;
 
-    @OneToMany(mappedBy = "goal")
-    private List<GoalWorkout> goalWorkouts;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "goal_workout",
+            joinColumns = { @JoinColumn(name = "goal_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
+    @JsonIgnore
+    private List<Workout> workouts;
 
     public Goal() {
         super();
     }
 
-    public Goal(Long goalId, Date endDate, boolean achieved, Program program, List<GoalWorkout> goalWorkouts) {
+    public Goal(Long goalId, Date endDate, boolean achieved, Program program, List<Workout> workouts) {
         this.goalId = goalId;
         this.endDate = endDate;
         this.achieved = achieved;
         this.program = program;
-        this.goalWorkouts = goalWorkouts;
+        this.workouts = workouts;
     }
 
     public Long getGoalId() {
@@ -61,20 +68,20 @@ public class Goal {
         this.achieved = achieved;
     }
 
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
     public Program getProgram() {
         return program;
     }
 
     public void setProgram(Program program) {
         this.program = program;
-    }
-
-    public List<GoalWorkout> getGoalWorkouts() {
-        return goalWorkouts;
-    }
-
-    public void setGoalWorkouts(List<GoalWorkout> goalWorkouts) {
-        this.goalWorkouts = goalWorkouts;
     }
 
     @Override
@@ -84,7 +91,7 @@ public class Goal {
                 ", endDate=" + endDate +
                 ", achieved=" + achieved +
                 ", program=" + program +
-                ", goalWorkouts=" + goalWorkouts +
+                ", workouts=" + workouts +
                 '}';
     }
 }
