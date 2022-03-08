@@ -12,13 +12,13 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column
+    @Column(length = 20)
     private String password;
 
-    @Column(name = "first_name")
+    @Column(length = 20, name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(length = 20,name = "last_name")
     private String lastName;
 
     @Column(name = "is_contributor")

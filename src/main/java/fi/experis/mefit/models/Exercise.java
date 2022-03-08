@@ -10,13 +10,13 @@ public class Exercise {
     @Column(name = "exercise_id")
     private Long exerciseId;
 
-    @Column
+    @Column(length = 40)
     private String name;
 
     @Column
     private String description;
 
-    @Column(name = "target_muscle_group")
+    @Column(length = 40, name = "target_muscle_group")
     private String targetMuscleGroup;
 
     @Column

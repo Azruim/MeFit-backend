@@ -11,10 +11,10 @@ public class Program {
     @Column(name = "program_id")
     private Long programId;
 
-    @Column
+    @Column(length = 40)
     private String name;
 
-    @Column
+    @Column(length = 40)
     private String category;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
