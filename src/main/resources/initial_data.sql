@@ -42,3 +42,6 @@ insert into program_workout (program_id, workout_id)
     values (1, 1),
            (1, 2),
            (1, 7);
+
+insert into profile (disabilities, height, medical_conditions, weight, address_id, user_id)
+    values ('None', 1.83, 'Diabetes', 91.3, null, null);

@@ -1,7 +1,10 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Profile {
@@ -32,22 +35,54 @@ public class Profile {
     private Address address;
 
     @OneToMany(mappedBy = "goalId")
-    List<Goal> goals;
+    private List<Goal> goals;
 
-    @OneToMany(mappedBy = "workoutId")
-    List<Workout> workouts;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "profile_workout",
+            joinColumns = { @JoinColumn(name = "profile_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
+    private List<Workout> workouts;
 
-    @OneToMany(mappedBy = "programId")
-    List<Program> programs;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "profile_program",
+            joinColumns = { @JoinColumn(name = "profile_id")},
+            inverseJoinColumns = {@JoinColumn(name = "program_id")})
+    private List<Program> programs;
+
+    @JsonGetter("goals")
+    public List<String> goalsGetter() {
+        if (goals != null) {
+            return goals.stream()
+                    .map(goal -> "/api/v1/goals/" + goal.getGoalId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @JsonGetter("workouts")
+    public List<String> workoutsGetter() {
+        if (workouts != null) {
+            return workouts.stream()
+                    .map(workout -> "/api/v1/workouts/" + workout.getWorkoutId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @JsonGetter("programs")
+    public List<String> programsGetter() {
+        if (programs != null) {
+            return programs.stream()
+                    .map(program -> "/api/v1/programs/" + program.getProgramId()).collect(Collectors.toList());
+        }
+        return null;
+    }
 
     public Profile() {
         super();
     }
 
-    public Profile(
-            Long profileId, double weight, double height, String medicalConditions,
-            String disabilities, User user, Address address, List<Goal> goals,
-            List<Set> sets, List<Workout> workouts, List<Program> programs) {
+    public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -116,6 +151,13 @@ public class Profile {
         this.address = address;
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
 
     public List<Workout> getWorkouts() {
         return workouts;
@@ -123,14 +165,6 @@ public class Profile {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
-    }
-
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
     }
 
     public List<Program> getPrograms() {

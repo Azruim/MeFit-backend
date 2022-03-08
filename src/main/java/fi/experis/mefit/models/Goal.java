@@ -39,6 +39,12 @@ public class Goal {
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+
+
     public Goal() {
         super();
     }
