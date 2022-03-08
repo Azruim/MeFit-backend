@@ -38,7 +38,7 @@ public class ProgramController {
         }
     }
 
-    @DeleteMapping("{goalId}")
+    @DeleteMapping("{programId}")
     public ResponseEntity<String> deleteProgram(@PathVariable Long programId) {
         try {
             programService.deleteProgramById(programId);
