@@ -17,7 +17,27 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+    public Long getSetId() {
+        return setId;
+    }
 
+    public void setSetId(Long setId) {
+        this.setId = setId;
+    }
 
+    public int getExerciseRepetitions() {
+        return exerciseRepetitions;
+    }
 
+    public void setExerciseRepetitions(int exerciseRepetitions) {
+        this.exerciseRepetitions = exerciseRepetitions;
+    }
+
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
+    }
 }

@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.Exercise;
-import fi.experis.mefit.service.ExerciseService;
+import fi.experis.mefit.services.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

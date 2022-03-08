@@ -1,4 +1,4 @@
-package fi.experis.mefit.service;
+package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Workout;
 

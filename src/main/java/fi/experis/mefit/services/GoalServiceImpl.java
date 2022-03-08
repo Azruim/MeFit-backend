@@ -1,4 +1,4 @@
-package fi.experis.mefit.service;
+package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Goal;
 import fi.experis.mefit.repositories.GoalRepository;
