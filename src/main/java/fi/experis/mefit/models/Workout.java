@@ -13,10 +13,10 @@ public class Workout {
     @Column(name = "workout_id")
     private Long workoutId;
 
-    @Column
+    @Column(length = 40)
     private String name;
 
-    @Column
+    @Column(length = 40)
     private String type;
 
     @Column

@@ -10,22 +10,22 @@ public class Address {
     @Column(name = "address_id")
     private Long addressId;
 
-    @Column(name = "address_line_1")
+    @Column(length = 100, name = "address_line_1")
     private String addressLine1;
 
-    @Column(name = "address_line_2")
+    @Column(length = 100, name = "address_line_2")
     private String addressLine2;
 
-    @Column(name = "address_line_3")
+    @Column(length = 100, name = "address_line_3")
     private String addressLine3;
 
-    @Column(name = "postal_code")
+    @Column(length = 10, name = "postal_code")
     private String postalCode;
 
-    @Column
+    @Column(length = 60)
     private String city;
 
-    @Column
+    @Column(length = 60)
     private String country;
 
     public Address() {
