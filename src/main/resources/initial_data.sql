@@ -26,5 +26,12 @@ insert into workout (complete, name, type, set_id)
            (false, 'Pena lämpöö', 'Kestävyys', 1),
            (false, 'Haukka setti', 'Lihasmassa', 10);
 
+insert into program (category, name)
+    values ('Kokovartalotreeni' ,'Henkan hikijumppa');
 
+insert into goal (achieved, end_date, program_id)
+    values (false, '2022-03-10', 1);
 
+insert into goal_workout (end_date, goal_id, workout_id)
+    values ('2022-03-08', 1, 1),
+            ('2022-03-09', 1, 2);
