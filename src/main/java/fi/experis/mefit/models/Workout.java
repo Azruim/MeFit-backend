@@ -22,10 +22,10 @@ public class Workout {
     @Column
     private boolean complete;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "program_workout",
-            joinColumns = {@JoinColumn(name = "program_id")},
-            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
+            joinColumns = {@JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "program_id")})
     @JsonIgnore
     private List<Program> programs;
 
@@ -34,6 +34,7 @@ public class Workout {
             name = "goal_workout",
             joinColumns = { @JoinColumn(name = "workout_id")},
             inverseJoinColumns = {@JoinColumn(name = "goal_id")})
+    @JsonIgnore
     private List<Goal> goals;
 
     @OneToOne

@@ -35,3 +35,8 @@ insert into goal (achieved, end_date, program_id)
 insert into goal_workout (end_date, goal_id, workout_id)
     values ('2022-03-08', 1, 1),
             ('2022-03-09', 1, 2);
+
+insert into program_workout (program_id, workout_id)
+    values (1, 1),
+           (1, 2),
+           (1, 7);
