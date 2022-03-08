@@ -31,12 +31,10 @@ public class Profile {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany
-    @JoinColumn(name = "set_id")
+    @OneToMany(mappedBy = "setId")
     List<Set> sets;
 
-    @OneToMany
-    @JoinColumn(name = "workout_id")
+    @OneToMany(mappedBy = "workoutId")
     List<Workout> workouts;
 
     @OneToMany

@@ -17,6 +17,8 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+
+
     public Set() {
         super();
     }
