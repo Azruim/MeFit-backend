@@ -25,6 +25,14 @@ public class Goal {
     @OneToMany(mappedBy = "goal")
     private List<GoalWorkout> goalWorkouts;
 
+    public Goal(Long goalId, Date endDate, boolean achieved, Program program, List<GoalWorkout> goalWorkouts) {
+        this.goalId = goalId;
+        this.endDate = endDate;
+        this.achieved = achieved;
+        this.program = program;
+        this.goalWorkouts = goalWorkouts;
+    }
+
     public Long getGoalId() {
         return goalId;
     }
@@ -63,5 +71,16 @@ public class Goal {
 
     public void setGoalWorkouts(List<GoalWorkout> goalWorkouts) {
         this.goalWorkouts = goalWorkouts;
+    }
+
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "goalId=" + goalId +
+                ", endDate=" + endDate +
+                ", achieved=" + achieved +
+                ", program=" + program +
+                ", goalWorkouts=" + goalWorkouts +
+                '}';
     }
 }

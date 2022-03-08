@@ -27,6 +27,15 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
+    public User(Long userId, String password, String firstName, String lastName, boolean isContributor, boolean isAdmin) {
+        this.userId = userId;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isContributor = isContributor;
+        this.isAdmin = isAdmin;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -73,5 +82,17 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", isContributor=" + isContributor +
+                ", isAdmin=" + isAdmin +
+                '}';
     }
 }

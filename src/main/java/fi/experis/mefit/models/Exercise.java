@@ -25,6 +25,15 @@ public class Exercise {
     @Column(name = "vid_link")
     private String vidLink;
 
+    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String vidLink) {
+        this.exerciseId = exerciseId;
+        this.name = name;
+        this.description = description;
+        this.targetMuscleGroup = targetMuscleGroup;
+        this.image = image;
+        this.vidLink = vidLink;
+    }
+
     public Long getExerciseId() {
         return exerciseId;
     }
@@ -71,5 +80,17 @@ public class Exercise {
 
     public void setVidLink(String vidLink) {
         this.vidLink = vidLink;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "exerciseId=" + exerciseId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", targetMuscleGroup='" + targetMuscleGroup + '\'' +
+                ", image='" + image + '\'' +
+                ", vidLink='" + vidLink + '\'' +
+                '}';
     }
 }

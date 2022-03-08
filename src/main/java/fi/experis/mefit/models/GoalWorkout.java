@@ -21,6 +21,13 @@ public class GoalWorkout {
     @JoinColumn(name = "goal_id")
     private Goal goal;
 
+    public GoalWorkout(Long goalWorkoutId, Date endDate, Workout workout, Goal goal) {
+        this.goalWorkoutId = goalWorkoutId;
+        this.endDate = endDate;
+        this.workout = workout;
+        this.goal = goal;
+    }
+
     public Long getGoalWorkoutId() {
         return goalWorkoutId;
     }
@@ -51,5 +58,15 @@ public class GoalWorkout {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
+    }
+
+    @Override
+    public String toString() {
+        return "GoalWorkout{" +
+                "goalWorkoutId=" + goalWorkoutId +
+                ", endDate=" + endDate +
+                ", workout=" + workout +
+                ", goal=" + goal +
+                '}';
     }
 }

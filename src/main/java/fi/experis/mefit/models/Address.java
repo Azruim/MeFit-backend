@@ -28,6 +28,16 @@ public class Address {
     @Column
     private String country;
 
+    public Address(Long addressId, String addressLine1, String addressLine2, String addressLine3, String postalCode, String city, String country) {
+        this.addressId = addressId;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+    }
+
     public Long getAddressId() {
         return addressId;
     }
@@ -82,5 +92,18 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "addressId=" + addressId +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", addressLine3='" + addressLine3 + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

@@ -24,6 +24,13 @@ public class Program {
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
+    public Program(Long programId, String name, String category, List<Workout> workouts) {
+        this.programId = programId;
+        this.name = name;
+        this.category = category;
+        this.workouts = workouts;
+    }
+
     public Long getProgramId() {
         return programId;
     }
@@ -54,5 +61,15 @@ public class Program {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    @Override
+    public String toString() {
+        return "Program{" +
+                "programId=" + programId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", workouts=" + workouts +
+                '}';
     }
 }

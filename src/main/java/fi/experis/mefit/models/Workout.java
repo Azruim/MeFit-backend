@@ -34,6 +34,20 @@ public class Workout {
     @JoinColumn(name = "set_id")
     private Set set;
 
+    public Workout() {
+        super();
+    }
+
+    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<GoalWorkout> goalWorkouts, Set set) {
+        this.workoutId = workoutId;
+        this.name = name;
+        this.type = type;
+        this.complete = complete;
+        this.programs = programs;
+        this.goalWorkouts = goalWorkouts;
+        this.set = set;
+    }
+
     public Long getWorkoutId() {
         return workoutId;
     }
@@ -88,5 +102,18 @@ public class Workout {
 
     public void setSet(Set set) {
         this.set = set;
+    }
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "workoutId=" + workoutId +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", complete=" + complete +
+                ", programs=" + programs +
+                ", goalWorkouts=" + goalWorkouts +
+                ", set=" + set +
+                '}';
     }
 }

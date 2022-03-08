@@ -43,6 +43,19 @@ public class Profile {
     @JoinColumn(name = "program_id")
     List<Program> programs;
 
+    public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Set> sets, List<Workout> workouts, List<Program> programs) {
+        this.profileId = profileId;
+        this.weight = weight;
+        this.height = height;
+        this.medicalConditions = medicalConditions;
+        this.disabilities = disabilities;
+        this.user = user;
+        this.address = address;
+        this.sets = sets;
+        this.workouts = workouts;
+        this.programs = programs;
+    }
+
     public Long getProfileId() {
         return profileId;
     }
@@ -121,5 +134,21 @@ public class Profile {
 
     public void setPrograms(List<Program> programs) {
         this.programs = programs;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "profileId=" + profileId +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", medicalConditions='" + medicalConditions + '\'' +
+                ", disabilities='" + disabilities + '\'' +
+                ", user=" + user +
+                ", address=" + address +
+                ", sets=" + sets +
+                ", workouts=" + workouts +
+                ", programs=" + programs +
+                '}';
     }
 }

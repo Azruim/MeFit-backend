@@ -17,6 +17,12 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+    public Set(Long setId, int exerciseRepetitions, Exercise exercise) {
+        this.setId = setId;
+        this.exerciseRepetitions = exerciseRepetitions;
+        this.exercise = exercise;
+    }
+
     public Long getSetId() {
         return setId;
     }
@@ -39,5 +45,14 @@ public class Set {
 
     public void setExercise(Exercise exercise) {
         this.exercise = exercise;
+    }
+
+    @Override
+    public String toString() {
+        return "Set{" +
+                "setId=" + setId +
+                ", exerciseRepetitions=" + exerciseRepetitions +
+                ", exercise=" + exercise +
+                '}';
     }
 }
