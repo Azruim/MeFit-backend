@@ -21,6 +21,11 @@ public class ProgramController {
         return programService.getAllPrograms();
     }
 
+    @GetMapping("/{programId}")
+    public Program getProgramById(@PathVariable Long programId) {
+        return programService.getProgramById(programId);
+    }
+
     @PostMapping("")
     public Program addProgram(@RequestBody Program program) {
         return programService.addProgram(program);

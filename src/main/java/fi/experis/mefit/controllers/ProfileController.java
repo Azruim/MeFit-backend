@@ -21,6 +21,11 @@ public class ProfileController {
         return profileService.getAllProfiles();
     }
 
+    @GetMapping("/{profileId}")
+    public Profile getProfileById(@PathVariable Long profileId) {
+        return profileService.getProfileById(profileId);
+    }
+
     @PostMapping("")
     public Profile addProfile(@RequestBody Profile profile) {
         return profileService.addProfile(profile);

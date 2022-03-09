@@ -21,6 +21,11 @@ public class ExerciseController {
         return exerciseService.getAllExercises();
     }
 
+    @GetMapping("/{exerciseId}")
+    public Exercise getExerciseById(@PathVariable Long exerciseId) {
+        return exerciseService.getExerciseById(exerciseId);
+    }
+
     @PostMapping("")
     public Exercise addExercise(@RequestBody Exercise exercise) {
         return exerciseService.addExercise(exercise);
