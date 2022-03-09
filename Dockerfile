@@ -7,8 +7,7 @@ FROM openjdk:17 as runtime
 WORKDIR /app
 ENV PORT 8080
 ENV SPRING_PROFILE production
-ENV DATABASE_URL jdbc:postgresql://ec2-54-220-243-77.eu-west-1.compute.amazonaws.com:5432/dd1esldoab81gq?sslmode=require
 COPY --from=gradle /app/build/libs/*.jar /app/app.jar
 RUN chown -R 1000:1000 /app
 USER 1000:1000
-ENTRYPOINT ["java","-jar","-Dserver.port=${PORT}","-Dspring.profiles.active=${SPRING_PROFILE}", "-Dspring.datasource.url=${DATABASE_URL}", "app.jar"]
+ENTRYPOINT ["java","-jar","-Dserver.port=${PORT}","-Dspring.profiles.active=${SPRING_PROFILE}", "app.jar"]
