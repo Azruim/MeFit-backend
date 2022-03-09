@@ -1,0 +1,9 @@
+setup:
+  addons:
+    - plan: heroku-postgresql:hobby-dev
+      as: DATABASE
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: java -jar -Dserver.port\=\$\{PORT\} -Dspring.profiles.active\=\$\{SPRING_PROFILE\} -Dspring.datasource.url\=\$\{DATABASE_URL\} app.jar
