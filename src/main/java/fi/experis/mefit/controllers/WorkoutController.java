@@ -6,25 +6,23 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/workouts")
 @SecurityRequirement(name = "keycloak_implicit")
+@PreAuthorize("hasRole('ROLE_contributor')")
 public class WorkoutController {
 
     @Autowired
     WorkoutService workoutService;
 
     @GetMapping("")
-    public List<Workout> getAllWorkouts(Authentication authentication, Principal principal) {
-        System.out.println(authentication.getCredentials());
-        System.out.println(principal.toString());
+    public List<Workout> getAllWorkouts() {
         return workoutService.getAllWorkouts();
     }
 

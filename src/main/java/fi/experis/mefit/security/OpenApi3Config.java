@@ -22,6 +22,5 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                                 @OAuthScope(name = "profile", description = "Profile information")
                         }))
 )
-
 public class OpenApi3Config {
 }
