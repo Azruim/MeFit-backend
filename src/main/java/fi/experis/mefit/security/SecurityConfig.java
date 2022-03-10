@@ -46,6 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     roleConverter.setAuthorityPrefix("ROLE_");
                     roleConverter.setAuthoritiesClaimName("roles");
 
+                    JwtGrantedAuthoritiesConverter scopeConverter = new JwtGrantedAuthoritiesConverter();
+                    scopeConverter.setAuthorityPrefix("SCOPE_");
+                    scopeConverter.setAuthoritiesClaimName("scope");
+
                     // Jwt -> GrantedAuthorities -> AbstractAuthenticationToken
                     authnConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
 
@@ -53,13 +57,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         // jwt["roles"] -> new GrantedAuthority("ROLE_roleName")
                         Collection<GrantedAuthority> roles = roleConverter.convert(jwt);
 
+                        Collection<GrantedAuthority> scopes = scopeConverter.convert(jwt);
+
                         // Merge the above sets
-                        HashSet<GrantedAuthority> union = new HashSet<>(roles);
+                        HashSet<GrantedAuthority> union = new HashSet<>();
+                        union.addAll(scopes);
+                        union.addAll(roles);
+
 
                         for (var a : union) {
                             logger.warn("JWT Authority: {}", a.getAuthority());
                         }
-                        System.out.println(union);
+                        System.out.println(scopes);
                         return union;
                     });
 

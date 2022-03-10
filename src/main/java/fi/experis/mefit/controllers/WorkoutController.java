@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,9 @@ public class WorkoutController {
     WorkoutService workoutService;
 
     @GetMapping("")
-    public List<Workout> getAllWorkouts() {
+    public List<Workout> getAllWorkouts(Authentication authentication, Principal principal) {
+        System.out.println(authentication.getCredentials());
+        System.out.println(principal.toString());
         return workoutService.getAllWorkouts();
     }
 

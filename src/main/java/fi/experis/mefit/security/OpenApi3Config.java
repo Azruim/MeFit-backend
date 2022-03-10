@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                         tokenUrl = "${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token",
                         scopes = {
                                 @OAuthScope(name = "openid", description = "OpenID Connect Endpoints"),
-                                @OAuthScope(name = "groups", description = "Group membership information"),
+                                @OAuthScope(name = "profile", description = "Profile information")
                         }))
 )
 
