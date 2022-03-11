@@ -1,8 +1,8 @@
 package fi.experis.mefit.services;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
 import fi.experis.mefit.models.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -57,9 +57,45 @@ public class RegisterServiceImpl implements RegisterService {
                     .body("Bad request");
         }
     }
+    //'{"firstName":"Sergey","lastName":"Kargopolov", "email":"test@test.com", "enabled":"true", "username":"app-user"}'
+
 
     @Override
-    public User registerUser(User user, Jwt token) {
-        return user;
+    public ResponseEntity<String> registerUser(User user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
+        try {
+            String[] responseValues = tokenResponse.split("[:,\"]");
+            String token = responseValues[4];
+
+            HashMap<String, String> values = new HashMap<>() {{
+                put ("firstName", user.getFirstName());
+                put("lastName", user.getLastName());
+                put("username", user.getUserName());
+                put("email", user.getEmail());
+            }};
+
+            JSONObject body = new JSONObject(values);
+
+            var uri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .headers("Content-Type", "application/json", "Authorization", "Bearer " + token)
+                    .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+                    .build();
+
+            HttpResponse<String> response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
+
+            return ResponseEntity
+                    .ok()
+                    .body(response.body());
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.toString());
+        }
     }
 }

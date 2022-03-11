@@ -5,10 +5,12 @@ import fi.experis.mefit.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+@RestController
 @RequestMapping("/register")
 public class RegisterController {
 
@@ -21,8 +23,9 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public User registerUser(@RequestBody User user, @RequestHeader Jwt token) {
-        return registerService.registerUser(user, token);
+    public ResponseEntity<String> registerUser(@RequestBody User user) throws URISyntaxException, IOException, InterruptedException {
+        return registerService.registerUser(user, registerService.getAccessToken().getBody());
+
     }
 
 }

@@ -21,6 +21,12 @@ public class User {
     @Column(length = 20,name = "last_name")
     private String lastName;
 
+    @Column
+    private String email;
+
+    @Column
+    private String userName;
+
     @Column(name = "is_contributor")
     private boolean isContributor;
 
@@ -31,11 +37,13 @@ public class User {
         super();
     }
 
-    public User(Long userId, String password, String firstName, String lastName, boolean isContributor, boolean isAdmin) {
+    public User(Long userId, String password, String firstName, String lastName, String email, String userName, boolean isContributor, boolean isAdmin) {
         this.userId = userId;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
         this.isContributor = isContributor;
         this.isAdmin = isAdmin;
     }
@@ -46,6 +54,23 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
