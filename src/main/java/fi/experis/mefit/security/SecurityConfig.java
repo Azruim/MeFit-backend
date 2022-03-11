@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/api/docs", "/api/docs/*", "/api/docs/**").permitAll()
                         .antMatchers("/api/swagger-ui", "/api/swagger-ui/*", "/api/swagger-ui/**").permitAll()
                         .antMatchers("/register", "/register/*", "/register/**").permitAll()
+                        .antMatchers("/login", "/login/*", "/login/**").permitAll()
                         // All remaining paths require authentication
                         .anyRequest().authenticated())
 
