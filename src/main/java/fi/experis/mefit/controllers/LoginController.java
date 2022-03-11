@@ -1,5 +1,6 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.LoginResponse;
 import fi.experis.mefit.models.User;
 import fi.experis.mefit.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class LoginController {
     LoginService loginService;
 
     @PostMapping("")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody User user) {
         return loginService.loginUser(user);
     }
 }

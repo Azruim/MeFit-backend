@@ -1,6 +1,9 @@
 package fi.experis.mefit.services;
 
+import fi.experis.mefit.models.LoginResponse;
+import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +22,11 @@ import java.util.stream.Collectors;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+    @Autowired
+    ProfileService profileService;
+
     @Override
-    public ResponseEntity<String> loginUser(User user) {
-        System.out.println(user.getPassword());
+    public ResponseEntity<LoginResponse> loginUser(User user) {
         try {
             HashMap<String, String> values = new HashMap<>() {{
                 put("grant_type", "password");
@@ -58,24 +63,22 @@ public class LoginServiceImpl implements LoginService {
             String payloadString = new String(decoder.decode(chunks[1]));
 
             String[] payload = payloadString.split("[,]");
-//            for (String entry:payload) {
-//                System.out.println(entry);
-//            }
-            System.out.println(payload[4]);
-            System.out.println(payload[11]);
-            System.out.println(payload[13]);
-            System.out.println(payload[14]);
-            System.out.println(payload[15]);
+
+            String[] subject = payload[4].split("[:\"]");
+
+            Profile profile = profileService.getProfileById(Long.parseLong(subject[4]));
+
+            LoginResponse login = new LoginResponse(profile, token);
 
             return ResponseEntity
                     .ok()
-                    .body(token);
+                    .body(login);
 
         } catch (RuntimeException | IOException | InterruptedException | URISyntaxException e) {
             System.out.println(e.getMessage());
             return ResponseEntity
                     .badRequest()
-                    .body("Bad request");
+                    .build();
         }
     }
 }
