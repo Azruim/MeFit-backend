@@ -1,4 +1,4 @@
-package fi.experis.mefit.security;
+package fi.experis.mefit.controllers.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

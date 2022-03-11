@@ -1,4 +1,4 @@
-package fi.experis.mefit.security;
+package fi.experis.mefit.controllers.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

@@ -1,5 +1,6 @@
 package fi.experis.mefit.services;
 
+import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import fi.experis.mefit.models.User;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class RegisterServiceImpl implements RegisterService {
                     .POST(HttpRequest.BodyPublishers.ofString(form))
                     .build();
 
+
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
@@ -57,31 +59,40 @@ public class RegisterServiceImpl implements RegisterService {
                     .body("Bad request");
         }
     }
-    //'{"firstName":"Sergey","lastName":"Kargopolov", "email":"test@test.com", "enabled":"true", "username":"app-user"}'
-
 
     @Override
     public ResponseEntity<String> registerUser(User user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
         try {
-            String[] responseValues = tokenResponse.split("[:,\"]");
-            String token = responseValues[4];
+            String[] responseValues = tokenResponse.split("[\"]");
+            String token = responseValues[3];
 
-            HashMap<String, String> values = new HashMap<>() {{
-                put ("firstName", user.getFirstName());
-                put("lastName", user.getLastName());
-                put("username", user.getUserName());
-                put("email", user.getEmail());
+            HashMap<String, String> newPassword = new HashMap<>() {{
+                put("type", "password");
+                put("value", user.getPassword());
+                put("temporary", "false");
             }};
 
-            JSONObject body = new JSONObject(values);
+            JSONArray pwArray = new JSONArray();
+            JSONObject pwObj = new JSONObject(newPassword);
+            pwArray.appendElement(pwObj);
 
-            var uri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
+            JSONObject userBody = new JSONObject();
+            userBody.put("firstName", user.getFirstName());
+            userBody.put("lastName", user.getLastName());
+            userBody.put("username", user.getUserName());
+            userBody.put("email", user.getEmail());
+            userBody.put("enabled", "true");
+            userBody.put("credentials", pwArray);
 
+
+            URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
+
+            System.out.println(userBody);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
+                    .uri(registerUri)
                     .headers("Content-Type", "application/json", "Authorization", "Bearer " + token)
-                    .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+                    .POST(HttpRequest.BodyPublishers.ofString(userBody.toString()))
                     .build();
 
             HttpResponse<String> response = client.send(request,
