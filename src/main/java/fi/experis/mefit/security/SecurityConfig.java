@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Enable security for http requests
                 .authorizeRequests(authorize -> authorize
                         // Specify paths where public access is allowed
-                        .antMatchers("/api-docs", "/api-docs/*", "/api-docs/**").permitAll()
+                        .antMatchers("/api/docs", "/api/docs/*", "/api/docs/**").permitAll()
                         .antMatchers("/api/swagger-ui", "/api/swagger-ui/*", "/api/swagger-ui/**").permitAll()
                         .antMatchers("/register", "/register/*", "/register/**").permitAll()
                         // All remaining paths require authentication
