@@ -48,17 +48,13 @@ insert into program_workout (program_id, workout_id)
     values (1, 1),(1, 2),(1, 7),
             (2, 12), (2, 12), (2, 12);
 
-insert into "user" (first_name, is_admin, is_contributor, last_name, password)
-    values ('Pete', true, true, 'Hyrrä', 'admin'),
-           ('Will', false, false, 'Smite', 'Summerbody22');
-
 insert into address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
     values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100'),
            ('Sunset Blvd 1', null, null, 'Los Angeles', 'USA', 'CA 90024');
 
-insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id, user_id)
-    values ('test', 'None', 1.83, 'None', 91.3, 1, 1),
-           ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2, 2);
+insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id)
+    values ('test', 'None', 1.83, 'None', 91.3, 1),
+           ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2);
 
 insert into goal (achieved, end_date, profile_id, program_id)
     values (false, '2022-03-10', 'test', 1),

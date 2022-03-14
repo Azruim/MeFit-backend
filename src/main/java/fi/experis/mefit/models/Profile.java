@@ -26,10 +26,6 @@ public class Profile {
     private String disabilities;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -69,13 +65,12 @@ public class Profile {
         super();
     }
 
-    public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
+    public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
         this.medicalConditions = medicalConditions;
         this.disabilities = disabilities;
-        this.user = user;
         this.address = address;
         this.workouts = workouts;
         this.programs = programs;
@@ -121,14 +116,6 @@ public class Profile {
         this.disabilities = disabilities;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -161,7 +148,6 @@ public class Profile {
                 ", height=" + height +
                 ", medicalConditions='" + medicalConditions + '\'' +
                 ", disabilities='" + disabilities + '\'' +
-                ", user=" + user +
                 ", address=" + address +
                 ", workouts=" + workouts +
                 ", programs=" + programs +
