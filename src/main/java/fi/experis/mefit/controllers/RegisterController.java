@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.User;
+import fi.experis.mefit.models.RegisterUser;
 import fi.experis.mefit.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class RegisterController {
     RegisterService registerService;
 
     @PostMapping("")
-    public ResponseEntity<String> registerUser(@RequestBody User user) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<String> registerUser(@RequestBody RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
         return registerService.registerUser(user, registerService.getAccessToken().getBody());
 
     }

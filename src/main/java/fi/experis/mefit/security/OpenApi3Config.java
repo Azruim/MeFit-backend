@@ -1,4 +1,4 @@
-package fi.experis.mefit.controllers.security;
+package fi.experis.mefit.security;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

@@ -2,7 +2,7 @@ package fi.experis.mefit.services;
 
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
-import fi.experis.mefit.models.User;
+import fi.experis.mefit.models.RegisterUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +23,13 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public ResponseEntity<String> getAccessToken() {
         try {
-            var values = new HashMap<String, String>() {{
-                put ("client_id", System.getenv("KEYCLOAK_REGISTER_CLIENT"));
+            HashMap<String, String> requestData = new HashMap<>() {{
+                put("client_id", System.getenv("KEYCLOAK_REGISTER_CLIENT"));
                 put("client_secret", System.getenv("KEYCLOAK_CLIENT_SECRET"));
                 put("grant_type", "client_credentials");
             }};
 
-            String form = values.entrySet()
+            String form = requestData.entrySet()
                     .stream()
                     .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
                     .collect(Collectors.joining("&"));
@@ -48,7 +48,7 @@ public class RegisterServiceImpl implements RegisterService {
                     HttpResponse.BodyHandlers.ofString());
 
             return ResponseEntity
-                    .ok()
+                    .status(response.statusCode())
                     .body(response.body());
 
 
@@ -61,33 +61,22 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public ResponseEntity<String> registerUser(User user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<String> registerUser(RegisterUser user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
         try {
+            URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
+
             String[] responseValues = tokenResponse.split("[\"]");
             String token = responseValues[3];
-
-            HashMap<String, String> newPassword = new HashMap<>() {{
-                put("type", "password");
-                put("value", user.getPassword());
-                put("temporary", "false");
-            }};
-
-            JSONArray pwArray = new JSONArray();
-            JSONObject pwObj = new JSONObject(newPassword);
-            pwArray.appendElement(pwObj);
+            JSONArray credentials = user.getCredentials();
 
             JSONObject userBody = new JSONObject();
             userBody.put("firstName", user.getFirstName());
             userBody.put("lastName", user.getLastName());
-            userBody.put("username", user.getUserName());
+            userBody.put("username", user.getUsername());
             userBody.put("email", user.getEmail());
             userBody.put("enabled", "true");
-            userBody.put("credentials", pwArray);
+            userBody.put("credentials", credentials);
 
-
-            URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
-
-            System.out.println(userBody);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(registerUri)
@@ -98,8 +87,9 @@ public class RegisterServiceImpl implements RegisterService {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
+
             return ResponseEntity
-                    .ok()
+                    .status(response.statusCode())
                     .body(response.body());
 
         } catch (RuntimeException e) {
