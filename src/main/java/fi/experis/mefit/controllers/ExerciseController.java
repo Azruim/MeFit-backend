@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @SecurityRequirement(name = "keycloak_implicit")
 @CrossOrigin(origins = "*")
@@ -19,7 +21,7 @@ public class ExerciseController {
     ExerciseService exerciseService;
 
     @GetMapping("")
-    public ResponseEntity<Object> getAllExercises() {
+    public ResponseEntity<List<Exercise>> getAllExercises() {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -34,7 +36,7 @@ public class ExerciseController {
     public ResponseEntity<Exercise> getExerciseById(@PathVariable Long exerciseId) {
         try {
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
+                    .status(HttpStatus.OK)
                     .body(exerciseService.getExerciseById(exerciseId));
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

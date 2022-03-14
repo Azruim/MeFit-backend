@@ -21,19 +21,39 @@ public class WorkoutController {
     WorkoutService workoutService;
 
     @GetMapping("")
-    public List<Workout> getAllWorkouts() {
-        return workoutService.getAllWorkouts();
+    public ResponseEntity<List<Workout>> getAllWorkouts() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(workoutService.getAllWorkouts());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{workoutId}")
-    public Workout getWorkoutById(@PathVariable Long workoutId) {
-        return workoutService.getWorkoutById(workoutId);
+    public ResponseEntity<Workout> getWorkoutById(@PathVariable Long workoutId) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(workoutService.getWorkoutById(workoutId));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_contributor')")
-    public Workout addWorkout(@RequestBody Workout workout) {
-        return workoutService.addWorkout(workout);
+    public ResponseEntity<String> addWorkout(@RequestBody Workout workout) {
+        try {
+            workoutService.addWorkout(workout);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/{workoutId}")

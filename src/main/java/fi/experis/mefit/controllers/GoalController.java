@@ -22,21 +22,41 @@ public class GoalController {
     GoalService goalService;
 
     @GetMapping("")
-    public List<Goal> getAllGoals() {
-        return goalService.getAllGoals();
+    public ResponseEntity<List<Goal>> getAllGoals() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(goalService.getAllGoals());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{goalId}")
-    public Goal getGoalById(@PathVariable Long goalId) {
-        return goalService.getGoalById(goalId);
+    public ResponseEntity<Goal> getGoalById(@PathVariable Long goalId) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(goalService.getGoalById(goalId));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("")
-    public Goal addGoal(@RequestBody Goal goal) {
-        return goalService.addGoal(goal);
+    public ResponseEntity<String> addGoal(@RequestBody Goal goal) {
+        try {
+            goalService.addGoal(goal);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping("/{goalId}")
+    @PatchMapping("/{goalId}")
     public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
         try {
             goalService.updateGoal(goalId, goal);

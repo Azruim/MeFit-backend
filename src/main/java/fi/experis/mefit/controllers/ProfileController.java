@@ -20,13 +20,27 @@ public class ProfileController {
     ProfileService profileService;
 
     @GetMapping("")
-    public List<Profile> getAllProfiles() {
-        return profileService.getAllProfiles();
+    public ResponseEntity<List<Profile>> getAllProfiles() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(profileService.getAllProfiles());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{profileId}")
-    public Profile getProfileById(@PathVariable String profileId) {
-        return profileService.getProfileById(profileId);
+    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(profileService.getProfileById(profileId));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("")
