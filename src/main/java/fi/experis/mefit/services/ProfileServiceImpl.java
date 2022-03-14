@@ -4,9 +4,12 @@ import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService{
@@ -17,12 +20,26 @@ public class ProfileServiceImpl implements ProfileService{
         return profileRepository.save(profile);
     }
     @Override
-    public Profile getProfileById(String profileId) {
-        return profileRepository.findById(profileId).get();
+    public ResponseEntity<Optional<Profile>> getProfileById(String profileId) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(profileRepository.findById(profileId));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @Override
-    public List<Profile> getAllProfiles(){
-        return profileRepository.findAll();
+    public ResponseEntity<List<Profile>> getAllProfiles(){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(profileRepository.findAll());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

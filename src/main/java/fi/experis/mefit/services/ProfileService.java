@@ -1,13 +1,15 @@
 package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Profile;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProfileService {
     Profile addProfile(Profile profile);
-    Profile getProfileById(String profile);
+    ResponseEntity<Optional<Profile>> getProfileById(String profile);
     void updateProfile(String profileId, Profile profile);
     void deleteProfileById(String profileId);
-    List<Profile> getAllProfiles();
+    ResponseEntity<List<Profile>> getAllProfiles();
 }

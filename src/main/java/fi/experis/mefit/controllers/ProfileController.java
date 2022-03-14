@@ -3,12 +3,12 @@ package fi.experis.mefit.controllers;
 import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.services.ProfileService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -16,31 +16,20 @@ import java.util.List;
 @SecurityRequirement(name = "keycloak_implicit")
 public class ProfileController {
 
-    @Autowired
-    ProfileService profileService;
+    private final ProfileService profileService;
 
-    @GetMapping("")
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
+    }
+
+    @GetMapping
     public ResponseEntity<List<Profile>> getAllProfiles() {
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(profileService.getAllProfiles());
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return profileService.getAllProfiles();
     }
 
     @GetMapping("/{profileId}")
-    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(profileService.getProfileById(profileId));
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Optional<Profile>> getProfileById(@PathVariable String profileId) {
+        return profileService.getProfileById(profileId);
     }
 
     @PostMapping("")

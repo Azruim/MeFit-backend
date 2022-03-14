@@ -1,19 +1,21 @@
 package fi.experis.mefit.models;
 
+import java.util.Optional;
+
 public class LoginResponse {
-    private Profile profile;
+    private Optional<Profile> profile;
     private String token;
 
-    public LoginResponse(Profile profile, String token) {
+    public LoginResponse(Optional<Profile> profile, String token) {
         this.profile = profile;
         this.token = token;
     }
 
-    public Profile getProfile() {
+    public Optional<Profile> getProfile() {
         return profile;
     }
 
-    public void setProfile(Profile profile) {
+    public void setProfile(Optional<Profile> profile) {
         this.profile = profile;
     }
 
