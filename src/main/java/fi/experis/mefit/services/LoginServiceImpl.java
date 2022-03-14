@@ -1,5 +1,6 @@
 package fi.experis.mefit.services;
 
+import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
 import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.models.User;
@@ -26,11 +27,11 @@ public class LoginServiceImpl implements LoginService {
     ProfileService profileService;
 
     @Override
-    public ResponseEntity<LoginResponse> loginUser(User user) {
+    public ResponseEntity<LoginResponse> loginUser(LoginRequest user) {
         try {
             HashMap<String, String> values = new HashMap<>() {{
                 put("grant_type", "password");
-                put("username", "test");
+                put("username", user.getUsername());
                 put("password", user.getPassword());
                 put("client_id", System.getenv("KEYCLOAK_CLIENT_ID"));
                 put("scope", "openid");
