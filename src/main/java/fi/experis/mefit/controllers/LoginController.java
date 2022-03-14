@@ -2,7 +2,6 @@ package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
-import fi.experis.mefit.models.User;
 import fi.experis.mefit.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

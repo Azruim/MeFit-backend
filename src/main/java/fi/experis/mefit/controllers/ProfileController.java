@@ -25,7 +25,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{profileId}")
-    public Profile getProfileById(@PathVariable Long profileId) {
+    public Profile getProfileById(@PathVariable String profileId) {
         return profileService.getProfileById(profileId);
     }
 
@@ -35,7 +35,7 @@ public class ProfileController {
     }
 
     @PutMapping("/{profileId}")
-    public ResponseEntity<String> updateProfile(@PathVariable Long profileId, @RequestBody Profile profile) {
+    public ResponseEntity<String> updateProfile(@PathVariable String profileId, @RequestBody Profile profile) {
         try {
             profileService.updateProfile(profileId, profile);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -46,7 +46,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{profileId}")
-    public ResponseEntity<String> deleteProfile(@PathVariable Long profileId) {
+    public ResponseEntity<String> deleteProfile(@PathVariable String profileId) {
         try {
             profileService.deleteProfileById(profileId);
             return new ResponseEntity<>(HttpStatus.OK);

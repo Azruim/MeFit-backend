@@ -3,7 +3,6 @@ package fi.experis.mefit.services;
 import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
 import fi.experis.mefit.models.Profile;
-import fi.experis.mefit.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,9 +64,9 @@ public class LoginServiceImpl implements LoginService {
 
             String[] payload = payloadString.split("[,]");
 
-            String[] subject = payload[4].split("[:\"]");
+            String[] subject = payload[5].split("[:\"]");
 
-            Profile profile = profileService.getProfileById(Long.parseLong(subject[4]));
+            Profile profile = profileService.getProfileById(subject[4]);
 
             LoginResponse login = new LoginResponse(profile, token);
 

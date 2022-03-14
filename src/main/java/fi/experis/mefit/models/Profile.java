@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 @Entity
 public class Profile {
 
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
-    private Long profileId;
+    private String profileId;
 
     @Column
     private double weight;
@@ -82,7 +82,7 @@ public class Profile {
         super();
     }
 
-    public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
+    public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -95,11 +95,11 @@ public class Profile {
         this.programs = programs;
     }
 
-    public Long getProfileId() {
+    public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Long profileId) {
+    public void setProfileId(String profileId) {
         this.profileId = profileId;
     }
 
