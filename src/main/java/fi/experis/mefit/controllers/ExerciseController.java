@@ -6,9 +6,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @SecurityRequirement(name = "keycloak_implicit")
@@ -20,21 +19,43 @@ public class ExerciseController {
     ExerciseService exerciseService;
 
     @GetMapping("")
-    public List<Exercise> getAllExercises() {
-        return exerciseService.getAllExercises();
+    public ResponseEntity<Object> getAllExercises() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(exerciseService.getAllExercises());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{exerciseId}")
-    public Exercise getExerciseById(@PathVariable Long exerciseId) {
-        return exerciseService.getExerciseById(exerciseId);
+    public ResponseEntity<Exercise> getExerciseById(@PathVariable Long exerciseId) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(exerciseService.getExerciseById(exerciseId));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("")
-    public Exercise addExercise(@RequestBody Exercise exercise) {
-        return exerciseService.addExercise(exercise);
+    @PreAuthorize("hasRole('ROLE_contributor')")
+    public ResponseEntity<String> addExercise(@RequestBody Exercise exercise) {
+        try {
+            exerciseService.addExercise(exercise);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping("/{exerciseId}")
+    @PatchMapping("/{exerciseId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
         try {
             exerciseService.updateExercise(exerciseId, exercise);
@@ -46,6 +67,7 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/{exerciseId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public ResponseEntity<String> deleteExercise(@PathVariable Long exerciseId) {
         try {
             exerciseService.deleteExerciseById(exerciseId);

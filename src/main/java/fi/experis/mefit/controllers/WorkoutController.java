@@ -15,7 +15,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/workouts")
 @SecurityRequirement(name = "keycloak_implicit")
-@PreAuthorize("hasRole('ROLE_contributor')")
 public class WorkoutController {
 
     @Autowired
@@ -32,11 +31,13 @@ public class WorkoutController {
     }
 
     @PostMapping("")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public Workout addWorkout(@RequestBody Workout workout) {
         return workoutService.addWorkout(workout);
     }
 
-    @PutMapping("/{workoutId}")
+    @PatchMapping("/{workoutId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public ResponseEntity<String> updateWorkout(@PathVariable Long workoutId, @RequestBody Workout workout) {
         try {
             workoutService.updateWorkout(workoutId, workout);
@@ -48,6 +49,7 @@ public class WorkoutController {
     }
 
     @DeleteMapping("/{workoutId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public ResponseEntity<String> deleteWorkout(@PathVariable Long workoutId) {
         try {
             workoutService.deleteWorkoutById(workoutId);
