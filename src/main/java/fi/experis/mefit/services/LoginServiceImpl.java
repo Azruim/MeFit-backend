@@ -54,18 +54,13 @@ public class LoginServiceImpl implements LoginService {
 
             String[] responseValues = response.body().split("[:,\"]");
             String token = responseValues[4];
-            System.out.println(token);
-
-            Base64.Decoder decoder = Base64.getUrlDecoder();
-
             String[] chunks = token.split("\\.");
 
+            Base64.Decoder decoder = Base64.getUrlDecoder();
             String payloadString = new String(decoder.decode(chunks[1]));
 
             String[] payload = payloadString.split("[,]");
-
             String[] subject = payload[5].split("[:\"]");
-
             Profile profile = profileService.getProfileById(subject[4]);
 
             LoginResponse login = new LoginResponse(profile, token);
