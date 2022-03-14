@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 public class Profile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
-    private Long profileId;
+    private String profileId;
 
     @Column
     private double weight;
@@ -34,9 +33,6 @@ public class Profile {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "goalId")
-    private List<Goal> goals;
-
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "profile_workout",
@@ -50,15 +46,6 @@ public class Profile {
             joinColumns = { @JoinColumn(name = "profile_id")},
             inverseJoinColumns = {@JoinColumn(name = "program_id")})
     private List<Program> programs;
-
-    @JsonGetter("goals")
-    public List<String> goalsGetter() {
-        if (goals != null) {
-            return goals.stream()
-                    .map(goal -> "/api/v1/goals/" + goal.getGoalId()).collect(Collectors.toList());
-        }
-        return null;
-    }
 
     @JsonGetter("workouts")
     public List<String> workoutsGetter() {
@@ -82,7 +69,7 @@ public class Profile {
         super();
     }
 
-    public Profile(Long profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
+    public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, User user, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -90,16 +77,15 @@ public class Profile {
         this.disabilities = disabilities;
         this.user = user;
         this.address = address;
-        this.goals = goals;
         this.workouts = workouts;
         this.programs = programs;
     }
 
-    public Long getProfileId() {
+    public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Long profileId) {
+    public void setProfileId(String profileId) {
         this.profileId = profileId;
     }
 
@@ -151,14 +137,6 @@ public class Profile {
         this.address = address;
     }
 
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
-    }
-
     public List<Workout> getWorkouts() {
         return workouts;
     }
@@ -185,7 +163,6 @@ public class Profile {
                 ", disabilities='" + disabilities + '\'' +
                 ", user=" + user +
                 ", address=" + address +
-                ", goals=" + goals +
                 ", workouts=" + workouts +
                 ", programs=" + programs +
                 '}';

@@ -17,7 +17,7 @@ public class ProfileServiceImpl implements ProfileService{
         return profileRepository.save(profile);
     }
     @Override
-    public Profile getProfileById(Long profileId) {
+    public Profile getProfileById(String profileId) {
         return profileRepository.findById(profileId).get();
     }
     @Override
@@ -26,7 +26,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void updateProfile(Long profileId, Profile profile) {
+    public void updateProfile(String profileId, Profile profile) {
         // check if the user with the passed id exists or not
         if (profileRepository.findById(profileId).isPresent()) {
             // If user exists then updated
@@ -35,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void deleteProfileById(Long profileId) {
+    public void deleteProfileById(String profileId) {
         try {
             profileRepository.deleteById(profileId);
         }catch(DataAccessException e){

@@ -56,20 +56,20 @@ insert into address (address_line_1, address_line_2, address_line_3, city, count
     values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100'),
            ('Sunset Blvd 1', null, null, 'Los Angeles', 'USA', 'CA 90024');
 
-insert into profile (disabilities, height, medical_conditions, weight, address_id, user_id)
-    values ('None', 1.83, 'None', 91.3, 1, 1),
-           ('When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2, 2);
+insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id, user_id)
+    values ('test', 'None', 1.83, 'None', 91.3, 1, 1),
+           ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2, 2);
 
 insert into goal (achieved, end_date, profile_id, program_id)
-    values (false, '2022-03-10', 1, 1),
-           (false, '2022-06-01', 2, 2);
+    values (false, '2022-03-10', 'test', 1),
+           (false, '2022-06-01', 'db97085a-067f-46b3-b87b-2725560977d1', 2);
 
 insert into goal_workout (end_date, goal_id, workout_id)
     values ('2022-03-08', 1, 1),
             ('2022-03-09', 1, 2);
 
 insert into profile_workout (profile_id, workout_id)
-    values (1, 6), (2, 10), (2, 11),
-           (2, 12), (2, 13);
+    values ('test', 6), ('db97085a-067f-46b3-b87b-2725560977d1', 10), ('db97085a-067f-46b3-b87b-2725560977d1', 11),
+           ('db97085a-067f-46b3-b87b-2725560977d1', 12), ('db97085a-067f-46b3-b87b-2725560977d1', 13);
 
 
