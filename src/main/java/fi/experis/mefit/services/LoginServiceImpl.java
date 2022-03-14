@@ -1,5 +1,6 @@
 package fi.experis.mefit.services;
 
+import com.nimbusds.jwt.SignedJWT;
 import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
 import fi.experis.mefit.models.Profile;
@@ -15,7 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -54,22 +55,16 @@ public class LoginServiceImpl implements LoginService {
 
             String[] responseValues = response.body().split("[:,\"]");
             String token = responseValues[4];
-            String[] chunks = token.split("\\.");
+            String profileId = SignedJWT.parse(token).getJWTClaimsSet().getSubject();
 
-            Base64.Decoder decoder = Base64.getUrlDecoder();
-            String payloadString = new String(decoder.decode(chunks[1]));
-
-            String[] payload = payloadString.split("[,]");
-            String[] subject = payload[5].split("[:\"]");
-            Profile profile = profileService.getProfileById(subject[4]);
-
+            Profile profile = profileService.getProfileById(profileId);
             LoginResponse login = new LoginResponse(profile, token);
 
             return ResponseEntity
                     .ok()
                     .body(login);
 
-        } catch (RuntimeException | IOException | InterruptedException | URISyntaxException e) {
+        } catch (RuntimeException | IOException | InterruptedException | URISyntaxException | ParseException e) {
             System.out.println(e.getMessage());
             return ResponseEntity
                     .badRequest()
