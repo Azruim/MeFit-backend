@@ -15,6 +15,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +63,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public ResponseEntity<String> registerUser(RegisterUser user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<Object> registerUser(RegisterUser user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
         try {
             URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
 
@@ -87,10 +89,21 @@ public class RegisterServiceImpl implements RegisterService {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
+            if (response.statusCode() == 201) {
+                Map<String, List<String>> headers = response.headers().map();
+                String userURI = (new URI(headers.get("location").get(0))).toString();
+                String[] userId = userURI.split("users/");
 
-            return ResponseEntity
-                    .status(response.statusCode())
-                    .body(response.body());
+                return ResponseEntity
+                        .status(response.statusCode())
+                        .body(userId[1]);
+            } else {
+                return ResponseEntity
+                        .status(response.statusCode())
+                        .body(response.body());
+            }
+
+
 
         } catch (RuntimeException e) {
             e.printStackTrace();
