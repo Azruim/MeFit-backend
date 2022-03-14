@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 @Entity
 public class Profile {
 
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "profile_id")
     private String profileId;
@@ -34,9 +33,6 @@ public class Profile {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "goalId")
-    private List<Goal> goals;
-
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "profile_workout",
@@ -50,15 +46,6 @@ public class Profile {
             joinColumns = { @JoinColumn(name = "profile_id")},
             inverseJoinColumns = {@JoinColumn(name = "program_id")})
     private List<Program> programs;
-
-    @JsonGetter("goals")
-    public List<String> goalsGetter() {
-        if (goals != null) {
-            return goals.stream()
-                    .map(goal -> "/api/v1/goals/" + goal.getGoalId()).collect(Collectors.toList());
-        }
-        return null;
-    }
 
     @JsonGetter("workouts")
     public List<String> workoutsGetter() {
@@ -90,7 +77,6 @@ public class Profile {
         this.disabilities = disabilities;
         this.user = user;
         this.address = address;
-        this.goals = goals;
         this.workouts = workouts;
         this.programs = programs;
     }
@@ -151,14 +137,6 @@ public class Profile {
         this.address = address;
     }
 
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
-    }
-
     public List<Workout> getWorkouts() {
         return workouts;
     }
@@ -185,7 +163,6 @@ public class Profile {
                 ", disabilities='" + disabilities + '\'' +
                 ", user=" + user +
                 ", address=" + address +
-                ", goals=" + goals +
                 ", workouts=" + workouts +
                 ", programs=" + programs +
                 '}';
