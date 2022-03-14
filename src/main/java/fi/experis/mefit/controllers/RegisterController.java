@@ -17,7 +17,7 @@ public class RegisterController {
     RegisterService registerService;
 
     @PostMapping("")
-    public ResponseEntity<String> registerUser(@RequestBody RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<Object> registerUser(@RequestBody RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
         return registerService.registerUser(user, registerService.getAccessToken().getBody());
 
     }

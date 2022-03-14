@@ -11,7 +11,6 @@ public class RegisterUser {
     private String username;
     private String email;
     private boolean enabled;
-
     private JSONArray credentials = new JSONArray();
 
     public RegisterUser() {
