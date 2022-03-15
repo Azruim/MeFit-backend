@@ -6,6 +6,7 @@ import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.models.RegisterUser;
 import fi.experis.mefit.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -33,15 +34,15 @@ public class RegisterServiceImpl implements RegisterService {
     @Value("#{systemEnvironment['KEYCLOAK_BASE_PATH']}")
     String basePath;
 
+
     private final ProfileRepository profileRepository;
 
     public RegisterServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-
-    @Override
-    public String getAccessToken() {
+    public ResponseEntity<String> getAccessToken() {
+        System.out.println(basePath + registerClient + registerSecret);
         try {
             HashMap<String, String> requestData = new HashMap<>() {{
                 put("client_id", registerClient);
@@ -66,11 +67,15 @@ public class RegisterServiceImpl implements RegisterService {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
-            return response.body();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(response.body());
 
 
         } catch (RuntimeException | IOException | InterruptedException | URISyntaxException e) {
-            return e.getMessage();
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
     }
 
@@ -79,8 +84,9 @@ public class RegisterServiceImpl implements RegisterService {
         try {
             URI registerUri = new URI(basePath + "/admin/realms/mefit/users");
 
-            String accessToken = getAccessToken();
+            String accessToken = getAccessToken().getBody();
 
+            assert accessToken != null;
             String[] responseValues = accessToken.split("[\"]");
             String token = responseValues[3];
             JSONObject credObj = new JSONObject() {{
