@@ -3,6 +3,7 @@ package fi.experis.mefit.services;
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import fi.experis.mefit.models.RegisterUser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
+    @Value("#{systemEnvironment['KEYCLOAK_REGISTER_CLIENT']}")
+    String registerClient;
+
+    @Value("#{systemEnvironment['KEYCLOAK_REGISTER_CLIENT_SECRET']}")
+    String registerSecret;
+
+    @Value("#{systemEnvironment['KEYCLOAK_BASE_PATH']}")
+    String basePath;
+
 
     @Override
     public String getAccessToken() {
         try {
+
+
             HashMap<String, String> requestData = new HashMap<>() {{
-                put("client_id", System.getenv("KEYCLOAK_REGISTER_CLIENT"));
-                put("client_secret", System.getenv("KEYCLOAK_CLIENT_SECRET"));
+                put("client_id", registerClient);
+                put("client_secret", registerSecret);
                 put("grant_type", "client_credentials");
             }};
 
@@ -36,7 +48,7 @@ public class RegisterServiceImpl implements RegisterService {
                     .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
                     .collect(Collectors.joining("&"));
 
-            var uri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/realms/master/protocol/openid-connect/token");
+            var uri = new URI(basePath + "/realms/master/protocol/openid-connect/token");
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -60,7 +72,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public ResponseEntity<Object> registerUser(RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
         try {
-            URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
+            URI registerUri = new URI(basePath + "/admin/realms/mefit/users");
 
             String accessToken = getAccessToken();
 
