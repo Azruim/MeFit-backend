@@ -2,7 +2,9 @@ package fi.experis.mefit.services;
 
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
+import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.models.RegisterUser;
+import fi.experis.mefit.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,12 +33,16 @@ public class RegisterServiceImpl implements RegisterService {
     @Value("#{systemEnvironment['KEYCLOAK_BASE_PATH']}")
     String basePath;
 
+    private final ProfileRepository profileRepository;
+
+    public RegisterServiceImpl(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+    }
+
 
     @Override
     public String getAccessToken() {
         try {
-
-
             HashMap<String, String> requestData = new HashMap<>() {{
                 put("client_id", registerClient);
                 put("client_secret", registerSecret);
@@ -78,7 +84,15 @@ public class RegisterServiceImpl implements RegisterService {
 
             String[] responseValues = accessToken.split("[\"]");
             String token = responseValues[3];
-            JSONArray credentials = user.getCredentials();
+            JSONObject credObj = new JSONObject() {{
+                put("type" , "password");
+                put("value", user.getPassword());
+                put("temporary", false);
+            }};
+
+            JSONArray credentials = new JSONArray() {{
+                appendElement(credObj);
+            }};
 
             JSONObject userBody = new JSONObject();
             userBody.put("firstName", user.getFirstName());
@@ -101,6 +115,11 @@ public class RegisterServiceImpl implements RegisterService {
             if (response.statusCode() == 201) {
                 Map<String, List<String>> headers = response.headers().map();
                 String[] userId = headers.get("location").get(0).split("users/");
+
+                Profile newProfile = new Profile();
+                newProfile.setProfileId(userId[1]);
+
+                profileRepository.save(newProfile);
 
                 return ResponseEntity
                         .status(response.statusCode())

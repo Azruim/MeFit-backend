@@ -10,20 +10,18 @@ public class RegisterUser {
     private String lastName;
     private String username;
     private String email;
-    private boolean enabled;
-    private JSONArray credentials = new JSONArray();
+    private String password;
 
     public RegisterUser() {
         super();
     }
 
-    public RegisterUser(String firstName, String lastName, String username, String email, boolean enabled, JSONArray credentials) {
+    public RegisterUser(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.enabled = enabled;
-        this.credentials = credentials;
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -58,20 +56,12 @@ public class RegisterUser {
         this.email = email;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public JSONArray getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(JSONArray credentials) {
-        this.credentials = credentials;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -81,8 +71,7 @@ public class RegisterUser {
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", enabled=" + enabled +
-                ", credentials=" + credentials +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
