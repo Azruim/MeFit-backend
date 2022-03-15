@@ -7,6 +7,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public interface RegisterService {
-    ResponseEntity<String> getAccessToken();
-    ResponseEntity<Object> registerUser(RegisterUser user, String token) throws URISyntaxException, IOException, InterruptedException;
+    String getAccessToken();
+    ResponseEntity<Object> registerUser(RegisterUser user) throws URISyntaxException, IOException, InterruptedException;
 }
