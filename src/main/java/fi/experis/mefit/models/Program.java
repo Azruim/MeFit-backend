@@ -37,11 +37,31 @@ public class Program {
         super();
     }
 
-    public Program(Long programId, String name, String category, List<Workout> workouts) {
+    @Override
+    public String toString() {
+        return "Program{" +
+                "programId=" + programId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", workouts=" + workouts +
+                ", profiles=" + profiles +
+                '}';
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public Program(Long programId, String name, String category, List<Workout> workouts, List<Profile> profiles) {
         this.programId = programId;
         this.name = name;
         this.category = category;
         this.workouts = workouts;
+        this.profiles = profiles;
     }
 
     public Long getProgramId() {
@@ -76,13 +96,4 @@ public class Program {
         this.workouts = workouts;
     }
 
-    @Override
-    public String toString() {
-        return "Program{" +
-                "programId=" + programId +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", workouts=" + workouts +
-                '}';
-    }
 }

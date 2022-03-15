@@ -1,6 +1,9 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Exercise {
@@ -25,17 +28,26 @@ public class Exercise {
     @Column(name = "vid_link")
     private String vidLink;
 
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnore
+    @JoinTable(
+            name = "goal_exercise",
+            joinColumns = { @JoinColumn(name = "goal_id")},
+            inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
+    private List<Goal> goals;
+
     public Exercise() {
         super();
     }
 
-    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String vidLink) {
+    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String vidLink, List<Goal> goals) {
         this.exerciseId = exerciseId;
         this.name = name;
         this.description = description;
         this.targetMuscleGroup = targetMuscleGroup;
         this.image = image;
         this.vidLink = vidLink;
+        this.goals = goals;
     }
 
     public Long getExerciseId() {
@@ -86,6 +98,14 @@ public class Exercise {
         this.vidLink = vidLink;
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
@@ -95,6 +115,7 @@ public class Exercise {
                 ", targetMuscleGroup='" + targetMuscleGroup + '\'' +
                 ", image='" + image + '\'' +
                 ", vidLink='" + vidLink + '\'' +
+                ", goals=" + goals +
                 '}';
     }
 }

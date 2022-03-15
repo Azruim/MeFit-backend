@@ -65,6 +65,20 @@ public class Profile {
         super();
     }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "profileId='" + profileId + '\'' +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", medicalConditions='" + medicalConditions + '\'' +
+                ", disabilities='" + disabilities + '\'' +
+                ", address=" + address +
+                ", workouts=" + workouts +
+                ", programs=" + programs +
+                '}';
+    }
+
     public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
@@ -140,17 +154,4 @@ public class Profile {
         this.programs = programs;
     }
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "profileId=" + profileId +
-                ", weight=" + weight +
-                ", height=" + height +
-                ", medicalConditions='" + medicalConditions + '\'' +
-                ", disabilities='" + disabilities + '\'' +
-                ", address=" + address +
-                ", workouts=" + workouts +
-                ", programs=" + programs +
-                '}';
-    }
 }

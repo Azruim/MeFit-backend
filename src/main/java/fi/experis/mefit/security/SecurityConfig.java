@@ -51,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     // Jwt -> GrantedAuthorities -> AbstractAuthenticationToken
                     authnConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
 
-                        System.out.println(jwt.getClaims());
                         // This will read the 'roles' claim you configured above
                         // jwt["roles"] -> new GrantedAuthority("ROLE_roleName")
                         Collection<GrantedAuthority> roles = roleConverter.convert(jwt);
