@@ -1,14 +1,15 @@
 package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Goal;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface GoalService {
-    Goal addGoal(Goal goal);
-    Goal getGoalById(Long goalId);
-    void updateGoal(Long goalId, Goal goal);
-    void deleteGoalById(Long goal);
-    List<Goal> getAllGoals();
+    ResponseEntity<String> addGoal(Goal goal);
+    ResponseEntity<Goal> getGoalById(Long goalId);
+    ResponseEntity<Goal> updateGoal(Long goalId, Goal goal);
+    ResponseEntity<String> deleteGoalById(Long goal);
+    ResponseEntity<List<Goal>> getAllGoals();
 
 }

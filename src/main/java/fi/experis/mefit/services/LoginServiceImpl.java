@@ -3,6 +3,7 @@ package fi.experis.mefit.services;
 import com.nimbusds.jwt.SignedJWT;
 import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
+import fi.experis.mefit.models.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,7 @@ public class LoginServiceImpl implements LoginService {
                     .split(",");
 
             LoginResponse login = new LoginResponse(profileId, username, firstName, familyName, email, roles, token);
+
 
             return ResponseEntity
                     .ok()

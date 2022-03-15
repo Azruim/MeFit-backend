@@ -2,44 +2,83 @@ package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Workout;
 import fi.experis.mefit.repositories.WorkoutRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService{
-    @Autowired
-    private WorkoutRepository workoutRepository;
-    @Override
-    public Workout addWorkout(Workout workout) {
-        return workoutRepository.save(workout);
-    }
-    @Override
-    public Workout getWorkoutById(Long workoutId) {
-        return workoutRepository.findById(workoutId).get();
-    }
-    @Override
-    public List<Workout> getAllWorkouts(){
-        return workoutRepository.findAll();
+
+    private final WorkoutRepository workoutRepository;
+
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository) {
+        this.workoutRepository = workoutRepository;
     }
 
     @Override
-    public void updateWorkout(Long workoutId, Workout workout) {
-        // check if the user with the passed id exists or not
-        if (workoutRepository.findById(workoutId).isPresent()) {
-            // If user exists then updated
-            workoutRepository.save(workout);
+    public ResponseEntity<Workout> addWorkout(Workout workout) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(workoutRepository.save(workout));
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public void deleteWorkoutById(Long workoutId) {
+    public ResponseEntity<Workout> getWorkoutById(Long workoutId) {
+        try {
+            if (workoutRepository.findById(workoutId).isPresent()) {
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(workoutRepository.findById(workoutId).get());
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Workout>> getAllWorkouts(){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(workoutRepository.findAll());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout) {
+        try {
+            if (workoutRepository.existsById(workoutId)) {
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(workoutRepository.save(workout));
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteWorkoutById(Long workoutId) {
         try {
             workoutRepository.deleteById(workoutId);
-        }catch(DataAccessException e){
-            throw new RuntimeException(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

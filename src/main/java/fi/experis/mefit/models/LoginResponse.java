@@ -67,6 +67,7 @@ public class LoginResponse {
 
     public void setRoles(String[] roles) {
         this.roles = roles;
+
     }
 
     public String getToken() {

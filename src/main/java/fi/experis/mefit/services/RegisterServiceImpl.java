@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class RegisterServiceImpl implements RegisterService {
 
     @Override
-    public ResponseEntity<String> getAccessToken() {
+    public String getAccessToken() {
         try {
             HashMap<String, String> requestData = new HashMap<>() {{
                 put("client_id", System.getenv("KEYCLOAK_REGISTER_CLIENT"));
@@ -49,25 +49,22 @@ public class RegisterServiceImpl implements RegisterService {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
-            return ResponseEntity
-                    .status(response.statusCode())
-                    .body(response.body());
+            return response.body();
 
 
         } catch (RuntimeException | IOException | InterruptedException | URISyntaxException e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity
-                    .badRequest()
-                    .body("Bad request");
+            return e.getMessage();
         }
     }
 
     @Override
-    public ResponseEntity<Object> registerUser(RegisterUser user, String tokenResponse) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<Object> registerUser(RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
         try {
             URI registerUri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/admin/realms/mefit/users");
 
-            String[] responseValues = tokenResponse.split("[\"]");
+            String accessToken = getAccessToken();
+
+            String[] responseValues = accessToken.split("[\"]");
             String token = responseValues[3];
             JSONArray credentials = user.getCredentials();
 
@@ -91,8 +88,7 @@ public class RegisterServiceImpl implements RegisterService {
 
             if (response.statusCode() == 201) {
                 Map<String, List<String>> headers = response.headers().map();
-                String userURI = (new URI(headers.get("location").get(0))).toString();
-                String[] userId = userURI.split("users/");
+                String[] userId = headers.get("location").get(0).split("users/");
 
                 return ResponseEntity
                         .status(response.statusCode())
@@ -102,8 +98,6 @@ public class RegisterServiceImpl implements RegisterService {
                         .status(response.statusCode())
                         .body(response.body());
             }
-
-
 
         } catch (RuntimeException e) {
             e.printStackTrace();
