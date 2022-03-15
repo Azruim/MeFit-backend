@@ -16,8 +16,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,10 +54,21 @@ public class LoginServiceImpl implements LoginService {
 
             String[] responseValues = response.body().split("[:,\"]");
             String token = responseValues[4];
-            String profileId = SignedJWT.parse(token).getJWTClaimsSet().getSubject();
+            Map<String, Object> claims = SignedJWT.parse(token).getJWTClaimsSet().getClaims();
+            
+            String profileId = claims.get("sub").toString();
+            String username = claims.get("preferred_username").toString();
+            String firstName = claims.get("given_name").toString();
+            String familyName = claims.get("family_name").toString();
+            String email = claims.get("email").toString();
+            String[] roles = claims.get("roles")
+                    .toString()
+                    .replace("\"", "")
+                    .replace("[","")
+                    .replace("]", "")
+                    .split(",");
 
-            Optional profile = profileService.getProfileById(profileId).getBody();
-            LoginResponse login = new LoginResponse(profile, token);
+            LoginResponse login = new LoginResponse(profileId, username, firstName, familyName, email, roles, token);
 
             return ResponseEntity
                     .ok()
