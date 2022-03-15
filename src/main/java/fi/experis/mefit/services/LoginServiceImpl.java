@@ -5,6 +5,7 @@ import fi.experis.mefit.models.LoginRequest;
 import fi.experis.mefit.models.LoginResponse;
 import fi.experis.mefit.models.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,11 @@ import java.util.stream.Collectors;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
-    ProfileService profileService;
+    @Value("#{systemEnvironment['KEYCLOAK_BASE_PATH']}")
+    String basePath;
+
+    @Value("#{systemEnvironment['KEYCLOAK_CLIENT_ID']}")
+    String clientId;
 
     @Override
     public ResponseEntity<LoginResponse> loginUser(LoginRequest user) {
@@ -33,7 +37,7 @@ public class LoginServiceImpl implements LoginService {
                 put("grant_type", "password");
                 put("username", user.getUsername());
                 put("password", user.getPassword());
-                put("client_id", System.getenv("KEYCLOAK_CLIENT_ID"));
+                put("client_id", clientId);
                 put("scope", "openid");
             }};
 
@@ -42,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
                     .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
                     .collect(Collectors.joining("&"));
 
-            URI uri = new URI(System.getenv("KEYCLOAK_BASE_PATH") + "/realms/mefit/protocol/openid-connect/token");
+            URI uri = new URI(basePath + "/realms/mefit/protocol/openid-connect/token");
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
