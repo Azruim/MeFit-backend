@@ -1,6 +1,5 @@
 package fi.experis.mefit.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -58,7 +57,29 @@ public class Workout {
         super();
     }
 
-    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, List<Set> sets) {
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "workoutId=" + workoutId +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", complete=" + complete +
+                ", programs=" + programs +
+                ", goals=" + goals +
+                ", sets=" + sets +
+                ", profiles=" + profiles +
+                '}';
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, List<Set> sets, List<Profile> profiles) {
         this.workoutId = workoutId;
         this.name = name;
         this.type = type;
@@ -66,6 +87,7 @@ public class Workout {
         this.programs = programs;
         this.goals = goals;
         this.sets = sets;
+        this.profiles = profiles;
     }
 
     public Long getWorkoutId() {
@@ -125,16 +147,4 @@ public class Workout {
     }
 
 
-    @Override
-    public String toString() {
-        return "Workout{" +
-                "workoutId=" + workoutId +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", complete=" + complete +
-                ", programs=" + programs +
-                ", goals=" + goals +
-                ", sets=" + sets +
-                '}';
-    }
 }

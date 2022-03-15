@@ -1,13 +1,14 @@
 package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Workout;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface WorkoutService {
-    Workout addWorkout(Workout workout);
-    Workout getWorkoutById(Long workoutId);
-    void updateWorkout(Long workoutId, Workout workout);
-    void deleteWorkoutById(Long workoutId);
-    List<Workout> getAllWorkouts();
+    ResponseEntity<Workout> addWorkout(Workout workout);
+    ResponseEntity<Workout> getWorkoutById(Long workoutId);
+    ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout);
+    ResponseEntity<String> deleteWorkoutById(Long workoutId);
+    ResponseEntity<List<Workout>> getAllWorkouts();
 }

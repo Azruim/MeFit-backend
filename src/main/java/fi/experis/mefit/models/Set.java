@@ -32,10 +32,21 @@ public class Set {
         super();
     }
 
-    public Set(Long setId, int exerciseRepetitions, Exercise exercise) {
+    public Set(Long setId, int exerciseRepetitions, Exercise exercise, List<Workout> workout) {
         this.setId = setId;
         this.exerciseRepetitions = exerciseRepetitions;
         this.exercise = exercise;
+        this.workout = workout;
+    }
+
+    @Override
+    public String toString() {
+        return "Set{" +
+                "setId=" + setId +
+                ", exerciseRepetitions=" + exerciseRepetitions +
+                ", exercise=" + exercise +
+                ", workout=" + workout +
+                '}';
     }
 
     public Long getSetId() {
@@ -70,12 +81,4 @@ public class Set {
         this.workout = workout;
     }
 
-    @Override
-    public String toString() {
-        return "Set{" +
-                "setId=" + setId +
-                ", exerciseRepetitions=" + exerciseRepetitions +
-                ", exercise=" + exercise +
-                '}';
-    }
 }

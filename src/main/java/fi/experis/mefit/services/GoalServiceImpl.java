@@ -2,44 +2,81 @@ package fi.experis.mefit.services;
 
 import fi.experis.mefit.models.Goal;
 import fi.experis.mefit.repositories.GoalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class GoalServiceImpl implements GoalService {
-    @Autowired
-    private GoalRepository goalRepository;
-    @Override
-    public Goal addGoal(Goal goal) {
-        return goalRepository.save(goal);
-    }
-    @Override
-    public Goal getGoalById(Long goalId) {
-        return goalRepository.findById(goalId).get();
-    }
-    @Override
-    public List<Goal> getAllGoals(){
-        return goalRepository.findAll();
+
+    private final GoalRepository goalRepository;
+
+    public GoalServiceImpl(GoalRepository goalRepository) {
+        this.goalRepository = goalRepository;
     }
 
     @Override
-    public void updateGoal(Long goalId, Goal goal) {
-        // check if the user with the passed id exists or not
-        if (goalRepository.findById(goalId).isPresent()) {
-            // If user exists then updated
+    public ResponseEntity<String> addGoal(Goal goal) {
+        try {
             goalRepository.save(goal);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public void deleteGoalById(Long goalId) {
+    public ResponseEntity<Goal> getGoalById(Long goalId) {
+        try {
+            if (goalRepository.findById(goalId).isPresent()) {
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(goalRepository.findById(goalId).get());
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Goal>> getAllGoals(){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(goalRepository.findAll());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Goal> updateGoal(Long goalId, Goal goal) {
+        try {
+            if (goalRepository.existsById(goalId)) {
+                goalRepository.save(goal);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteGoalById(Long goalId) {
         try {
             goalRepository.deleteById(goalId);
-        }catch(DataAccessException e){
-            throw new RuntimeException(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(RuntimeException e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -2,7 +2,7 @@ package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.Program;
 import fi.experis.mefit.services.ProgramService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,47 +12,37 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/programs")
+@SecurityRequirement(name = "keycloak_implicit")
 public class ProgramController {
 
-    @Autowired
-    ProgramService programService;
+    private final ProgramService programService;
 
-    @GetMapping("")
-    public List<Program> getAllPrograms() {
+    public ProgramController(ProgramService programService) {
+        this.programService = programService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Program>> getAllPrograms() {
         return programService.getAllPrograms();
     }
 
     @GetMapping("/{programId}")
-    public Program getProgramById(@PathVariable Long programId) {
+    public ResponseEntity<Program> getProgramById(@PathVariable Long programId) {
         return programService.getProgramById(programId);
     }
 
-    @PostMapping("")
-    public Program addProgram(@RequestBody Program program) {
+    @PostMapping
+    public ResponseEntity<Program> addProgram(@RequestBody Program program) {
         return programService.addProgram(program);
     }
 
     @PutMapping("/{programId}")
-    public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody Program program) {
-        try {
-            programService.updateProgramById(programId, program);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Program> updateProgram(@PathVariable Long programId, @RequestBody Program program) {
+        return programService.updateProgramById(programId, program);
     }
 
     @DeleteMapping("{programId}")
     public ResponseEntity<String> deleteProgram(@PathVariable Long programId) {
-        try {
-            programService.deleteProgramById(programId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return programService.deleteProgramById(programId);
     }
 }

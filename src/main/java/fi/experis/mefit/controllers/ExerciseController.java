@@ -2,56 +2,50 @@ package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.Exercise;
 import fi.experis.mefit.services.ExerciseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@SecurityRequirement(name = "keycloak_implicit")
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/exercises")
 public class ExerciseController {
 
-    @Autowired
-    ExerciseService exerciseService;
+    private final ExerciseService exerciseService;
 
-    @GetMapping("")
-    public List<Exercise> getAllExercises() {
+    public ExerciseController(ExerciseService exerciseService) {
+        this.exerciseService = exerciseService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Exercise>> getAllExercises() {
         return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{exerciseId}")
-    public Exercise getExerciseById(@PathVariable Long exerciseId) {
+    public ResponseEntity<Exercise> getExerciseById(@PathVariable Long exerciseId) {
         return exerciseService.getExerciseById(exerciseId);
     }
 
-    @PostMapping("")
-    public Exercise addExercise(@RequestBody Exercise exercise) {
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_contributor')")
+    public ResponseEntity<String> addExercise(@RequestBody Exercise exercise) {
         return exerciseService.addExercise(exercise);
     }
 
-    @PutMapping("/{exerciseId}")
-    public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
-        try {
-            exerciseService.updateExercise(exerciseId, exercise);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PatchMapping("/{exerciseId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
+    public ResponseEntity<Exercise> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
+        return exerciseService.updateExercise(exerciseId, exercise);
     }
 
     @DeleteMapping("/{exerciseId}")
+    @PreAuthorize("hasRole('ROLE_contributor')")
     public ResponseEntity<String> deleteExercise(@PathVariable Long exerciseId) {
-        try {
-            exerciseService.deleteExerciseById(exerciseId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(RuntimeException e){
-            // log the error message
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return exerciseService.deleteExerciseById(exerciseId);
     }
 }

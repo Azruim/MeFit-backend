@@ -1,7 +1,5 @@
 package fi.experis.mefit.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -21,16 +19,12 @@ public class Goal {
     private boolean achieved;
 
     @OneToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+    @OneToOne
     @JoinColumn(name = "program_id")
     private Program program;
-
-    @JsonGetter("program")
-    public String programGetter() {
-        if (program != null) {
-            return "/api/v1/programs/" + program.getProgramId();
-        }
-        return null;
-    }
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -39,22 +33,60 @@ public class Goal {
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
-
-
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "goal_exercise",
+            joinColumns = { @JoinColumn(name = "goal_id")},
+            inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
+    private List<Exercise> exercises;
 
     public Goal() {
         super();
     }
 
-    public Goal(Long goalId, Date endDate, boolean achieved, Program program, List<Workout> workouts) {
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "goalId=" + goalId +
+                ", endDate=" + endDate +
+                ", achieved=" + achieved +
+                ", workouts=" + workouts +
+                ", exercises=" + exercises +
+                '}';
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+
+    public Goal(Long goalId, Date endDate, boolean achieved, Profile profile, Program program, List<Workout> workouts, List<Exercise> exercises) {
         this.goalId = goalId;
         this.endDate = endDate;
         this.achieved = achieved;
+        this.profile = profile;
         this.program = program;
         this.workouts = workouts;
+        this.exercises = exercises;
     }
 
     public Long getGoalId() {
@@ -89,22 +121,4 @@ public class Goal {
         this.workouts = workouts;
     }
 
-    public Program getProgram() {
-        return program;
-    }
-
-    public void setProgram(Program program) {
-        this.program = program;
-    }
-
-    @Override
-    public String toString() {
-        return "Goal{" +
-                "goalId=" + goalId +
-                ", endDate=" + endDate +
-                ", achieved=" + achieved +
-                ", program=" + program +
-                ", workouts=" + workouts +
-                '}';
-    }
 }
