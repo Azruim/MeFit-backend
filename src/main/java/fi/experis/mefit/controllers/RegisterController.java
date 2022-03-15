@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/register")
+@CrossOrigin("*")
 public class RegisterController {
 
     private final RegisterService registerService;

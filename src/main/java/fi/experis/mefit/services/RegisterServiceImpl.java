@@ -44,8 +44,7 @@ public class RegisterServiceImpl implements RegisterService {
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .POST(HttpRequest.BodyPublishers.ofString(form))
                     .build();
-
-
+            
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
