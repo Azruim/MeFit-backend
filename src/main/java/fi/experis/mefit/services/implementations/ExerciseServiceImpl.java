@@ -1,7 +1,9 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Workout;
-import fi.experis.mefit.repositories.WorkoutRepository;
+import fi.experis.mefit.models.Exercise;
+import fi.experis.mefit.repositories.ExerciseRepository;
+import fi.experis.mefit.services.interfaces.ExerciseService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,20 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WorkoutServiceImpl implements WorkoutService{
+public class ExerciseServiceImpl implements ExerciseService {
 
-    private final WorkoutRepository workoutRepository;
+    private final ExerciseRepository exerciseRepository;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository) {
-        this.workoutRepository = workoutRepository;
+    public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
+        this.exerciseRepository = exerciseRepository;
     }
 
     @Override
-    public ResponseEntity<Workout> addWorkout(Workout workout) {
+    public ResponseEntity<String> addExercise(Exercise exercise) {
         try {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(workoutRepository.save(workout));
+            exerciseRepository.save(exercise);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -30,12 +31,12 @@ public class WorkoutServiceImpl implements WorkoutService{
     }
 
     @Override
-    public ResponseEntity<Workout> getWorkoutById(Long workoutId) {
+    public ResponseEntity<Exercise> getExerciseById(Long exerciseId) {
         try {
-            if (workoutRepository.findById(workoutId).isPresent()) {
+            if (exerciseRepository.findById(exerciseId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(workoutRepository.findById(workoutId).get());
+                        .body(exerciseRepository.findById(exerciseId).get());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -45,11 +46,11 @@ public class WorkoutServiceImpl implements WorkoutService{
     }
 
     @Override
-    public ResponseEntity<List<Workout>> getAllWorkouts(){
+    public ResponseEntity<List<Exercise>> getAllExercises() {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(workoutRepository.findAll());
+                    .body(exerciseRepository.findAll());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,12 +58,12 @@ public class WorkoutServiceImpl implements WorkoutService{
     }
 
     @Override
-    public ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout) {
+    public ResponseEntity<Exercise> updateExercise(Long exerciseId, Exercise exercise) {
         try {
-            if (workoutRepository.existsById(workoutId)) {
+            if (exerciseRepository.findById(exerciseId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(workoutRepository.save(workout));
+                        .body(exerciseRepository.save(exercise));
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -72,11 +73,11 @@ public class WorkoutServiceImpl implements WorkoutService{
     }
 
     @Override
-    public ResponseEntity<String> deleteWorkoutById(Long workoutId) {
+    public ResponseEntity<String> deleteExerciseById(Long exerciseId) {
         try {
-            workoutRepository.deleteById(workoutId);
+            exerciseRepository.deleteById(exerciseId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.Goal;
-import fi.experis.mefit.services.GoalService;
+import fi.experis.mefit.services.interfaces.GoalService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

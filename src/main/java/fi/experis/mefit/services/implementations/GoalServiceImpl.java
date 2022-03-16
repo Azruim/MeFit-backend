@@ -1,7 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Profile;
-import fi.experis.mefit.repositories.ProfileRepository;
+import fi.experis.mefit.models.Goal;
+import fi.experis.mefit.repositories.GoalRepository;
+import fi.experis.mefit.services.interfaces.GoalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,20 +10,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProfileServiceImpl implements ProfileService{
+public class GoalServiceImpl implements GoalService {
 
-    private final ProfileRepository profileRepository;
+    private final GoalRepository goalRepository;
 
-    public ProfileServiceImpl(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
+    public GoalServiceImpl(GoalRepository goalRepository) {
+        this.goalRepository = goalRepository;
     }
 
     @Override
-    public ResponseEntity<Profile> addProfile(Profile profile) {
+    public ResponseEntity<String> addGoal(Goal goal) {
         try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(profileRepository.save(profile));
+            goalRepository.save(goal);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -30,12 +30,12 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public ResponseEntity<Profile> getProfileById(String profileId) {
+    public ResponseEntity<Goal> getGoalById(Long goalId) {
         try {
-            if (profileRepository.findById(profileId).isPresent()) {
+            if (goalRepository.findById(goalId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(profileRepository.findById(profileId).get());
+                        .body(goalRepository.findById(goalId).get());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -45,11 +45,11 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public ResponseEntity<List<Profile>> getAllProfiles(){
+    public ResponseEntity<List<Goal>> getAllGoals(){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(profileRepository.findAll());
+                    .body(goalRepository.findAll());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,12 +57,11 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public ResponseEntity<Profile> updateProfile(String profileId, Profile profile) {
+    public ResponseEntity<Goal> updateGoal(Long goalId, Goal goal) {
         try {
-            if (profileRepository.existsById(profileId)) {
-                return ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body(profileRepository.save(profile));
+            if (goalRepository.existsById(goalId)) {
+                goalRepository.save(goal);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -72,11 +71,11 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public ResponseEntity<String> deleteProfileById(String profileId) {
+    public ResponseEntity<String> deleteGoalById(Long goalId) {
         try {
-            profileRepository.deleteById(profileId);
+            goalRepository.deleteById(goalId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (RuntimeException e){
+        }catch(RuntimeException e){
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,7 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Goal;
-import fi.experis.mefit.repositories.GoalRepository;
+import fi.experis.mefit.models.Workout;
+import fi.experis.mefit.repositories.WorkoutRepository;
+import fi.experis.mefit.services.interfaces.WorkoutService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,19 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GoalServiceImpl implements GoalService {
+public class WorkoutServiceImpl implements WorkoutService {
 
-    private final GoalRepository goalRepository;
+    private final WorkoutRepository workoutRepository;
 
-    public GoalServiceImpl(GoalRepository goalRepository) {
-        this.goalRepository = goalRepository;
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository) {
+        this.workoutRepository = workoutRepository;
     }
 
     @Override
-    public ResponseEntity<String> addGoal(Goal goal) {
+    public ResponseEntity<Workout> addWorkout(Workout workout) {
         try {
-            goalRepository.save(goal);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(workoutRepository.save(workout));
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -29,12 +31,12 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<Goal> getGoalById(Long goalId) {
+    public ResponseEntity<Workout> getWorkoutById(Long workoutId) {
         try {
-            if (goalRepository.findById(goalId).isPresent()) {
+            if (workoutRepository.findById(workoutId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(goalRepository.findById(goalId).get());
+                        .body(workoutRepository.findById(workoutId).get());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -44,11 +46,11 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<List<Goal>> getAllGoals(){
+    public ResponseEntity<List<Workout>> getAllWorkouts(){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(goalRepository.findAll());
+                    .body(workoutRepository.findAll());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -56,11 +58,12 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<Goal> updateGoal(Long goalId, Goal goal) {
+    public ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout) {
         try {
-            if (goalRepository.existsById(goalId)) {
-                goalRepository.save(goal);
-                return new ResponseEntity<>(HttpStatus.OK);
+            if (workoutRepository.existsById(workoutId)) {
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(workoutRepository.save(workout));
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -70,11 +73,11 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<String> deleteGoalById(Long goalId) {
+    public ResponseEntity<String> deleteWorkoutById(Long workoutId) {
         try {
-            goalRepository.deleteById(goalId);
+            workoutRepository.deleteById(workoutId);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -1,8 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Exercise;
-import fi.experis.mefit.repositories.ExerciseRepository;
-import org.springframework.dao.DataAccessException;
+import fi.experis.mefit.models.Profile;
+import fi.experis.mefit.repositories.ProfileRepository;
+import fi.experis.mefit.services.interfaces.ProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,46 +10,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ExerciseServiceImpl implements ExerciseService {
+public class ProfileServiceImpl implements ProfileService {
 
-    private final ExerciseRepository exerciseRepository;
+    private final ProfileRepository profileRepository;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
-        this.exerciseRepository = exerciseRepository;
+    public ProfileServiceImpl(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
     }
 
     @Override
-    public ResponseEntity<String> addExercise(Exercise exercise) {
-        try {
-            exerciseRepository.save(exercise);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Exercise> getExerciseById(Long exerciseId) {
-        try {
-            if (exerciseRepository.findById(exerciseId).isPresent()) {
-                return ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body(exerciseRepository.findById(exerciseId).get());
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public ResponseEntity<List<Exercise>> getAllExercises() {
+    public ResponseEntity<Profile> addProfile(Profile profile) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(exerciseRepository.findAll());
+                    .body(profileRepository.save(profile));
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,12 +31,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<Exercise> updateExercise(Long exerciseId, Exercise exercise) {
+    public ResponseEntity<Profile> getProfileById(String profileId) {
         try {
-            if (exerciseRepository.findById(exerciseId).isPresent()) {
+            if (profileRepository.findById(profileId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(exerciseRepository.save(exercise));
+                        .body(profileRepository.findById(profileId).get());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
@@ -72,11 +46,38 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> deleteExerciseById(Long exerciseId) {
+    public ResponseEntity<List<Profile>> getAllProfiles(){
         try {
-            exerciseRepository.deleteById(exerciseId);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(profileRepository.findAll());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Profile> updateProfile(String profileId, Profile profile) {
+        try {
+            if (profileRepository.existsById(profileId)) {
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body(profileRepository.save(profile));
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteProfileById(String profileId) {
+        try {
+            profileRepository.deleteById(profileId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (DataAccessException e) {
+        } catch (RuntimeException e){
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
