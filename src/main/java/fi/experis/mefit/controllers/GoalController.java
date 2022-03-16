@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/goals")
 @SecurityRequirement(name = "keycloak_implicit")
-@PreAuthorize("hasRole('ROLE_regular_user')")
+@PreAuthorize("hasRole('ROLE_regular-user')")
 public class GoalController {
 
     private final GoalService goalService;
