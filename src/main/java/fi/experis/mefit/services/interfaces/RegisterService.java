@@ -1,4 +1,4 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.interfaces;
 
 import fi.experis.mefit.models.User;
 import org.springframework.http.ResponseEntity;

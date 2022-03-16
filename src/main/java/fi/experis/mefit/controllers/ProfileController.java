@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
 import fi.experis.mefit.models.Profile;
-import fi.experis.mefit.services.ProfileService;
+import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

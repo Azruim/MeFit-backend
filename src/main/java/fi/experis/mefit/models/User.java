@@ -1,22 +1,17 @@
 package fi.experis.mefit.models;
 
-import com.nimbusds.jose.shaded.json.JSONArray;
-import com.nimbusds.jose.shaded.json.JSONObject;
-
-import java.util.HashMap;
-
-public class RegisterUser {
+public class User {
     private String firstName;
     private String lastName;
     private String username;
     private String email;
     private String password;
 
-    public RegisterUser() {
+    public User() {
         super();
     }
 
-    public RegisterUser(String firstName, String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

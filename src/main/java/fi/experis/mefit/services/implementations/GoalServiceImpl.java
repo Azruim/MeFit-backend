@@ -1,7 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
 import fi.experis.mefit.models.Goal;
 import fi.experis.mefit.repositories.GoalRepository;
+import fi.experis.mefit.services.interfaces.GoalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,11 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.models.User;
 import fi.experis.mefit.repositories.ProfileRepository;
+import fi.experis.mefit.services.interfaces.RegisterService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
