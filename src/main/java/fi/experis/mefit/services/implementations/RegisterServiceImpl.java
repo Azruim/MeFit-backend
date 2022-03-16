@@ -3,7 +3,7 @@ package fi.experis.mefit.services;
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import fi.experis.mefit.models.Profile;
-import fi.experis.mefit.models.RegisterUser;
+import fi.experis.mefit.models.User;
 import fi.experis.mefit.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -80,7 +80,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public ResponseEntity<Object> registerUser(RegisterUser user) throws URISyntaxException, IOException, InterruptedException {
+    public ResponseEntity<Object> registerUser(User user) throws URISyntaxException, IOException, InterruptedException {
         try {
             URI registerUri = new URI(basePath + "/admin/realms/mefit/users");
 
