@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class LoginServiceImpl implements LoginService {
-
     @Value("#{systemEnvironment['KEYCLOAK_BASE_PATH']}")
     String basePath;
 

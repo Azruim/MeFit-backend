@@ -25,6 +25,8 @@ public class Exercise {
     @Column
     private String image;
 
+    @Column String fitnessLevel;
+
     @Column(name = "vid_link")
     private String vidLink;
 
@@ -40,14 +42,37 @@ public class Exercise {
         super();
     }
 
-    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String vidLink, List<Goal> goals) {
+    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String fitnessLevel, String vidLink, List<Goal> goals) {
         this.exerciseId = exerciseId;
         this.name = name;
         this.description = description;
         this.targetMuscleGroup = targetMuscleGroup;
         this.image = image;
+        this.fitnessLevel = fitnessLevel;
         this.vidLink = vidLink;
         this.goals = goals;
+    }
+
+    public String getFitnessLevel() {
+        return fitnessLevel;
+    }
+
+    public void setFitnessLevel(String fitnessLevel) {
+        this.fitnessLevel = fitnessLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "exerciseId=" + exerciseId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", targetMuscleGroup='" + targetMuscleGroup + '\'' +
+                ", image='" + image + '\'' +
+                ", fitnessLevel='" + fitnessLevel + '\'' +
+                ", vidLink='" + vidLink + '\'' +
+                ", goals=" + goals +
+                '}';
     }
 
     public Long getExerciseId() {
@@ -106,16 +131,4 @@ public class Exercise {
         this.goals = goals;
     }
 
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "exerciseId=" + exerciseId +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", targetMuscleGroup='" + targetMuscleGroup + '\'' +
-                ", image='" + image + '\'' +
-                ", vidLink='" + vidLink + '\'' +
-                ", goals=" + goals +
-                '}';
-    }
 }
