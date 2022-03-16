@@ -89,14 +89,19 @@ public class RegisterServiceImpl implements RegisterService {
             assert accessToken != null;
             String[] responseValues = accessToken.split("[\"]");
             String token = responseValues[3];
-            JSONObject credObj = new JSONObject() {{
+            JSONObject pwObj = new JSONObject() {{
                 put("type" , "password");
                 put("value", user.getPassword());
                 put("temporary", false);
             }};
 
+            JSONObject otpObj = new JSONObject() {{
+                put("type" , "otp");
+                put("temporary", false);
+            }};
+
             JSONArray credentials = new JSONArray() {{
-                appendElement(credObj);
+                appendElement(pwObj);
             }};
 
             JSONObject userBody = new JSONObject();

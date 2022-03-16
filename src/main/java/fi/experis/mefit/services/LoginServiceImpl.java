@@ -36,6 +36,7 @@ public class LoginServiceImpl implements LoginService {
                 put("grant_type", "password");
                 put("username", user.getUsername());
                 put("password", user.getPassword());
+                put("totp", user.getToken());
                 put("client_id", clientId);
                 put("scope", "openid");
             }};
@@ -55,6 +56,10 @@ public class LoginServiceImpl implements LoginService {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.statusCode());
+            System.out.println(response.headers());
+            System.out.println(response.body());
 
             String[] responseValues = response.body().split("[:,\"]");
             String token = responseValues[4];
