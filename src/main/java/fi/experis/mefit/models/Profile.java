@@ -19,6 +19,9 @@ public class Profile {
     @Column
     private double height;
 
+    @Column
+    private String fitnessLevel;
+
     @Column(name = "medical_conditions")
     private String medicalConditions;
 
@@ -65,12 +68,29 @@ public class Profile {
         super();
     }
 
+    public Profile(String profileId, double weight, double height, String fitnessLevel, String medicalConditions, String disabilities, Address address, List<Workout> workouts, List<Program> programs) {
+        this.profileId = profileId;
+        this.weight = weight;
+        this.height = height;
+        this.fitnessLevel = fitnessLevel;
+        this.medicalConditions = medicalConditions;
+        this.disabilities = disabilities;
+        this.address = address;
+        this.workouts = workouts;
+        this.programs = programs;
+    }
+
+    public String getFitnessLevel() {
+        return fitnessLevel;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
                 "profileId='" + profileId + '\'' +
                 ", weight=" + weight +
                 ", height=" + height +
+                ", fitnessLevel=" + fitnessLevel +
                 ", medicalConditions='" + medicalConditions + '\'' +
                 ", disabilities='" + disabilities + '\'' +
                 ", address=" + address +
@@ -79,15 +99,8 @@ public class Profile {
                 '}';
     }
 
-    public Profile(String profileId, double weight, double height, String medicalConditions, String disabilities, Address address, List<Goal> goals, List<Workout> workouts, List<Program> programs) {
-        this.profileId = profileId;
-        this.weight = weight;
-        this.height = height;
-        this.medicalConditions = medicalConditions;
-        this.disabilities = disabilities;
-        this.address = address;
-        this.workouts = workouts;
-        this.programs = programs;
+    public void setFitnessLevel(String fitnessLevel) {
+        this.fitnessLevel = fitnessLevel;
     }
 
     public String getProfileId() {
