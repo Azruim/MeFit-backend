@@ -22,7 +22,6 @@ public class ExerciseController {
         this.exerciseService = exerciseService;
     }
 
-    // TODO: sort by muscle group;
     @GetMapping
     public ResponseEntity<List<Exercise>> getAllExercises() {
         return exerciseService.getAllExercises();
