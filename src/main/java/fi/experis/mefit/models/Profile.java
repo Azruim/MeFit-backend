@@ -1,7 +1,10 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Profile {
@@ -33,11 +36,25 @@ public class Profile {
     @JoinColumn(name = "profile_id")
     private List<Goal> goals;
 
+    @OneToMany
+    @JoinColumn(name = "profile_id")
+    private List<Workout> workouts;
+
+    @JsonGetter(value = "workouts")
+    public List<String> workoutsGetter() {
+        if (workouts != null) {
+            return workouts.stream()
+                    .map(workout -> "/api/v1/workouts/" + workout.getWorkoutId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+
     public Profile() {
         super();
     }
 
-    public Profile(String profileId, double weight, double height, String fitnessLevel, String medicalConditions, String disabilities, Address address, List<Goal> goals) {
+    public Profile(String profileId, double weight, double height, String fitnessLevel, String medicalConditions, String disabilities, Address address, List<Goal> goals, List<Workout> workouts) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -46,10 +63,7 @@ public class Profile {
         this.disabilities = disabilities;
         this.address = address;
         this.goals = goals;
-    }
-
-    public String getFitnessLevel() {
-        return fitnessLevel;
+        this.workouts = workouts;
     }
 
     @Override
@@ -63,7 +77,22 @@ public class Profile {
                 ", disabilities='" + disabilities + '\'' +
                 ", address=" + address +
                 ", goals=" + goals +
+                ", workouts=" + workouts +
                 '}';
+    }
+
+
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
+    public String getFitnessLevel() {
+        return fitnessLevel;
     }
 
     public List<Goal> getGoals() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Goal {
@@ -46,6 +47,32 @@ public class Goal {
     public String profileGetter() {
         if (profile != null) {
             return "/api/v1/profiles/" + profile.getProfileId();
+        }
+        return null;
+    }
+
+    @JsonGetter(value = "exercises")
+    public List<String> exerciseGetter() {
+        if (exercises != null) {
+            return exercises.stream()
+                    .map(exercise -> "/api/v1/exercises/" + exercise.getExerciseId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @JsonGetter(value = "workouts")
+    public List<String> workoutsGetter() {
+        if (workouts != null) {
+            return workouts.stream()
+                    .map(workout -> "/api/v1/workouts/" + workout.getWorkoutId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @JsonGetter(value = "program")
+    public String programGetter() {
+        if (program != null) {
+            return "/api/v1/programs/" + program.getProgramId();
         }
         return null;
     }

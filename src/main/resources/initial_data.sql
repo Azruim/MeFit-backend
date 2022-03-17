@@ -14,20 +14,28 @@ insert into set (exercise_repetitions, exercise_id)
            (5, 4), (10, 5), (20, 6),
            (6, 7);
 
-insert into workout (complete, name, type)
-    values (false, 'Tough bench press', 'Brawn'),
-           (false, 'Bench press warm-up', 'Warm-up'),
-           (false, 'Bench press stamina', 'Stamina'),
-           (false, 'Hard bicep training', 'Brawn'),
-           (false, 'Bicep warm-up', 'Warm-up'),
-           (false, 'Bicep stamina training', 'Stamina'),
-           (false, 'Hard Squat training', 'Brawn'),
-           (false, 'Squat warm-up', 'Warm-up'),
-           (false, 'Squat Stamina', 'Stamina'),
-           (false, 'Beginner pull-ups', 'Beginner'),
-           (false, 'Beginner push-ups', 'Beginner'),
-           (false, 'Six-pack shortcut', 'Strength'),
-           (false, 'Upper body warm-up', 'Warm-up');
+insert into address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
+values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100'),
+       ('Sunset Blvd 1', null, null, 'Los Angeles', 'USA', 'CA 90024');
+
+insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id)
+values ('test', 'None', 1.83, 'None', 91.3, 1),
+       ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2);
+
+insert into workout (complete, name, type, profile_id)
+    values (false, 'Tough bench press', 'Brawn', 'test'),
+           (false, 'Bench press warm-up', 'Warm-up', 'test'),
+           (false, 'Bench press stamina', 'Stamina', 'test'),
+           (false, 'Hard bicep training', 'Brawn', 'test'),
+           (false, 'Bicep warm-up', 'Warm-up', 'test'),
+           (false, 'Bicep stamina training', 'Stamina', 'test'),
+           (false, 'Hard Squat training', 'Brawn', 'test'),
+           (false, 'Squat warm-up', 'Warm-up', 'test'),
+           (false, 'Squat Stamina', 'Stamina', 'test'),
+           (false, 'Beginner pull-ups', 'Beginner', 'test'),
+           (false, 'Beginner push-ups', 'Beginner', 'test'),
+           (false, 'Six-pack shortcut', 'Strength', 'test'),
+           (false, 'Upper body warm-up', 'Warm-up', 'test');
 
 insert into workout_set (workout_id, set_id)
     values (1, 1), (1, 1), (1, 1),
@@ -48,13 +56,6 @@ insert into program_workout (program_id, workout_id)
     values (1, 1),(1, 2),(1, 7),
             (2, 12), (2, 12), (2, 12);
 
-insert into address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
-    values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100'),
-           ('Sunset Blvd 1', null, null, 'Los Angeles', 'USA', 'CA 90024');
-
-insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id)
-    values ('test', 'None', 1.83, 'None', 91.3, 1),
-           ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2);
 
 insert into goal (achieved, end_date, profile_id, program_id)
     values (false, '2022-03-10', 'test', 1),
@@ -63,9 +64,5 @@ insert into goal (achieved, end_date, profile_id, program_id)
 insert into goal_workout (end_date, goal_id, workout_id)
     values ('2022-03-08', 1, 1),
             ('2022-03-09', 1, 2);
-
-insert into profile_workout (profile_id, workout_id)
-    values ('test', 6), ('db97085a-067f-46b3-b87b-2725560977d1', 10), ('db97085a-067f-46b3-b87b-2725560977d1', 11),
-           ('db97085a-067f-46b3-b87b-2725560977d1', 12), ('db97085a-067f-46b3-b87b-2725560977d1', 13);
 
 
