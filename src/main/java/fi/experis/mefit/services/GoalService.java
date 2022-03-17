@@ -11,5 +11,4 @@ public interface GoalService {
     ResponseEntity<Goal> updateGoal(Long goalId, Goal goal);
     ResponseEntity<String> deleteGoalById(Long goal);
     ResponseEntity<List<Goal>> getAllGoals();
-
 }

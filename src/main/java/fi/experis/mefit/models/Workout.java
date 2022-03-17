@@ -30,11 +30,12 @@ public class Workout {
     private List<Program> programs;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnore
     @JoinTable(
             name = "goal_workout",
             joinColumns = { @JoinColumn(name = "workout_id")},
             inverseJoinColumns = {@JoinColumn(name = "goal_id")})
-    @JsonIgnore
+
     private List<Goal> goals;
 
     @ManyToMany
