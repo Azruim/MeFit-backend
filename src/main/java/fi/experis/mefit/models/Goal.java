@@ -1,6 +1,6 @@
 package fi.experis.mefit.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +21,6 @@ public class Goal {
     private boolean achieved;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
@@ -42,6 +41,14 @@ public class Goal {
             joinColumns = { @JoinColumn(name = "goal_id")},
             inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
     private List<Exercise> exercises;
+
+    @JsonGetter(value = "profile")
+    public String profileGetter() {
+        if (profile != null) {
+            return "/api/v1/profiles/" + profile.getProfileId();
+        }
+        return null;
+    }
 
     public Goal() {
         super();

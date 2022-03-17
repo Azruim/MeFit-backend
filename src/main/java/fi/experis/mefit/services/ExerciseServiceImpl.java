@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -21,8 +23,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public ResponseEntity<String> addExercise(Exercise exercise) {
         try {
-            exerciseRepository.save(exercise);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -49,7 +52,10 @@ public class ExerciseServiceImpl implements ExerciseService {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(exerciseRepository.findAll());
+                    .body(exerciseRepository.findAll()
+                            .stream()
+                            .sorted(Comparator.comparing(Exercise::getTargetMuscleGroup))
+                            .collect(Collectors.toList()));
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,12 +63,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<Exercise> updateExercise(Long exerciseId, Exercise exercise) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise) {
         try {
             if (exerciseRepository.findById(exerciseId).isPresent()) {
+                exercise.setExerciseId(exerciseId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(exerciseRepository.save(exercise));
+                        .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

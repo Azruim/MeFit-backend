@@ -4,6 +4,7 @@ import fi.experis.mefit.models.Profile;
 import fi.experis.mefit.services.ProfileService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/profiles")
 @SecurityRequirement(name = "keycloak_implicit")
+@PreAuthorize("hasAnyRole('ROLE_regular-user', 'ROLE_contributor', 'ROLE_admin')")
 public class ProfileController {
 
     private final ProfileService profileService;
@@ -20,23 +22,18 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Profile>> getAllProfiles() {
-        return profileService.getAllProfiles();
-    }
-
     @GetMapping("/{profileId}")
     public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
         return profileService.getProfileById(profileId);
     }
 
     @PostMapping
-    public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
+    public ResponseEntity<String> addProfile(@RequestBody Profile profile) {
         return profileService.addProfile(profile);
     }
 
     @PatchMapping("/{profileId}")
-    public ResponseEntity<Profile> updateProfile(@PathVariable String profileId, @RequestBody Profile profile) {
+    public ResponseEntity<String> updateProfile(@PathVariable String profileId, @RequestBody Profile profile) {
         return profileService.updateProfile(profileId, profile);
     }
 

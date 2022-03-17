@@ -20,8 +20,9 @@ public class GoalServiceImpl implements GoalService {
     @Override
     public ResponseEntity<String> addGoal(Goal goal) {
         try {
-            goalRepository.save(goal);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("/api/v1/goals/" + goalRepository.save(goal).getGoalId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -44,23 +45,13 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<List<Goal>> getAllGoals(){
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(goalRepository.findAll());
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Goal> updateGoal(Long goalId, Goal goal) {
+    public ResponseEntity<String> updateGoal(Long goalId, Goal goal) {
         try {
             if (goalRepository.existsById(goalId)) {
-                goalRepository.save(goal);
-                return new ResponseEntity<>(HttpStatus.OK);
+                goal.setGoalId(goalId);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body("/api/v1/goals/" + goalRepository.save(goal).getGoalId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
