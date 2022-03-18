@@ -34,8 +34,8 @@ public class Exercise {
     @JsonIgnore
     @JoinTable(
             name = "goal_exercise",
-            joinColumns = { @JoinColumn(name = "goal_id")},
-            inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
+            joinColumns = { @JoinColumn(name = "exercise_id")},
+            inverseJoinColumns = {@JoinColumn(name = "goal_id")})
     private List<Goal> goals;
 
     public Exercise() {

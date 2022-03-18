@@ -53,7 +53,7 @@ public class Workout {
     @JsonGetter(value = "profile")
     public String profileGetter() {
         if (profile != null) {
-            return "/api/v1/profiles" + profile.getProfileId();
+            return "/api/v1/profiles/" + profile.getProfileId();
         }
         return null;
     }
