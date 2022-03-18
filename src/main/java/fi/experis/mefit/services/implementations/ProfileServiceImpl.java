@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
@@ -19,11 +17,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ResponseEntity<Profile> addProfile(Profile profile) {
+    public ResponseEntity<String> addProfile(Profile profile) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(profileRepository.save(profile));
+                    .body("/api/v1/profiles/" + profileRepository.save(profile).getProfileId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,24 +44,13 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ResponseEntity<List<Profile>> getAllProfiles(){
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(profileRepository.findAll());
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public ResponseEntity<Profile> updateProfile(String profileId, Profile profile) {
+    public ResponseEntity<String> updateProfile(String profileId, Profile profile) {
         try {
             if (profileRepository.existsById(profileId)) {
+                profile.setProfileId(profileId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(profileRepository.save(profile));
+                        .body("/api/v1/profiles/" + profileRepository.save(profile).getProfileId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

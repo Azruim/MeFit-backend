@@ -19,11 +19,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<Workout> addWorkout(Workout workout) {
+    public ResponseEntity<String> addWorkout(Workout workout) {
         try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(workoutRepository.save(workout));
+                    .body("/api/v1/workouts/" + workoutRepository.save(workout).getWorkoutId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -58,12 +58,13 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout) {
+    public ResponseEntity<String> updateWorkout(Long workoutId, Workout workout) {
         try {
             if (workoutRepository.existsById(workoutId)) {
+                workout.setWorkoutId(workoutId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(workoutRepository.save(workout));
+                        .body("/api/v1/workouts/" + workoutRepository.save(workout).getWorkoutId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

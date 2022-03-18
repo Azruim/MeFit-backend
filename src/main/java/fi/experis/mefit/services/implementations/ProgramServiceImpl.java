@@ -19,11 +19,11 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<Program> addProgram(Program program) {
+    public ResponseEntity<String> addProgram(Program program) {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(programRepository.save(program));
+                    .body("/api/v1/programs/" + programRepository.save(program).getProgramId());
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
@@ -61,12 +61,13 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<Program> updateProgramById(Long programId, Program program) {
+    public ResponseEntity<String> updateProgramById(Long programId, Program program) {
         try {
             if (programRepository.existsById(programId)) {
+                program.setProgramId(programId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(programRepository.save(program));
+                        .body("/api/v1/programs/" + programRepository.save(program).getProgramId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

@@ -13,6 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/workouts")
 @SecurityRequirement(name = "keycloak_implicit")
+@PreAuthorize("hasAnyRole('ROLE_regular-user', 'ROLE_contributor', 'ROLE_admin')")
 public class WorkoutController {
 
     private final WorkoutService workoutService;
@@ -32,19 +33,19 @@ public class WorkoutController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasRole('ROLE_contributor')")
-    public ResponseEntity<Workout> addWorkout(@RequestBody Workout workout) {
+    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
+    public ResponseEntity<String> addWorkout(@RequestBody Workout workout) {
         return workoutService.addWorkout(workout);
     }
 
     @PatchMapping("/{workoutId}")
-    @PreAuthorize("hasRole('ROLE_contributor')")
-    public ResponseEntity<Workout> updateWorkout(@PathVariable Long workoutId, @RequestBody Workout workout) {
+    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
+    public ResponseEntity<String> updateWorkout(@PathVariable Long workoutId, @RequestBody Workout workout) {
         return workoutService.updateWorkout(workoutId, workout);
     }
 
     @DeleteMapping("/{workoutId}")
-    @PreAuthorize("hasRole('ROLE_contributor')")
+    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> deleteWorkout(@PathVariable Long workoutId) {
         return workoutService.deleteWorkoutById(workoutId);
     }

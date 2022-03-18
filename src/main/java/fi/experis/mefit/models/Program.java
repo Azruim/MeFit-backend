@@ -19,49 +19,26 @@ public class Program {
     @Column(length = 40)
     private String category;
 
+    @OneToMany(mappedBy = "goalId")
+    @JsonIgnore
+    private List<Goal> goals;
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "program_workout",
             joinColumns = {@JoinColumn(name = "program_id")},
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "profile_workout",
-            joinColumns = { @JoinColumn(name = "profile_id")},
-            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
-    @JsonIgnore
-    private List<Profile> profiles;
-
     public Program() {
         super();
     }
 
-    @Override
-    public String toString() {
-        return "Program{" +
-                "programId=" + programId +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", workouts=" + workouts +
-                ", profiles=" + profiles +
-                '}';
-    }
-
-    public List<Profile> getProfiles() {
-        return profiles;
-    }
-
-    public void setProfiles(List<Profile> profiles) {
-        this.profiles = profiles;
-    }
-
-    public Program(Long programId, String name, String category, List<Workout> workouts, List<Profile> profiles) {
+    public Program(Long programId, String name, String category, List<Goal> goals, List<Workout> workouts) {
         this.programId = programId;
         this.name = name;
         this.category = category;
+        this.goals = goals;
         this.workouts = workouts;
-        this.profiles = profiles;
     }
 
     public Long getProgramId() {
@@ -88,6 +65,14 @@ public class Program {
         this.category = category;
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
+
     public List<Workout> getWorkouts() {
         return workouts;
     }
@@ -96,4 +81,15 @@ public class Program {
         this.workouts = workouts;
     }
 
+    @Override
+    public String toString() {
+        return "Program{" +
+                "programId=" + programId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", goals=" + goals +
+                ", workouts=" + workouts +
+                '}';
+    }
 }
+

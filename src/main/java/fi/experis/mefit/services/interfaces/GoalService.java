@@ -8,8 +8,6 @@ import java.util.List;
 public interface GoalService {
     ResponseEntity<String> addGoal(Goal goal);
     ResponseEntity<Goal> getGoalById(Long goalId);
-    ResponseEntity<Goal> updateGoal(Long goalId, Goal goal);
+    ResponseEntity<String> updateGoal(Long goalId, Goal goal);
     ResponseEntity<String> deleteGoalById(Long goal);
-    ResponseEntity<List<Goal>> getAllGoals();
-
 }

@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface WorkoutService {
-    ResponseEntity<Workout> addWorkout(Workout workout);
+    ResponseEntity<String> addWorkout(Workout workout);
     ResponseEntity<Workout> getWorkoutById(Long workoutId);
-    ResponseEntity<Workout> updateWorkout(Long workoutId, Workout workout);
+    ResponseEntity<String> updateWorkout(Long workoutId, Workout workout);
     ResponseEntity<String> deleteWorkoutById(Long workoutId);
     ResponseEntity<List<Workout>> getAllWorkouts();
 }

@@ -1,5 +1,6 @@
 package fi.experis.mefit.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -23,18 +24,18 @@ public class Workout {
     private boolean complete;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnore
     @JoinTable(name = "program_workout",
             joinColumns = {@JoinColumn(name = "workout_id")},
             inverseJoinColumns = {@JoinColumn(name = "program_id")})
-    @JsonIgnore
     private List<Program> programs;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnore
     @JoinTable(
             name = "goal_workout",
             joinColumns = { @JoinColumn(name = "workout_id")},
             inverseJoinColumns = {@JoinColumn(name = "goal_id")})
-    @JsonIgnore
     private List<Goal> goals;
 
     @ManyToMany
@@ -45,13 +46,17 @@ public class Workout {
     private List<Set> sets;
 
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name = "profile_workout",
-            joinColumns = { @JoinColumn(name = "workout_id")},
-            inverseJoinColumns = {@JoinColumn(name = "profile_id")})
-    @JsonIgnore
-    private List<Profile> profiles;
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+    @JsonGetter(value = "profile")
+    public String profileGetter() {
+        if (profile != null) {
+            return "/api/v1/profiles" + profile.getProfileId();
+        }
+        return null;
+    }
 
     public Workout() {
         super();
@@ -67,19 +72,21 @@ public class Workout {
                 ", programs=" + programs +
                 ", goals=" + goals +
                 ", sets=" + sets +
-                ", profiles=" + profiles +
+                ", profile=" + profile +
                 '}';
     }
 
-    public List<Profile> getProfiles() {
-        return profiles;
+
+
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setProfiles(List<Profile> profiles) {
-        this.profiles = profiles;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, List<Set> sets, List<Profile> profiles) {
+    public Workout(Long workoutId, String name, String type, boolean complete, List<Program> programs, List<Goal> goals, List<Set> sets, Profile profile) {
         this.workoutId = workoutId;
         this.name = name;
         this.type = type;
@@ -87,7 +94,7 @@ public class Workout {
         this.programs = programs;
         this.goals = goals;
         this.sets = sets;
-        this.profiles = profiles;
+        this.profile = profile;
     }
 
     public Long getWorkoutId() {

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ExerciseService {
     ResponseEntity<String> addExercise(Exercise exercise);
     ResponseEntity<Exercise> getExerciseById(Long exerciseId);
-    ResponseEntity<Exercise> updateExercise(Long exerciseId, Exercise exercise);
+    ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise);
     ResponseEntity<String> deleteExerciseById(Long exercise);
     ResponseEntity<List<Exercise>> getAllExercises();
 }

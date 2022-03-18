@@ -7,24 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/goals")
 @SecurityRequirement(name = "keycloak_implicit")
-@PreAuthorize("hasRole('ROLE_regular_user')")
+@PreAuthorize("hasAnyRole('ROLE_regular-user', 'ROLE_contributor', 'ROLE_admin')")
 public class GoalController {
 
     private final GoalService goalService;
 
     public GoalController(GoalService goalService) {
         this.goalService = goalService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Goal>> getAllGoals() {
-        return goalService.getAllGoals();
     }
 
     @GetMapping("/{goalId}")
@@ -38,7 +31,7 @@ public class GoalController {
     }
 
     @PatchMapping("/{goalId}")
-    public ResponseEntity<Goal> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
+    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
         return goalService.updateGoal(goalId, goal);
     }
 
