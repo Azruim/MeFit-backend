@@ -13,7 +13,7 @@ import java.util.List;
 @SecurityRequirement(name = "keycloak_implicit")
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/exercises")
-@PreAuthorize("hasRole('ROLE_regular-user')")
+@PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_contributor')")
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
@@ -23,29 +23,28 @@ public class ExerciseController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_regular-user')")
     public ResponseEntity<List<Exercise>> getAllExercises() {
         return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{exerciseId}")
+    @PreAuthorize("hasRole('ROLE_regular-user')")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable Long exerciseId) {
         return exerciseService.getExerciseById(exerciseId);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> addExercise(@RequestBody Exercise exercise) {
         return exerciseService.addExercise(exercise);
     }
 
     @PatchMapping("/{exerciseId}")
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
         return exerciseService.updateExercise(exerciseId, exercise);
     }
 
     @DeleteMapping("/{exerciseId}")
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> deleteExercise(@PathVariable Long exerciseId) {
         return exerciseService.deleteExerciseById(exerciseId);
     }

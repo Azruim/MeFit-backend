@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/programs")
 @SecurityRequirement(name = "keycloak_implicit")
-@PreAuthorize("hasRole('ROLE_regular-user')")
+@PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
 public class ProgramController {
 
     private final ProgramService programService;
@@ -23,29 +23,28 @@ public class ProgramController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_regular-user')")
     public ResponseEntity<List<Program>> getAllPrograms() {
         return programService.getAllPrograms();
     }
 
     @GetMapping("/{programId}")
+    @PreAuthorize("hasRole('ROLE_regular-user')")
     public ResponseEntity<Program> getProgramById(@PathVariable Long programId) {
         return programService.getProgramById(programId);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> addProgram(@RequestBody Program program) {
         return programService.addProgram(program);
     }
 
     @PatchMapping("/{programId}")
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody Program program) {
         return programService.updateProgramById(programId, program);
     }
 
     @DeleteMapping("{programId}")
-    @PreAuthorize("hasAnyRole('ROLE_contributor', 'ROLE_admin')")
     public ResponseEntity<String> deleteProgram(@PathVariable Long programId) {
         return programService.deleteProgramById(programId);
     }
