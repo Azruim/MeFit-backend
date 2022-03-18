@@ -1,7 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
 import fi.experis.mefit.models.Workout;
 import fi.experis.mefit.repositories.WorkoutRepository;
+import fi.experis.mefit.services.interfaces.WorkoutService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WorkoutServiceImpl implements WorkoutService{
+public class WorkoutServiceImpl implements WorkoutService {
 
     private final WorkoutRepository workoutRepository;
 

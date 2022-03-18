@@ -1,7 +1,8 @@
-package fi.experis.mefit.services;
+package fi.experis.mefit.services.implementations;
 
 import fi.experis.mefit.models.Exercise;
 import fi.experis.mefit.repositories.ExerciseRepository;
+import fi.experis.mefit.services.interfaces.ExerciseService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
