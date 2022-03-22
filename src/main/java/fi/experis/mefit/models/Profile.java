@@ -1,6 +1,7 @@
 package fi.experis.mefit.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,13 +20,13 @@ public class Profile {
     @Column
     private double height;
 
-    @Column
+    @Column(columnDefinition = "varchar(20)")
     private String fitnessLevel;
 
-    @Column(name = "medical_conditions")
+    @Column(columnDefinition = "varchar(255)")
     private String medicalConditions;
 
-    @Column
+    @Column(columnDefinition = "varchar(255)")
     private String disabilities;
 
     @OneToOne
@@ -49,12 +50,39 @@ public class Profile {
         return null;
     }
 
+    @OneToMany
+    @JoinColumn(name = "profile_id")
+    private List<Exercise> exercises;
+
+    @JsonGetter(value = "exercises")
+    public List<String> exercisesGetter() {
+        if (exercises != null) {
+            return exercises.stream()
+                    .map(exercise -> "/api/v1/exercises/" + exercise.getExerciseId()).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @OneToMany
+    @JoinColumn(name = "profile_id")
+    private List<Program> programs;
+
+    @JsonGetter(value = "programs")
+    public List<String> programsGetter() {
+        if (programs != null) {
+            return programs.stream()
+                    .map(program -> "/api/v1/programs/" + program.getProgramId()).collect(Collectors.toList());
+        }
+        return null;
+    }
 
     public Profile() {
         super();
     }
 
-    public Profile(String profileId, double weight, double height, String fitnessLevel, String medicalConditions, String disabilities, Address address, List<Goal> goals, List<Workout> workouts) {
+    public Profile(String profileId, double weight, double height, String fitnessLevel,
+                   String medicalConditions, String disabilities, Address address,
+                   List<Goal> goals, List<Workout> workouts, List<Exercise> exercises, List<Program> programs) {
         this.profileId = profileId;
         this.weight = weight;
         this.height = height;
@@ -64,24 +92,9 @@ public class Profile {
         this.address = address;
         this.goals = goals;
         this.workouts = workouts;
+        this.exercises = exercises;
+        this.programs = programs;
     }
-
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "profileId='" + profileId + '\'' +
-                ", weight=" + weight +
-                ", height=" + height +
-                ", fitnessLevel='" + fitnessLevel + '\'' +
-                ", medicalConditions='" + medicalConditions + '\'' +
-                ", disabilities='" + disabilities + '\'' +
-                ", address=" + address +
-                ", goals=" + goals +
-                ", workouts=" + workouts +
-                '}';
-    }
-
-
 
     public List<Workout> getWorkouts() {
         return workouts;
@@ -89,6 +102,22 @@ public class Profile {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
     }
 
     public String getFitnessLevel() {
@@ -155,5 +184,20 @@ public class Profile {
         this.address = address;
     }
 
-
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "profileId='" + profileId + '\'' +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", fitnessLevel='" + fitnessLevel + '\'' +
+                ", medicalConditions='" + medicalConditions + '\'' +
+                ", disabilities='" + disabilities + '\'' +
+                ", address=" + address +
+                ", goals=" + goals +
+                ", workouts=" + workouts +
+                ", exercises=" + exercises +
+                ", programs=" + programs +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package fi.experis.mefit.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,13 +16,17 @@ public class Goal {
     @Column(name = "goal_id")
     private Long goalId;
 
-    @Column(name = "end_date")
+    @Column(columnDefinition = "timestamp")
     private Date endDate;
 
-    @Column
+    @Column(columnDefinition = "timestamp")
+    private Date startDate;
+
+    @Column(columnDefinition = "boolean default false")
     private boolean achieved;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
@@ -42,14 +47,6 @@ public class Goal {
             joinColumns = { @JoinColumn(name = "goal_id")},
             inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
     private List<Exercise> exercises;
-
-    @JsonGetter(value = "profile")
-    public String profileGetter() {
-        if (profile != null) {
-            return "/api/v1/profiles/" + profile.getProfileId();
-        }
-        return null;
-    }
 
     @JsonGetter(value = "exercises")
     public List<String> exerciseGetter() {
@@ -81,9 +78,11 @@ public class Goal {
         super();
     }
 
-    public Goal(Long goalId, Date endDate, boolean achieved, Profile profile, Program program, List<Workout> workouts, List<Exercise> exercises) {
+    public Goal(Long goalId, Date endDate, Date startDate, boolean achieved,
+                Profile profile, Program program, List<Workout> workouts, List<Exercise> exercises) {
         this.goalId = goalId;
         this.endDate = endDate;
+        this.startDate = startDate;
         this.achieved = achieved;
         this.profile = profile;
         this.program = program;
@@ -105,6 +104,14 @@ public class Goal {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public boolean isAchieved() {
@@ -152,6 +159,7 @@ public class Goal {
         return "Goal{" +
                 "goalId=" + goalId +
                 ", endDate=" + endDate +
+                ", startDate=" + startDate +
                 ", achieved=" + achieved +
                 ", profile=" + profile +
                 ", program=" + program +

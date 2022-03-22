@@ -13,7 +13,7 @@ public class Set {
     @Column(name = "set_id")
     private Long setId;
 
-    @Column(name = "exercise_repetitions")
+    @Column(columnDefinition = "int")
     private int exerciseRepetitions;
 
     @OneToOne

@@ -11,8 +11,8 @@ public class GoalWorkout {
     @Column(name = "goal_workout_id")
     private Long goalWorkoutId;
 
-    @Column
-    private Date endDate;
+    @Column(columnDefinition = "boolean default false")
+    private boolean complete;
 
     @ManyToOne
     @JoinColumn(name = "workout_id")
@@ -26,11 +26,29 @@ public class GoalWorkout {
         super();
     }
 
-    public GoalWorkout(Long goalWorkoutId, Date endDate, Workout workout, Goal goal) {
+    public GoalWorkout(Long goalWorkoutId, boolean complete, Workout workout, Goal goal) {
         this.goalWorkoutId = goalWorkoutId;
-        this.endDate = endDate;
+        this.complete = complete;
         this.workout = workout;
         this.goal = goal;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    @Override
+    public String toString() {
+        return "GoalWorkout{" +
+                "goalWorkoutId=" + goalWorkoutId +
+                ", complete=" + complete +
+                ", workout=" + workout +
+                ", goal=" + goal +
+                '}';
     }
 
     public Long getGoalWorkoutId() {
@@ -39,14 +57,6 @@ public class GoalWorkout {
 
     public void setGoalWorkoutId(Long goalWorkoutId) {
         this.goalWorkoutId = goalWorkoutId;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public Workout getWorkout() {
@@ -65,13 +75,4 @@ public class GoalWorkout {
         this.goal = goal;
     }
 
-    @Override
-    public String toString() {
-        return "GoalWorkout{" +
-                "goalWorkoutId=" + goalWorkoutId +
-                ", endDate=" + endDate +
-                ", workout=" + workout +
-                ", goal=" + goal +
-                '}';
-    }
 }

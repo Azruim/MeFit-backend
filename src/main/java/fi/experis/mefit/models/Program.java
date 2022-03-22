@@ -13,32 +13,48 @@ public class Program {
     @Column(name = "program_id")
     private Long programId;
 
-    @Column(length = 40)
+    @Column(columnDefinition = "varchar(40)")
     private String name;
 
-    @Column(length = 40)
+    @Column(columnDefinition = "varchar(40)")
     private String category;
 
-    @OneToMany(mappedBy = "goalId")
+    @OneToMany
+    @JoinColumn(name = "goal_id")
     @JsonIgnore
     private List<Goal> goals;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany
     @JoinTable(name = "program_workout",
             joinColumns = {@JoinColumn(name = "program_id")},
             inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     private List<Workout> workouts;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
     public Program() {
         super();
     }
 
-    public Program(Long programId, String name, String category, List<Goal> goals, List<Workout> workouts) {
+    public Program(Long programId, String name, String category, List<Goal> goals,
+                   List<Workout> workouts, Profile profile) {
         this.programId = programId;
         this.name = name;
         this.category = category;
         this.goals = goals;
         this.workouts = workouts;
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Long getProgramId() {
@@ -89,6 +105,7 @@ public class Program {
                 ", category='" + category + '\'' +
                 ", goals=" + goals +
                 ", workouts=" + workouts +
+                ", profile=" + profile +
                 '}';
     }
 }

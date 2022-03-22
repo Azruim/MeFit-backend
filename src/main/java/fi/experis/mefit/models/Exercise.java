@@ -13,24 +13,25 @@ public class Exercise {
     @Column(name = "exercise_id")
     private Long exerciseId;
 
-    @Column(length = 40)
+    @Column(columnDefinition = "varchar(40)")
     private String name;
 
-    @Column
+    @Column(columnDefinition = "varchar(255)")
     private String description;
 
-    @Column(length = 40, name = "target_muscle_group")
+    @Column(columnDefinition = "varchar(40)")
     private String targetMuscleGroup;
 
-    @Column
+    @Column(columnDefinition = "varchar(255)")
     private String image;
 
-    @Column String fitnessLevel;
+    @Column(columnDefinition = "varchar(40)")
+    private String fitnessLevel;
 
-    @Column(name = "vid_link")
+    @Column(columnDefinition = "varchar(255)")
     private String vidLink;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany
     @JsonIgnore
     @JoinTable(
             name = "goal_exercise",
@@ -38,11 +39,17 @@ public class Exercise {
             inverseJoinColumns = {@JoinColumn(name = "goal_id")})
     private List<Goal> goals;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
     public Exercise() {
         super();
     }
 
-    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup, String image, String fitnessLevel, String vidLink, List<Goal> goals) {
+    public Exercise(Long exerciseId, String name, String description, String targetMuscleGroup,
+                    String image, String fitnessLevel, String vidLink, List<Goal> goals, Profile profile) {
         this.exerciseId = exerciseId;
         this.name = name;
         this.description = description;
@@ -51,6 +58,15 @@ public class Exercise {
         this.fitnessLevel = fitnessLevel;
         this.vidLink = vidLink;
         this.goals = goals;
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public String getFitnessLevel() {
@@ -72,6 +88,7 @@ public class Exercise {
                 ", fitnessLevel='" + fitnessLevel + '\'' +
                 ", vidLink='" + vidLink + '\'' +
                 ", goals=" + goals +
+                ", profile=" + profile +
                 '}';
     }
 
@@ -130,5 +147,4 @@ public class Exercise {
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
     }
-
 }

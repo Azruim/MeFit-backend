@@ -10,33 +10,33 @@ public class Address {
     @Column(name = "address_id")
     private Long addressId;
 
-    @Column(length = 100, name = "address_line_1")
-    private String addressLine1;
+    @Column(columnDefinition = "varchar(100)")
+    private String addressLine_1;
 
-    @Column(length = 100, name = "address_line_2")
-    private String addressLine2;
+    @Column(columnDefinition = "varchar(100)")
+    private String addressLine_2;
 
-    @Column(length = 100, name = "address_line_3")
-    private String addressLine3;
+    @Column(columnDefinition = "varchar(100)")
+    private String addressLine_3;
 
-    @Column(length = 10, name = "postal_code")
+    @Column(columnDefinition = "varchar(10)")
     private String postalCode;
 
-    @Column(length = 60)
+    @Column(columnDefinition = "varchar(60)")
     private String city;
 
-    @Column(length = 60)
+    @Column(columnDefinition = "varchar(60)")
     private String country;
 
     public Address() {
         super();
     }
 
-    public Address(Long addressId, String addressLine1, String addressLine2, String addressLine3, String postalCode, String city, String country) {
+    public Address(Long addressId, String addressLine_1, String addressLine_2, String addressLine_3, String postalCode, String city, String country) {
         this.addressId = addressId;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.addressLine3 = addressLine3;
+        this.addressLine_1 = addressLine_1;
+        this.addressLine_2 = addressLine_2;
+        this.addressLine_3 = addressLine_3;
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
@@ -50,28 +50,28 @@ public class Address {
         this.addressId = addressId;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
+    public String getAddressLine_1() {
+        return addressLine_1;
     }
 
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
+    public void setAddressLine_1(String addressLine_1) {
+        this.addressLine_1 = addressLine_1;
     }
 
-    public String getAddressLine2() {
-        return addressLine2;
+    public String getAddressLine_2() {
+        return addressLine_2;
     }
 
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
+    public void setAddressLine_2(String addressLine_2) {
+        this.addressLine_2 = addressLine_2;
     }
 
-    public String getAddressLine3() {
-        return addressLine3;
+    public String getAddressLine_3() {
+        return addressLine_3;
     }
 
-    public void setAddressLine3(String addressLine3) {
-        this.addressLine3 = addressLine3;
+    public void setAddressLine_3(String addressLine_3) {
+        this.addressLine_3 = addressLine_3;
     }
 
     public String getPostalCode() {
@@ -102,9 +102,9 @@ public class Address {
     public String toString() {
         return "Address{" +
                 "addressId=" + addressId +
-                ", addressLine1='" + addressLine1 + '\'' +
-                ", addressLine2='" + addressLine2 + '\'' +
-                ", addressLine3='" + addressLine3 + '\'' +
+                ", addressLine1='" + addressLine_1 + '\'' +
+                ", addressLine2='" + addressLine_2 + '\'' +
+                ", addressLine3='" + addressLine_3 + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
