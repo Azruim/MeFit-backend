@@ -1,7 +1,6 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,12 +32,10 @@ public class Profile {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany
-    @JoinColumn(name = "profile_id")
+    @OneToMany(mappedBy = "profile")
     private List<Goal> goals;
 
-    @OneToMany
-    @JoinColumn(name = "profile_id")
+    @OneToMany(mappedBy = "profile")
     private List<Workout> workouts;
 
     @JsonGetter(value = "workouts")
@@ -50,8 +47,7 @@ public class Profile {
         return null;
     }
 
-    @OneToMany
-    @JoinColumn(name = "profile_id")
+    @OneToMany(mappedBy = "profile")
     private List<Exercise> exercises;
 
     @JsonGetter(value = "exercises")
@@ -63,8 +59,7 @@ public class Profile {
         return null;
     }
 
-    @OneToMany
-    @JoinColumn(name = "profile_id")
+    @OneToMany(mappedBy = "profile")
     private List<Program> programs;
 
     @JsonGetter(value = "programs")

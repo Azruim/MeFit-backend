@@ -1,7 +1,8 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,10 +24,9 @@ public class Goal {
     private Date startDate;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean achieved;
+    private Boolean achieved;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
@@ -70,6 +70,14 @@ public class Goal {
     public String programGetter() {
         if (program != null) {
             return "/api/v1/programs/" + program.getProgramId();
+        }
+        return null;
+    }
+
+    @JsonGetter(value = "profile")
+    public String profileGetter() {
+        if (profile != null) {
+            return "/api/v1/profiles/" + profile.getProfileId();
         }
         return null;
     }

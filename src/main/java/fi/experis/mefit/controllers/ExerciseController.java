@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.Exercise;
+import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.services.interfaces.ExerciseService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @SecurityRequirement(name = "keycloak_implicit")
@@ -40,8 +41,8 @@ public class ExerciseController {
     }
 
     @PatchMapping("/{exerciseId}")
-    public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
-        return exerciseService.updateExercise(exerciseId, exercise);
+    public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Map<Object, Object> fields) {
+        return exerciseService.updateExercise(exerciseId, fields);
     }
 
     @DeleteMapping("/{exerciseId}")

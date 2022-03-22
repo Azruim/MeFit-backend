@@ -1,13 +1,17 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Workout;
+import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.WorkoutRepository;
 import fi.experis.mefit.services.interfaces.WorkoutService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
@@ -58,13 +62,20 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<String> updateWorkout(Long workoutId, Workout workout) {
+    public ResponseEntity<String> updateWorkout(Long workoutId, Map<Object, Object> fields) {
         try {
-            if (workoutRepository.existsById(workoutId)) {
-                workout.setWorkoutId(workoutId);
+            Optional<Workout> workout = workoutRepository.findById(workoutId);
+            if (workout.isPresent()) {
+                fields.forEach((Object key, Object value) -> {
+                    Field field = ReflectionUtils.findField(Workout.class, (String) key);
+                    assert field != null;
+                    field.trySetAccessible();
+                    ReflectionUtils.setField(field, workout.get(), value);
+                });
+                Workout updatedWorkout = workoutRepository.save(workout.get());
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/workouts/" + workoutRepository.save(workout).getWorkoutId());
+                        .body("/api/v1/workouts/" + updatedWorkout.getWorkoutId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

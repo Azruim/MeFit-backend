@@ -1,15 +1,16 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Exercise;
+import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.repositories.ExerciseRepository;
 import fi.experis.mefit.services.interfaces.ExerciseService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
-import java.util.Comparator;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,13 +65,20 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, Map<Object, Object> fields) {
         try {
-            if (exerciseRepository.findById(exerciseId).isPresent()) {
-                exercise.setExerciseId(exerciseId);
+            Optional<Exercise> exercise = exerciseRepository.findById(exerciseId);
+            if (exercise.isPresent()) {
+                fields.forEach((Object key, Object value) -> {
+                    Field field = ReflectionUtils.findField(Exercise.class, (String) key);
+                    assert field != null;
+                    field.trySetAccessible();
+                    ReflectionUtils.setField(field, exercise.get(), value);
+                });
+                Exercise updatedExercise = exerciseRepository.save(exercise.get());
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
+                        .body("/api/v1/exercises/" + updatedExercise.getExerciseId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

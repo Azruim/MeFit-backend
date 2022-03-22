@@ -1,11 +1,13 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.Goal;
+import fi.experis.mefit.models.entities.Goal;
 import fi.experis.mefit.services.interfaces.GoalService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -31,8 +33,8 @@ public class GoalController {
     }
 
     @PatchMapping("/{goalId}")
-    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody Goal goal) {
-        return goalService.updateGoal(goalId, goal);
+    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody Map<Object, Object> fields) {
+        return goalService.updateGoal(goalId, fields);
     }
 
     @DeleteMapping("/{goalId}")

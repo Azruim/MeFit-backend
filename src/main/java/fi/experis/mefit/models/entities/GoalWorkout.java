@@ -1,7 +1,6 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity(name = "goal_workout")
 public class GoalWorkout {

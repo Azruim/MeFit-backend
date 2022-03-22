@@ -1,4 +1,4 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import javax.persistence.*;
 

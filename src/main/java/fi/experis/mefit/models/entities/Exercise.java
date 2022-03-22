@@ -1,4 +1,4 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

@@ -1,11 +1,16 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Profile;
+import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.repositories.ProfileRepository;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -44,13 +49,21 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ResponseEntity<String> updateProfile(String profileId, Profile profile) {
+    public ResponseEntity<String> updateProfile(String profileId, Map<Object, Object> fields) {
         try {
-            if (profileRepository.existsById(profileId)) {
-                profile.setProfileId(profileId);
+            Optional<Profile> profile = profileRepository.findById(profileId);
+            if (profile.isPresent()) {
+                fields.forEach((Object key, Object value) -> {
+                    System.out.println();
+                    Field field = ReflectionUtils.findField(Profile.class, (String) key);
+                    assert field != null;
+                    field.trySetAccessible();
+                    ReflectionUtils.setField(field, profile.get(), value);
+                });
+                Profile updatedProfile = profileRepository.save(profile.get());
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/profiles/" + profileRepository.save(profile).getProfileId());
+                        .body("/api/v1/profiles/" + updatedProfile.getProfileId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

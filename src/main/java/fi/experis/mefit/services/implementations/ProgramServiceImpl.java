@@ -1,13 +1,17 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.Program;
+import fi.experis.mefit.models.entities.Program;
 import fi.experis.mefit.repositories.ProgramRepository;
 import fi.experis.mefit.services.interfaces.ProgramService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
@@ -61,13 +65,20 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<String> updateProgramById(Long programId, Program program) {
+    public ResponseEntity<String> updateProgramById(Long programId, Map<Object, Object> fields) {
         try {
-            if (programRepository.existsById(programId)) {
-                program.setProgramId(programId);
+            Optional<Program> program = programRepository.findById(programId);
+            if (program.isPresent()) {
+                fields.forEach((Object key, Object value) -> {
+                    Field field = ReflectionUtils.findField(Program.class, (String) key);
+                    assert field != null;
+                    field.trySetAccessible();
+                    ReflectionUtils.setField(field, program.get(), value);
+                });
+                Program updatedProgram = programRepository.save(program.get());
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/programs/" + programRepository.save(program).getProgramId());
+                        .body("/api/v1/programs/" + updatedProgram.getProgramId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

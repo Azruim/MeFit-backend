@@ -1,11 +1,13 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.Profile;
+import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -31,8 +33,8 @@ public class ProfileController {
     }
 
     @PatchMapping("/{profileId}")
-    public ResponseEntity<String> updateProfile(@PathVariable String profileId, @RequestBody Profile profile) {
-        return profileService.updateProfile(profileId, profile);
+    public ResponseEntity<String> updateProfile(@PathVariable String profileId, @RequestBody Map<Object, Object> fields) {
+        return profileService.updateProfile(profileId, fields);
     }
 
     @DeleteMapping("/{profileId}")

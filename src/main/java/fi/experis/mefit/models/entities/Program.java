@@ -1,4 +1,4 @@
-package fi.experis.mefit.models;
+package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,8 +19,7 @@ public class Program {
     @Column(columnDefinition = "varchar(40)")
     private String category;
 
-    @OneToMany
-    @JoinColumn(name = "goal_id")
+    @OneToMany(mappedBy = "goalId")
     @JsonIgnore
     private List<Goal> goals;
 
