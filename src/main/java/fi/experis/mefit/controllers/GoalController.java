@@ -1,5 +1,6 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.dtos.GoalDTO;
 import fi.experis.mefit.models.entities.Goal;
 import fi.experis.mefit.services.interfaces.GoalService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -28,7 +29,7 @@ public class GoalController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addGoal(@RequestBody Goal goal) {
+    public ResponseEntity<String> addGoal(@RequestBody GoalDTO goal) {
         return goalService.addGoal(goal);
     }
 

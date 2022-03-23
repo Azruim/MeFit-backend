@@ -24,16 +24,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     private Profile convertToEntity(ProfileDTO profileDTO) {
-        Profile profile = modelMapper.map(profileDTO, Profile.class);
-        if (profileDTO.getProfileId() != null) {
-            Profile oldProfile = profileRepository.getById(profileDTO.getProfileId());
-            Address oldAddress = addressRepository.getById(oldProfile.getAddress().getAddressId());
-            Address address = profile.getAddress();
-            address.setAddressId(oldAddress.getAddressId());
-            profile.setAddress(address);
-            profile.setProfileId(oldProfile.getProfileId());
-        }
-        return profile;
+        return modelMapper.map(profileDTO, Profile.class);
     }
 
     @Override
@@ -44,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService {
             profile.setAddress(address);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body("/api/v1/profiles/" + profile.getProfileId());
+                    .body("/api/v1/profiles/" + profileRepository.save(profile).getProfileId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -69,13 +60,16 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ResponseEntity<String> updateProfile(String profileId, ProfileDTO updatedProfile) {
         try {
-            updatedProfile.setProfileId(profileId);
             Profile profile = convertToEntity(updatedProfile);
+            Address oldAddress = addressRepository.getById(profileRepository.getById(profileId).getAddress().getAddressId());
+            Address address = profile.getAddress();
+            address.setAddressId(oldAddress.getAddressId());
+            profile.setAddress(address);
+            profile.setProfileId(profileId);
             addressRepository.save(profile.getAddress());
-            profileRepository.save(profile);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body("/api/v1/profiles/" + updatedProfile.getProfileId());
+                    .body("/api/v1/profiles/" + profileRepository.save(profile).getProfileId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
