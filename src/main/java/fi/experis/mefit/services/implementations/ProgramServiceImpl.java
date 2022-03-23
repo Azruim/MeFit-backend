@@ -1,37 +1,48 @@
 package fi.experis.mefit.services.implementations;
 
+import fi.experis.mefit.models.dtos.ProgramDTO;
 import fi.experis.mefit.models.entities.Program;
+import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.ProgramRepository;
+import fi.experis.mefit.repositories.WorkoutRepository;
 import fi.experis.mefit.services.interfaces.ProgramService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
+    private final WorkoutRepository workoutRepository;
 
-    public ProgramServiceImpl(ProgramRepository programRepository) {
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    public ProgramServiceImpl(ProgramRepository programRepository, WorkoutRepository workoutRepository) {
         this.programRepository = programRepository;
+        this.workoutRepository = workoutRepository;
+    }
+
+    private Program convertToEntity(ProgramDTO programDTO) {
+        Program program = modelMapper.map(programDTO, Program.class);
+        if (program.getWorkouts() != null) program.setWorkouts(workoutRepository.findAllById(program.getWorkouts().stream()
+                .map(Workout::getWorkoutId).collect(Collectors.toList())));
+        return program;
     }
 
     @Override
-    public ResponseEntity<String> addProgram(Program program) {
+    public ResponseEntity<String> addProgram(ProgramDTO programDTO) {
         try {
+            Program program = convertToEntity(programDTO);
             return ResponseEntity
-                    .status(HttpStatus.OK)
+                    .status(HttpStatus.CREATED)
                     .body("/api/v1/programs/" + programRepository.save(program).getProgramId());
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -65,22 +76,14 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<String> updateProgramById(Long programId, Map<Object, Object> fields) {
+    public ResponseEntity<String> updateProgramById(Long programId, ProgramDTO programDTO) {
         try {
-            Optional<Program> program = programRepository.findById(programId);
-            if (program.isPresent()) {
-                fields.forEach((Object key, Object value) -> {
-                    Field field = ReflectionUtils.findField(Program.class, (String) key);
-                    assert field != null;
-                    field.trySetAccessible();
-                    ReflectionUtils.setField(field, program.get(), value);
-                });
-                Program updatedProgram = programRepository.save(program.get());
-                return ResponseEntity
-                        .status(HttpStatus.OK)
-                        .body("/api/v1/programs/" + updatedProgram.getProgramId());
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            Program program = convertToEntity(programDTO);
+            program.setProgramId(programId);
+            Program updatedProgram = programRepository.save(program);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("/api/v1/programs/" + updatedProgram.getProgramId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
