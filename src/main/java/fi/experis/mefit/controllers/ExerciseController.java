@@ -41,8 +41,8 @@ public class ExerciseController {
     }
 
     @PatchMapping("/{exerciseId}")
-    public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Map<Object, Object> fields) {
-        return exerciseService.updateExercise(exerciseId, fields);
+    public ResponseEntity<String> updateExercise(@PathVariable Long exerciseId, @RequestBody Exercise exercise) {
+        return exerciseService.updateExercise(exerciseId, exercise);
     }
 
     @DeleteMapping("/{exerciseId}")

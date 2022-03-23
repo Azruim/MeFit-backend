@@ -7,9 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,20 +63,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> updateExercise(Long exerciseId, Map<Object, Object> fields) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise) {
         try {
-            Optional<Exercise> exercise = exerciseRepository.findById(exerciseId);
-            if (exercise.isPresent()) {
-                fields.forEach((Object key, Object value) -> {
-                    Field field = ReflectionUtils.findField(Exercise.class, (String) key);
-                    assert field != null;
-                    field.trySetAccessible();
-                    ReflectionUtils.setField(field, exercise.get(), value);
-                });
-                Exercise updatedExercise = exerciseRepository.save(exercise.get());
+            Optional<Exercise> oldExercise = exerciseRepository.findById(exerciseId);
+            if (oldExercise.isPresent()) {
+                exercise.setExerciseId(exerciseId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/exercises/" + updatedExercise.getExerciseId());
+                        .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

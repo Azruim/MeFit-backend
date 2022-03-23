@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ExerciseService {
     ResponseEntity<String> addExercise(Exercise exercise);
     ResponseEntity<Exercise> getExerciseById(Long exerciseId);
-    ResponseEntity<String> updateExercise(Long exerciseId, Map<Object, Object> fields);
+    ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise);
     ResponseEntity<String> deleteExerciseById(Long exercise);
     ResponseEntity<List<Exercise>> getAllExercises();
 }
