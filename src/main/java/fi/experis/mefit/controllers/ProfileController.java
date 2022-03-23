@@ -3,6 +3,8 @@ package fi.experis.mefit.controllers;
 import fi.experis.mefit.models.dtos.ProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.services.interfaces.ProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,23 +23,27 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
+    @Operation(summary = "Get profile by id")
     @GetMapping("/{profileId}")
-    public ResponseEntity<Profile> getProfileById(@PathVariable String profileId) {
+    public ResponseEntity<Profile> getProfileById(@Parameter(description = "Id of profile to be searched") @PathVariable String profileId) {
         return profileService.getProfileById(profileId);
     }
 
+    @Operation(summary = "Create a new profile")
     @PostMapping
     public ResponseEntity<String> addProfile(@RequestBody ProfileDTO profile) {
         return profileService.addProfile(profile);
     }
 
+    @Operation(summary = "Update profile by id")
     @PatchMapping("/{profileId}")
-    public ResponseEntity<String> updateProfile(@PathVariable String profileId, @RequestBody ProfileDTO profile) {
+    public ResponseEntity<String> updateProfile(@Parameter(description = "Id of profile to be updated") @PathVariable String profileId, @RequestBody ProfileDTO profile) {
         return profileService.updateProfile(profileId, profile);
     }
 
+    @Operation(summary = "Delete profile by id")
     @DeleteMapping("/{profileId}")
-    public ResponseEntity<String> deleteProfile(@PathVariable String profileId) {
+    public ResponseEntity<String> deleteProfile(@Parameter(description = "Id of profile to be deleted") @PathVariable String profileId) {
         return profileService.deleteProfileById(profileId);
     }
 }
