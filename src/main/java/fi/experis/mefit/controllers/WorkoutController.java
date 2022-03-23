@@ -1,5 +1,6 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.dtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.services.interfaces.WorkoutService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -8,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,13 +36,13 @@ public class WorkoutController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addWorkout(@RequestBody Workout workout) {
+    public ResponseEntity<String> addWorkout(@RequestBody WorkoutDTO workout) {
         return workoutService.addWorkout(workout);
     }
 
     @PatchMapping("/{workoutId}")
-    public ResponseEntity<String> updateWorkout(@PathVariable Long workoutId, @RequestBody Map<Object, Object> fields) {
-        return workoutService.updateWorkout(workoutId, fields);
+    public ResponseEntity<String> updateWorkout(@PathVariable Long workoutId, @RequestBody WorkoutDTO workout) {
+        return workoutService.updateWorkout(workoutId, workout);
     }
 
     @DeleteMapping("/{workoutId}")
