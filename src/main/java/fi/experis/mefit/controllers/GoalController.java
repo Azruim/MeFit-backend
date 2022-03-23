@@ -3,6 +3,8 @@ package fi.experis.mefit.controllers;
 import fi.experis.mefit.models.dtos.GoalDTO;
 import fi.experis.mefit.models.entities.Goal;
 import fi.experis.mefit.services.interfaces.GoalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,23 +25,27 @@ public class GoalController {
         this.goalService = goalService;
     }
 
+    @Operation(summary = "Get goal by id")
     @GetMapping("/{goalId}")
-    public ResponseEntity<Goal> getGoalById(@PathVariable Long goalId) {
+    public ResponseEntity<Goal> getGoalById(@Parameter(description = "Id of goal to be searched") @PathVariable Long goalId) {
         return goalService.getGoalById(goalId);
     }
 
+    @Operation(summary = "Create a new goal")
     @PostMapping
     public ResponseEntity<String> addGoal(@RequestBody GoalDTO goal) {
         return goalService.addGoal(goal);
     }
 
+    @Operation(summary = "Update goal by id")
     @PatchMapping("/{goalId}")
-    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody GoalDTO goal) {
+    public ResponseEntity<String> updateGoal(@Parameter(description = "Id of goal to be updated") @PathVariable Long goalId, @RequestBody GoalDTO goal) {
         return goalService.updateGoal(goalId, goal);
     }
 
+    @Operation(summary = "Delete goal by id")
     @DeleteMapping("/{goalId}")
-    public ResponseEntity<String> deleteGoal(@PathVariable Long goalId) {
+    public ResponseEntity<String> deleteGoal(@Parameter(description = "Id of goal to be deleted")@PathVariable Long goalId) {
         return goalService.deleteGoalById(goalId);
     }
 }

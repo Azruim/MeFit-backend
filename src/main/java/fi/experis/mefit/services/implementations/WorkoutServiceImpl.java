@@ -1,8 +1,10 @@
 package fi.experis.mefit.services.implementations;
 
+import fi.experis.mefit.models.dtos.SetDTO;
 import fi.experis.mefit.models.dtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Set;
 import fi.experis.mefit.models.entities.Workout;
+import fi.experis.mefit.repositories.ExerciseRepository;
 import fi.experis.mefit.repositories.SetRepository;
 import fi.experis.mefit.repositories.WorkoutRepository;
 import fi.experis.mefit.services.interfaces.WorkoutService;
@@ -10,8 +12,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 @Service
 public class WorkoutServiceImpl implements WorkoutService {
@@ -21,15 +26,31 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, SetRepository setRepository) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, SetRepository setRepository, ExerciseRepository exerciseRepository) {
         this.workoutRepository = workoutRepository;
         this.setRepository = setRepository;
     }
 
     private Workout convertToEntity(WorkoutDTO workoutDTO) {
         Workout workout = modelMapper.map(workoutDTO, Workout.class);
-        if (workout.getSets() != null) workout.setSets(setRepository.findAllById(workout.getSets().stream()
-                .map(Set::getSetId).collect(Collectors.toList())));
+        if (workout.getSets() != null) {
+            List<Set> sets = workout.getSets();
+            List<Set> newSets = new ArrayList<>();
+            for (Set set : sets) {
+                if (set.getSetId() == null) {
+                    newSets.add(setRepository.save(set));
+                } else {
+                    Optional<Set> oldSet = setRepository.findById(set.getSetId());
+                    if (oldSet.isPresent()) {
+                        newSets.add(oldSet.get());
+                    } else {
+                        newSets.add(set);
+                    }
+                }
+
+            }
+            workout.setSets(newSets);
+        }
         return workout;
     }
 

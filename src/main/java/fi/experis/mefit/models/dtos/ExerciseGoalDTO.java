@@ -2,13 +2,13 @@ package fi.experis.mefit.models.dtos;
 
 public class ExerciseGoalDTO {
 
-    private Long exerciseID;
+    private Long exerciseId;
 
-    public Long getExerciseID() {
-        return exerciseID;
+    public Long getExerciseId() {
+        return exerciseId;
     }
 
-    public void setExerciseID(Long exerciseID) {
-        this.exerciseID = exerciseID;
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 }
