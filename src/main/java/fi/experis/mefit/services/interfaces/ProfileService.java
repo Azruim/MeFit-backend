@@ -1,13 +1,12 @@
 package fi.experis.mefit.services.interfaces;
 
+import fi.experis.mefit.models.dtos.ProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
 public interface ProfileService {
-    ResponseEntity<String> addProfile(Profile profile);
+    ResponseEntity<String> addProfile(ProfileDTO profile);
     ResponseEntity<Profile> getProfileById(String profile);
-    ResponseEntity<String> updateProfile(String profileId, Map<Object, Object> fields);
+    ResponseEntity<String> updateProfile(String profileId, ProfileDTO profile);
     ResponseEntity<String> deleteProfileById(String profileId);
 }
