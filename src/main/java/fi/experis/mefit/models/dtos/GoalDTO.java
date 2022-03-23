@@ -9,10 +9,10 @@ public class GoalDTO {
     private Date endDate;
     private Date startDate;
     private Boolean achieved;
-    private ProfileDTO profile;
-    private ProgramDTO program;
-    private List<WorkoutDTO> workouts;
-    private List<ExerciseDTO> exercises;
+    private ProfileGoalDTO profile;
+    private ProgramGoalDTO program;
+    private List<WorkoutGoalDTO> workouts;
+    private List<ExerciseGoalDTO> exercises;
 
     public Long getGoalId() {
         return goalId;
@@ -46,35 +46,35 @@ public class GoalDTO {
         this.achieved = achieved;
     }
 
-    public ProfileDTO getProfile() {
+    public ProfileGoalDTO getProfile() {
         return profile;
     }
 
-    public void setProfile(ProfileDTO profile) {
+    public void setProfile(ProfileGoalDTO profile) {
         this.profile = profile;
     }
 
-    public ProgramDTO getProgram() {
+    public ProgramGoalDTO getProgram() {
         return program;
     }
 
-    public void setProgram(ProgramDTO program) {
+    public void setProgram(ProgramGoalDTO program) {
         this.program = program;
     }
 
-    public List<WorkoutDTO> getWorkouts() {
+    public List<WorkoutGoalDTO> getWorkouts() {
         return workouts;
     }
 
-    public void setWorkouts(List<WorkoutDTO> workouts) {
+    public void setWorkouts(List<WorkoutGoalDTO> workouts) {
         this.workouts = workouts;
     }
 
-    public List<ExerciseDTO> getExercises() {
+    public List<ExerciseGoalDTO> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<ExerciseDTO> exercises) {
+    public void setExercises(List<ExerciseGoalDTO> exercises) {
         this.exercises = exercises;
     }
 }

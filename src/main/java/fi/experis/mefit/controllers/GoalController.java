@@ -34,8 +34,8 @@ public class GoalController {
     }
 
     @PatchMapping("/{goalId}")
-    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody Map<Object, Object> fields) {
-        return goalService.updateGoal(goalId, fields);
+    public ResponseEntity<String> updateGoal(@PathVariable Long goalId, @RequestBody GoalDTO goal) {
+        return goalService.updateGoal(goalId, goal);
     }
 
     @DeleteMapping("/{goalId}")

@@ -1,10 +1,12 @@
 package fi.experis.mefit.models.dtos;
 
+import fi.experis.mefit.models.entities.Exercise;
+
 public class SetDTO {
 
     private Long setId;
     private int exerciseRepetitions;
-    private ExerciseDTO exercise;
+    private Exercise exercise;
 
     public Long getSetId() {
         return setId;
@@ -22,11 +24,11 @@ public class SetDTO {
         this.exerciseRepetitions = exerciseRepetitions;
     }
 
-    public ExerciseDTO getExercise() {
+    public Exercise getExercise() {
         return exercise;
     }
 
-    public void setExercise(ExerciseDTO exercise) {
+    public void setExercise(Exercise exercise) {
         this.exercise = exercise;
     }
 }

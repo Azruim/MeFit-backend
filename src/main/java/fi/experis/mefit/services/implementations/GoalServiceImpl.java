@@ -1,10 +1,9 @@
 package fi.experis.mefit.services.implementations;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.experis.mefit.models.dtos.GoalDTO;
 import fi.experis.mefit.models.dtos.ProfileDTO;
-import fi.experis.mefit.models.entities.Address;
-import fi.experis.mefit.models.entities.Goal;
-import fi.experis.mefit.models.entities.Profile;
+import fi.experis.mefit.models.entities.*;
 import fi.experis.mefit.repositories.*;
 import fi.experis.mefit.services.interfaces.GoalService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +16,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GoalServiceImpl implements GoalService {
@@ -27,9 +27,10 @@ public class GoalServiceImpl implements GoalService {
     private final WorkoutRepository workoutRepository;
     private final ExerciseRepository exerciseRepository;
 
-    TimeZone utc = TimeZone.getTimeZone("UTC");
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+    /*TimeZone utc = TimeZone.getTimeZone("UTC");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");*/
     private final ModelMapper modelMapper = new ModelMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GoalServiceImpl(GoalRepository goalRepository, ProfileRepository profileRepository,
                            ProgramRepository programRepository, WorkoutRepository workoutRepository,
@@ -42,7 +43,14 @@ public class GoalServiceImpl implements GoalService {
     }
 
     private Goal convertToEntity(GoalDTO goalDTO) {
-        return modelMapper.map(goalDTO, Goal.class);
+        Goal goal = modelMapper.map(goalDTO, Goal.class);
+        if (goal.getProfile() != null) goal.setProfile(profileRepository.getById(goal.getProfile().getProfileId()));
+        if (goal.getProgram() != null) goal.setProgram(programRepository.getById(goal.getProgram().getProgramId()));
+        if (goal.getExercises() != null) goal.setExercises(exerciseRepository.findAllById(goal.getExercises().stream()
+                .map(Exercise::getExerciseId).collect(Collectors.toList())));
+        if (goal.getWorkouts() != null) goal.setWorkouts(workoutRepository.findAllById(goal.getWorkouts().stream()
+                .map(Workout::getWorkoutId).collect(Collectors.toList())));
+        return goal;
     }
 
     @Override
@@ -74,31 +82,36 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<String> updateGoal(Long goalId, Map<Object, Object> fields) {
-        try {
-            Optional<Goal> goal = goalRepository.findById(goalId);
-            if (goal.isPresent()) {
-                fields.forEach((Object key, Object value) -> {
-                    Field field = ReflectionUtils.findField(Goal.class, (String) key);
-                    assert field != null;
-                    field.trySetAccessible();
-                    if (key == "endDate" || key == "startDate") {
-                        try {
-                            f.setTimeZone(utc);
-                            Date date = f.parse(value.toString());
-                            ReflectionUtils.setField(field, goal.get(), date);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        ReflectionUtils.setField(field, goal.get(), value);
-                    }
+    public ResponseEntity<String> updateGoal(Long goalId, GoalDTO goalDTO) {
 
-                });
-                Goal updatedGoal = goalRepository.save(goal.get());
+        Map<String, Object> map = objectMapper.convertValue(obj, Map.class);
+        System.out.println(map);
+
+        fields.forEach((Object key, Object value) -> {
+            Field field = ReflectionUtils.findField(Goal.class, (String) key);
+            assert field != null;
+            field.trySetAccessible();
+            if (key == "endDate" || key == "startDate") {
+                try {
+                    f.setTimeZone(utc);
+                    Date date = f.parse(value.toString());
+                    ReflectionUtils.setField(field, goal.get(), date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ReflectionUtils.setField(field, goal.get(), value);
+            }
+
+        });
+        try {
+            Optional<Goal> oldGoal = goalRepository.findById(goalId);
+            if (oldGoal.isPresent()) {
+                Goal goal = convertToEntity(goalDTO);
+                goal.setGoalId(goalId);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/goals/" + updatedGoal.getGoalId());
+                        .body("/api/v1/goals/" + goalRepository.save(goal).getGoalId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {
