@@ -1,5 +1,6 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.dtos.ProgramDTO;
 import fi.experis.mefit.models.entities.Program;
 import fi.experis.mefit.services.interfaces.ProgramService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -8,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,13 +36,13 @@ public class ProgramController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProgram(@RequestBody Program program) {
+    public ResponseEntity<String> addProgram(@RequestBody ProgramDTO program) {
         return programService.addProgram(program);
     }
 
     @PatchMapping("/{programId}")
-    public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody Map<Object, Object> fields) {
-        return programService.updateProgramById(programId, fields);
+    public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody ProgramDTO program) {
+        return programService.updateProgramById(programId, program);
     }
 
     @DeleteMapping("{programId}")
