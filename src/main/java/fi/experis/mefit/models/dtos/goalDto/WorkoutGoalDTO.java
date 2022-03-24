@@ -4,6 +4,9 @@ public class WorkoutGoalDTO {
 
     private Long workoutId;
 
+    public WorkoutGoalDTO() {
+    }
+
     public WorkoutGoalDTO(Long workoutId) {
         this.workoutId = workoutId;
     }

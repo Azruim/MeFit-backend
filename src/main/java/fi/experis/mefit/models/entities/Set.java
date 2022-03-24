@@ -2,11 +2,10 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fi.experis.mefit.models.dtos.goalDto.ExerciseDTO;
+import fi.experis.mefit.models.dtos.goalDto.ExerciseGoalDTO;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 public class Set {
@@ -24,9 +23,9 @@ public class Set {
     private Exercise exercise;
 
     @JsonGetter("exercise")
-    public ExerciseDTO exercisesGetter() {
+    public ExerciseGoalDTO exercisesGetter() {
         if (exercise != null) {
-            return new ExerciseDTO(exercise.getExerciseId());
+            return new ExerciseGoalDTO(exercise.getExerciseId());
         }
         return null;
     }

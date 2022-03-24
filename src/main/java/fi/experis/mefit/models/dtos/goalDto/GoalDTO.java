@@ -1,8 +1,5 @@
 package fi.experis.mefit.models.dtos.goalDto;
 
-import fi.experis.mefit.models.entities.GoalExercise;
-import fi.experis.mefit.models.entities.GoalWorkout;
-
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +10,11 @@ public class GoalDTO {
     private Boolean achieved;
     private ProfileGoalDTO profile;
     private ProgramGoalDTO program;
-    private List<GoalWorkout> workouts;
-    private List<GoalExercise> exercises;
+    private List<GoalWorkoutDTO> workouts;
+    private List<GoalExerciseDTO> exercises;
+
+    public GoalDTO() {
+    }
 
     public Date getEndDate() {
         return endDate;
@@ -56,19 +56,19 @@ public class GoalDTO {
         this.program = program;
     }
 
-    public List<GoalWorkout> getWorkouts() {
+    public List<GoalWorkoutDTO> getWorkouts() {
         return workouts;
     }
 
-    public void setWorkouts(List<GoalWorkout> workouts) {
+    public void setWorkouts(List<GoalWorkoutDTO> workouts) {
         this.workouts = workouts;
     }
 
-    public List<GoalExercise> getExercises() {
+    public List<GoalExerciseDTO> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<GoalExercise> exercises) {
+    public void setExercises(List<GoalExerciseDTO> exercises) {
         this.exercises = exercises;
     }
 }

@@ -39,38 +39,17 @@ public class GoalServiceImpl implements GoalService {
     }
 
     private Goal convertToEntity(GoalDTO goalDTO) {
-        modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        List<GoalWorkout> workouts = goalDTO.getWorkouts();
-        List<GoalExercise> exercises = goalDTO.getExercises();
         Goal goal = modelMapper.map(goalDTO, Goal.class);
-        goal.setExercises(exercises.stream().map(GoalExercise::getExercise).toList());
-        goal.setWorkouts(workouts.stream().map(GoalWorkout::getWorkout).toList());
         if (goal.getProfile() != null) goal.setProfile(profileRepository.getById(goal.getProfile().getProfileId()));
         if (goal.getProgram() != null) goal.setProgram(programRepository.getById(goal.getProgram().getProgramId()));
         if (goal.getExercises() != null) {
-            List<GoalExercise> goalExercises = goal.getGoalExercises().stream().map(goalExercise -> {
-                if (goalExercise.getGoalExerciseId() != null) {
-                    Optional<GoalExercise> optionalGoalExercise = goalExerciseRepository.findById(goalExercise.getGoalExerciseId());
-                    if (optionalGoalExercise.isPresent()) {
-                        optionalGoalExercise.get().setComplete(goalExercise.isComplete());
-                        goalExerciseRepository.save(optionalGoalExercise.get());
-                        return optionalGoalExercise.get();
-                    }
-                    return null;
-                } else {
-                    GoalExercise newGoalExercise = new GoalExercise();
-                    Optional<Exercise> exercise = exerciseRepository.findById(goalExercise.getExercise().getExerciseId());
-                    if (exercise.isPresent()) {
-                        newGoalExercise.setExercise(exercise.get());
-                        newGoalExercise.setComplete(goalExercise.isComplete());
-                        newGoalExercise.setGoal(goal);
-                    }
-                    return newGoalExercise;
-                }
+            // TODO: POST
+            //CREATE NEW GOAL WITH EXERCISE
+            List<Exercise> exercises = goal.getExercises().stream().map(exercise -> {
+                Optional<Exercise> oldExercise = exerciseRepository.findById(exercise.getExerciseId());
+                return oldExercise.orElse(null);
             }).toList();
-            goal.setGoalExercises(goalExercises);
-            goal.setExercises(exerciseRepository.findAllById(goal.getExercises().stream()
-                    .map(Exercise::getExerciseId).toList()));
+            goal.setExercises(exercises);
         }
         if (goal.getWorkouts() != null) {
             List<GoalWorkout> goalWorkouts = goal.getGoalWorkouts().stream().map(goalWorkout -> {
@@ -96,6 +75,7 @@ public class GoalServiceImpl implements GoalService {
             goal.setWorkouts(workoutRepository.findAllById(goal.getWorkouts().stream()
                     .map(Workout::getWorkoutId).toList()));
         }
+        goal.getGoalExercises().forEach(System.out::println);
         return goal;
     }
 

@@ -22,7 +22,7 @@ public class Goal {
     @Column(columnDefinition = "timestamp")
     private Date startDate;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column
     private Boolean achieved;
 
     @ManyToOne

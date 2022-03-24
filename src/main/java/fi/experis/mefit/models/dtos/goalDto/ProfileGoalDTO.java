@@ -4,6 +4,9 @@ public class ProfileGoalDTO {
 
     private String profileId;
 
+    public ProfileGoalDTO() {
+    }
+
     public String getProfileId() {
         return profileId;
     }

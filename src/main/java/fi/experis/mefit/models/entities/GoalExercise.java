@@ -2,7 +2,7 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fi.experis.mefit.models.dtos.goalDto.ExerciseDTO;
+import fi.experis.mefit.models.dtos.goalDto.ExerciseGoalDTO;
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ public class GoalExercise {
     @Column(name = "goal_exercise_id")
     private Long goalExerciseId;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column
     private boolean complete;
 
     @ManyToOne
@@ -23,9 +23,9 @@ public class GoalExercise {
     private Exercise exercise;
 
     @JsonGetter("exercise")
-    public ExerciseDTO workoutGetter() {
+    public ExerciseGoalDTO workoutGetter() {
         if (exercise != null) {
-            return new ExerciseDTO(exercise.getExerciseId());
+            return new ExerciseGoalDTO(exercise.getExerciseId());
         }
         return null;
     }

@@ -4,6 +4,9 @@ public class ProgramGoalDTO {
 
     private Long programId;
 
+    public ProgramGoalDTO() {
+    }
+
     public Long getProgramId() {
         return programId;
     }

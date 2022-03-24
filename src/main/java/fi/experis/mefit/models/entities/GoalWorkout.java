@@ -15,7 +15,7 @@ public class GoalWorkout {
     @Column(name = "goal_workout_id")
     private Long goalWorkoutId;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column
     private boolean complete;
 
     @ManyToOne
