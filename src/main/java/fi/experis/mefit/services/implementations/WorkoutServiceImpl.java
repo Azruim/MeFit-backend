@@ -105,10 +105,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                         .status(HttpStatus.OK)
                         .body("/api/v1/workouts/" + updatedWorkout.getWorkoutId());
             }
-            else
-                return ResponseEntity
-                        .status(HttpStatus.NO_CONTENT)
-                        .build();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

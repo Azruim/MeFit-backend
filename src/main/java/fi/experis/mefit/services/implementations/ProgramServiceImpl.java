@@ -88,10 +88,7 @@ public class ProgramServiceImpl implements ProgramService {
                         .status(HttpStatus.OK)
                         .body("/api/v1/programs/" + updatedProgram.getProgramId());
             }
-            else
-                return ResponseEntity
-                        .status(HttpStatus.NO_CONTENT)
-                        .build();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
