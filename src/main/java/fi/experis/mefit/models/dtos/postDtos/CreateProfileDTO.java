@@ -2,7 +2,7 @@ package fi.experis.mefit.models.dtos.postDtos;
 
 import fi.experis.mefit.models.dtos.nestedDtos.AddressDTO;
 
-public class ProfileDTO {
+public class CreateProfileDTO {
 
     private String profileId;
     private double weight;

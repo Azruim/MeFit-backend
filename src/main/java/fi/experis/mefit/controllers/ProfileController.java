@@ -1,6 +1,7 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.postDtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.CreateProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.UpdateProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,13 +32,13 @@ public class ProfileController {
 
     @Operation(summary = "Create a new profile")
     @PostMapping
-    public ResponseEntity<String> addProfile(@RequestBody ProfileDTO profile) {
+    public ResponseEntity<String> addProfile(@RequestBody CreateProfileDTO profile) {
         return profileService.addProfile(profile);
     }
 
     @Operation(summary = "Update profile by id")
     @PatchMapping("/{profileId}")
-    public ResponseEntity<String> updateProfile(@Parameter(description = "Id of profile to be updated") @PathVariable String profileId, @RequestBody ProfileDTO profile) {
+    public ResponseEntity<String> updateProfile(@Parameter(description = "Id of profile to be updated") @PathVariable String profileId, @RequestBody UpdateProfileDTO profile) {
         return profileService.updateProfile(profileId, profile);
     }
 
