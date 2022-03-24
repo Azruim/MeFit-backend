@@ -1,6 +1,7 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.postDtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.CreateProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.UpdateProfileDTO;
 import fi.experis.mefit.models.entities.Address;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.repositories.AddressRepository;
@@ -23,12 +24,16 @@ public class ProfileServiceImpl implements ProfileService {
         this.addressRepository = addressRepository;
     }
 
-    private Profile convertToEntity(ProfileDTO profileDTO) {
-        return modelMapper.map(profileDTO, Profile.class);
+    private Profile convertToEntity(CreateProfileDTO createProfileDTO) {
+        return modelMapper.map(createProfileDTO, Profile.class);
+    }
+
+    private Profile convertToEntity(UpdateProfileDTO updateProfileDTO) {
+        return modelMapper.map(updateProfileDTO, Profile.class);
     }
 
     @Override
-    public ResponseEntity<String> addProfile(ProfileDTO newProfile) {
+    public ResponseEntity<String> addProfile(CreateProfileDTO newProfile) {
         try {
             Profile profile = convertToEntity(newProfile);
             Address address = addressRepository.save(profile.getAddress());
@@ -50,7 +55,7 @@ public class ProfileServiceImpl implements ProfileService {
                         .status(HttpStatus.OK)
                         .body(profileRepository.findById(profileId).get());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -58,7 +63,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ResponseEntity<String> updateProfile(String profileId, ProfileDTO updatedProfile) {
+    public ResponseEntity<String> updateProfile(String profileId, UpdateProfileDTO updatedProfile) {
         try {
             Profile profile = convertToEntity(updatedProfile);
             Address oldAddress = addressRepository.getById(profileRepository.getById(profileId).getAddress().getAddressId());
@@ -80,10 +85,10 @@ public class ProfileServiceImpl implements ProfileService {
     public ResponseEntity<String> deleteProfileById(String profileId) {
         try {
             profileRepository.deleteById(profileId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e){
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

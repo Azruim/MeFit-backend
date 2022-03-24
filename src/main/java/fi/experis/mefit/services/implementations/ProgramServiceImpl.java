@@ -99,11 +99,11 @@ public class ProgramServiceImpl implements ProgramService {
     public ResponseEntity<String> deleteProgramById(Long programId) {
         try {
             programRepository.deleteById(programId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

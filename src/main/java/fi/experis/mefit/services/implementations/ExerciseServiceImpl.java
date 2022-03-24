@@ -49,7 +49,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                         .status(HttpStatus.OK)
                         .body(exerciseRepository.findById(exerciseId).get());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -94,10 +94,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<String> deleteExerciseById(Long exerciseId) {
         try {
             exerciseRepository.deleteById(exerciseId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataAccessException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
