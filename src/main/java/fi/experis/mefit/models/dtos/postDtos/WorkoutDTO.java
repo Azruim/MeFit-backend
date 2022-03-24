@@ -6,18 +6,9 @@ import java.util.List;
 
 public class WorkoutDTO {
 
-    private Long workoutId;
     private String name;
     private String type;
     private List<SetDTO> sets;
-
-    public Long getWorkoutId() {
-        return workoutId;
-    }
-
-    public void setWorkoutId(Long workoutId) {
-        this.workoutId = workoutId;
-    }
 
     public String getName() {
         return name;
