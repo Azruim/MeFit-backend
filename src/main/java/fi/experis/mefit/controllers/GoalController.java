@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.postDtos.GoalDTO;
+import fi.experis.mefit.models.dtos.goalDto.GoalDTO;
 import fi.experis.mefit.models.entities.Goal;
 import fi.experis.mefit.services.interfaces.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public class GoalController {
 
     @Operation(summary = "Get goal by id")
     @GetMapping("/{goalId}")
-    public ResponseEntity<Goal> getGoalById(@Parameter(description = "Id of goal to be searched") @PathVariable Long goalId) {
+    public ResponseEntity<GoalDTO> getGoalById(@Parameter(description = "Id of goal to be searched") @PathVariable Long goalId) {
         return goalService.getGoalById(goalId);
     }
 

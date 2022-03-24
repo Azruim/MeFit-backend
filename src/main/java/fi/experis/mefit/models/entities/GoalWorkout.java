@@ -1,5 +1,9 @@
 package fi.experis.mefit.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fi.experis.mefit.models.dtos.goalDto.WorkoutGoalDTO;
+
 import javax.persistence.*;
 
 @Entity(name = "goal_workout")
@@ -7,6 +11,7 @@ public class GoalWorkout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     @Column(name = "goal_workout_id")
     private Long goalWorkoutId;
 
@@ -17,7 +22,16 @@ public class GoalWorkout {
     @JoinColumn(name = "workout_id")
     private Workout workout;
 
+    @JsonGetter("workout")
+    public WorkoutGoalDTO workoutGetter() {
+        if (workout != null) {
+            return new WorkoutGoalDTO(workout.getWorkoutId());
+        }
+        return null;
+    }
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "goal_id")
     private Goal goal;
 

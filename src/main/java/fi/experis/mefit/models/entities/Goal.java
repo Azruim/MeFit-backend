@@ -1,6 +1,7 @@
 package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -31,6 +32,14 @@ public class Goal {
     @ManyToOne
     @JoinColumn(name = "program_id")
     private Program program;
+
+    @OneToMany(mappedBy = "goal")
+    @JsonIgnore
+    private List<GoalExercise> goalExercises;
+
+    @OneToMany(mappedBy = "goal")
+    @JsonIgnore
+    private List<GoalWorkout> goalWorkouts;
 
     @ManyToMany
     @JoinTable(
@@ -158,6 +167,30 @@ public class Goal {
 
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
+    }
+
+    public Boolean getAchieved() {
+        return achieved;
+    }
+
+    public void setAchieved(Boolean achieved) {
+        this.achieved = achieved;
+    }
+
+    public List<GoalExercise> getGoalExercises() {
+        return goalExercises;
+    }
+
+    public void setGoalExercises(List<GoalExercise> goalExercises) {
+        this.goalExercises = goalExercises;
+    }
+
+    public List<GoalWorkout> getGoalWorkouts() {
+        return goalWorkouts;
+    }
+
+    public void setGoalWorkouts(List<GoalWorkout> goalWorkouts) {
+        this.goalWorkouts = goalWorkouts;
     }
 
     @Override

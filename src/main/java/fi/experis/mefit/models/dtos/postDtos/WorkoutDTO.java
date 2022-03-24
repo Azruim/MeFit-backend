@@ -1,6 +1,6 @@
 package fi.experis.mefit.models.dtos.postDtos;
 
-import fi.experis.mefit.models.dtos.postDtos.SetDTO;
+import fi.experis.mefit.models.entities.Workout;
 
 import java.util.List;
 
@@ -10,6 +10,12 @@ public class WorkoutDTO {
     private String name;
     private String type;
     private List<SetDTO> sets;
+
+    public WorkoutDTO(Workout workout) {
+        this.workoutId = workout.getWorkoutId();
+        this.name = workout.getName();
+        this.type = workout.getType();
+    }
 
     public Long getWorkoutId() {
         return workoutId;

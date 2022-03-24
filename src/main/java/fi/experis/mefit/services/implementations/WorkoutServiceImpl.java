@@ -31,6 +31,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     private Workout convertToEntity(WorkoutDTO workoutDTO) {
+        modelMapper.getConfiguration().setAmbiguityIgnored(true);
         Workout workout = modelMapper.map(workoutDTO, Workout.class);
         if (workout.getSets() != null) {
             List<Set> sets = workout.getSets();

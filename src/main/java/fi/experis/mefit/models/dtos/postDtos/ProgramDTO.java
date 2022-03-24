@@ -1,6 +1,6 @@
 package fi.experis.mefit.models.dtos.postDtos;
 
-import fi.experis.mefit.models.dtos.nestedDtos.WorkoutGoalDTO;
+import fi.experis.mefit.models.dtos.goalDto.WorkoutGoalDTO;
 
 import java.util.List;
 

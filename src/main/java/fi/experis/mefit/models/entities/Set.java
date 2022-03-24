@@ -1,9 +1,12 @@
 package fi.experis.mefit.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fi.experis.mefit.models.dtos.goalDto.ExerciseDTO;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Set {
@@ -20,11 +23,19 @@ public class Set {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
+    @JsonGetter("exercise")
+    public ExerciseDTO exercisesGetter() {
+        if (exercise != null) {
+            return new ExerciseDTO(exercise.getExerciseId());
+        }
+        return null;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "workout_set",
-            joinColumns = { @JoinColumn(name = "workout_id")},
-            inverseJoinColumns = {@JoinColumn(name = "set_id")})
+            joinColumns = { @JoinColumn(name = "set_id")},
+            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
     @JsonIgnore
     private List<Workout> workout;
 

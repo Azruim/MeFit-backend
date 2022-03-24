@@ -1,4 +1,4 @@
-package fi.experis.mefit.models.dtos.nestedDtos;
+package fi.experis.mefit.models.dtos.goalDto;
 
 public class ProgramGoalDTO {
 
@@ -11,5 +11,4 @@ public class ProgramGoalDTO {
     public void setProgramId(Long programId) {
         this.programId = programId;
     }
-
 }

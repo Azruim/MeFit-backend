@@ -41,6 +41,9 @@ public class Workout {
             inverseJoinColumns = {@JoinColumn(name = "set_id")})
     private List<Set> sets;
 
+    @OneToMany(mappedBy = "workout")
+    @JsonIgnore
+    private List<GoalWorkout> goalWorkouts;
 
     @ManyToOne
     @JsonIgnore
@@ -116,6 +119,14 @@ public class Workout {
 
     public void setSets(List<Set> sets) {
         this.sets = sets;
+    }
+
+    public List<GoalWorkout> getGoalWorkouts() {
+        return goalWorkouts;
+    }
+
+    public void setGoalWorkouts(List<GoalWorkout> goalWorkouts) {
+        this.goalWorkouts = goalWorkouts;
     }
 
     @Override

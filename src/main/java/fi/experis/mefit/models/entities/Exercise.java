@@ -31,6 +31,10 @@ public class Exercise {
     @Column(columnDefinition = "varchar(255)")
     private String vidLink;
 
+    @OneToMany(mappedBy = "exercise")
+    @JsonIgnore
+    private List<GoalExercise> goalExercises;
+
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -146,5 +150,13 @@ public class Exercise {
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
+    }
+
+    public List<GoalExercise> getGoalExercises() {
+        return goalExercises;
+    }
+
+    public void setGoalExercises(List<GoalExercise> goalExercises) {
+        this.goalExercises = goalExercises;
     }
 }

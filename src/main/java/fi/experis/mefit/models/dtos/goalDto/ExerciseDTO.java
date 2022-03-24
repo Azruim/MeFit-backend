@@ -1,8 +1,12 @@
-package fi.experis.mefit.models.dtos.nestedDtos;
+package fi.experis.mefit.models.dtos.goalDto;
 
-public class ExerciseGoalDTO {
+public class ExerciseDTO {
 
     private Long exerciseId;
+
+    public ExerciseDTO(Long exerciseId) {
+        this.exerciseId = exerciseId;
+    }
 
     public Long getExerciseId() {
         return exerciseId;

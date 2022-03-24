@@ -10,9 +10,6 @@ public class ProgramWorkout {
     @Column(name = "program_workout_id")
     private Long goalWorkoutId;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean complete;
-
     @ManyToOne
     @JoinColumn(name = "workout_id")
     private Workout workout;
@@ -27,14 +24,6 @@ public class ProgramWorkout {
 
     public void setGoalWorkoutId(Long goalWorkoutId) {
         this.goalWorkoutId = goalWorkoutId;
-    }
-
-    public boolean isComplete() {
-        return complete;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
     }
 
     public Workout getWorkout() {
