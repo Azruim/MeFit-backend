@@ -1,7 +1,6 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.SetDTO;
-import fi.experis.mefit.models.dtos.WorkoutDTO;
+import fi.experis.mefit.models.dtos.postDtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Set;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.ExerciseRepository;

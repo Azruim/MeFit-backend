@@ -1,6 +1,6 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.ProfileDTO;
 import fi.experis.mefit.models.entities.Address;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.repositories.AddressRepository;

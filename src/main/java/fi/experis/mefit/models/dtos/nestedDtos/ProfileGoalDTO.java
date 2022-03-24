@@ -1,4 +1,4 @@
-package fi.experis.mefit.models.dtos;
+package fi.experis.mefit.models.dtos.nestedDtos;
 
 public class ProfileGoalDTO {
 

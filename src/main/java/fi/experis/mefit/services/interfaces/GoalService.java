@@ -1,6 +1,6 @@
 package fi.experis.mefit.services.interfaces;
 
-import fi.experis.mefit.models.dtos.GoalDTO;
+import fi.experis.mefit.models.dtos.postDtos.GoalDTO;
 import fi.experis.mefit.models.entities.Goal;
 import org.springframework.http.ResponseEntity;
 

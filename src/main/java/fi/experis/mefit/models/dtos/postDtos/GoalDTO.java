@@ -1,4 +1,9 @@
-package fi.experis.mefit.models.dtos;
+package fi.experis.mefit.models.dtos.postDtos;
+
+import fi.experis.mefit.models.dtos.nestedDtos.ExerciseGoalDTO;
+import fi.experis.mefit.models.dtos.nestedDtos.ProfileGoalDTO;
+import fi.experis.mefit.models.dtos.nestedDtos.ProgramGoalDTO;
+import fi.experis.mefit.models.dtos.nestedDtos.WorkoutGoalDTO;
 
 import java.util.Date;
 import java.util.List;

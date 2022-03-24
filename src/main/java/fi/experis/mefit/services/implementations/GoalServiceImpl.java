@@ -1,9 +1,6 @@
 package fi.experis.mefit.services.implementations;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.shaded.json.JSONObject;
-import fi.experis.mefit.models.dtos.GoalDTO;
-import fi.experis.mefit.models.dtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.GoalDTO;
 import fi.experis.mefit.models.entities.*;
 import fi.experis.mefit.repositories.*;
 import fi.experis.mefit.services.interfaces.GoalService;
@@ -11,15 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 

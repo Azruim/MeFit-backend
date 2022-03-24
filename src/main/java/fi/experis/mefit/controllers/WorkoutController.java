@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.WorkoutDTO;
+import fi.experis.mefit.models.dtos.postDtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.services.interfaces.WorkoutService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.ProgramDTO;
+import fi.experis.mefit.models.dtos.postDtos.ProgramDTO;
 import fi.experis.mefit.models.entities.Program;
 import fi.experis.mefit.services.interfaces.ProgramService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

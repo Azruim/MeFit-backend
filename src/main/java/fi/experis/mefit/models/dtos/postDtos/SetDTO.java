@@ -1,4 +1,6 @@
-package fi.experis.mefit.models.dtos;
+package fi.experis.mefit.models.dtos.postDtos;
+
+import fi.experis.mefit.models.dtos.nestedDtos.ExerciseGoalDTO;
 
 public class SetDTO {
 

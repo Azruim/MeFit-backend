@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.ProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;

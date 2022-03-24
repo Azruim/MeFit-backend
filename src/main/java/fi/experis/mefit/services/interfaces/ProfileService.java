@@ -1,6 +1,6 @@
 package fi.experis.mefit.services.interfaces;
 
-import fi.experis.mefit.models.dtos.ProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.ProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
 import org.springframework.http.ResponseEntity;
 
