@@ -1,11 +1,8 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.getDtos.ProfileGetDTO;
-import fi.experis.mefit.models.dtos.postDtos.CreateProfileDTO;
-import fi.experis.mefit.models.dtos.postDtos.UpdateProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.get.ProfileGetDTO;
 import fi.experis.mefit.models.dtos.profileDtos.post.CreateProfileDTO;
 import fi.experis.mefit.models.dtos.profileDtos.patch.UpdateProfileDTO;
-import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
