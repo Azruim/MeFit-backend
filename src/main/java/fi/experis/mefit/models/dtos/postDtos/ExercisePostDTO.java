@@ -1,6 +1,6 @@
 package fi.experis.mefit.models.dtos.postDtos;
 
-public class ExerciseDTO {
+public class ExercisePostDTO {
     private String name;
     private String description;
     private String muscleGroup;

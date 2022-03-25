@@ -1,15 +1,14 @@
-package fi.experis.mefit.models.dtos.postDtos;
+package fi.experis.mefit.models.dtos.getDtos;
 
-import fi.experis.mefit.models.dtos.goalDto.WorkoutGoalDTO;
+import fi.experis.mefit.models.dtos.nestedDtos.WorkoutProgramDTO;
 
 import java.util.List;
 
-public class ProgramDTO {
-
+public class ProgramGetDTO {
     private Long programId;
     private String name;
     private String category;
-    private List<WorkoutGoalDTO> workouts;
+    private List<WorkoutGetDTO> workouts;
 
     public Long getProgramId() {
         return programId;
@@ -35,11 +34,11 @@ public class ProgramDTO {
         this.category = category;
     }
 
-    public List<WorkoutGoalDTO> getWorkouts() {
+    public List<WorkoutGetDTO> getWorkouts() {
         return workouts;
     }
 
-    public void setWorkouts(List<WorkoutGoalDTO> workouts) {
+    public void setWorkouts(List<WorkoutGetDTO> workouts) {
         this.workouts = workouts;
     }
 }

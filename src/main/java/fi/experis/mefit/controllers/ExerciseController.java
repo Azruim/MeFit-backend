@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.postDtos.ExerciseDTO;
+import fi.experis.mefit.models.dtos.postDtos.ExercisePostDTO;
 import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.services.interfaces.ExerciseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @SecurityRequirement(name = "keycloak_implicit")
@@ -42,13 +41,13 @@ public class ExerciseController {
 
     @Operation(summary = "Create a new exercise")
     @PostMapping
-    public ResponseEntity<String> addExercise(@RequestBody ExerciseDTO exercise) {
+    public ResponseEntity<String> addExercise(@RequestBody ExercisePostDTO exercise) {
         return exerciseService.addExercise(exercise);
     }
 
     @Operation(summary = "Update exercise by id")
     @PatchMapping("/{exerciseId}")
-    public ResponseEntity<String> updateExercise(@Parameter(description = "Id of exercise to be updated") @PathVariable Long exerciseId, @RequestBody ExerciseDTO exercise) {
+    public ResponseEntity<String> updateExercise(@Parameter(description = "Id of exercise to be updated") @PathVariable Long exerciseId, @RequestBody ExercisePostDTO exercise) {
         return exerciseService.updateExercise(exerciseId, exercise);
     }
 

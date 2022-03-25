@@ -1,5 +1,6 @@
 package fi.experis.mefit.services.implementations;
 
+import fi.experis.mefit.models.dtos.getDtos.WorkoutGetDTO;
 import fi.experis.mefit.models.dtos.postDtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Set;
 import fi.experis.mefit.models.entities.Workout;
@@ -68,12 +69,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<Workout> getWorkoutById(Long workoutId) {
+    public ResponseEntity<WorkoutGetDTO> getWorkoutById(Long workoutId) {
         try {
             if (workoutRepository.findById(workoutId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(workoutRepository.findById(workoutId).get());
+                        .body(modelMapper.map(workoutRepository.findById(workoutId).get(), WorkoutGetDTO.class));
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
@@ -83,11 +84,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<List<Workout>> getAllWorkouts(){
+    public ResponseEntity<List<WorkoutGetDTO>> getAllWorkouts(){
         try {
+            List<WorkoutGetDTO> workoutDTOList = workoutRepository.findAll().stream().map(workout -> modelMapper.map(workout, WorkoutGetDTO.class)).toList();
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(workoutRepository.findAll());
+                    .body(workoutDTOList);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

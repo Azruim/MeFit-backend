@@ -1,6 +1,6 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.postDtos.ExerciseDTO;
+import fi.experis.mefit.models.dtos.postDtos.ExercisePostDTO;
 import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.repositories.ExerciseRepository;
 import fi.experis.mefit.services.interfaces.ExerciseService;
@@ -24,14 +24,14 @@ public class ExerciseServiceImpl implements ExerciseService {
         this.exerciseRepository = exerciseRepository;
     }
 
-    private Exercise convertToEntity(ExerciseDTO exerciseDTO) {
-        return modelMapper.map(exerciseDTO, Exercise.class);
+    private Exercise convertToEntity(ExercisePostDTO exercisePostDTO) {
+        return modelMapper.map(exercisePostDTO, Exercise.class);
     }
 
     @Override
-    public ResponseEntity<String> addExercise(ExerciseDTO exerciseDTO) {
+    public ResponseEntity<String> addExercise(ExercisePostDTO exercisePostDTO) {
         try {
-            Exercise exercise = convertToEntity(exerciseDTO);
+            Exercise exercise = convertToEntity(exercisePostDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
@@ -72,9 +72,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> updateExercise(Long exerciseId, ExerciseDTO exerciseDTO) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, ExercisePostDTO exercisePostDTO) {
         try {
-            Exercise exercise = convertToEntity(exerciseDTO);
+            Exercise exercise = convertToEntity(exercisePostDTO);
             Optional<Exercise> existingExercise = exerciseRepository.findById(exerciseId);
             if (existingExercise.isPresent()) {
                 exercise.setExerciseId(exerciseId);

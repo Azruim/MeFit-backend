@@ -1,6 +1,7 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.postDtos.ProgramDTO;
+import fi.experis.mefit.models.dtos.getDtos.ProgramGetDTO;
+import fi.experis.mefit.models.dtos.postDtos.ProgramPostDTO;
 import fi.experis.mefit.models.entities.Program;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.ProgramRepository;
@@ -27,17 +28,17 @@ public class ProgramServiceImpl implements ProgramService {
         this.workoutRepository = workoutRepository;
     }
 
-    private Program convertToEntity(ProgramDTO programDTO) {
-        Program program = modelMapper.map(programDTO, Program.class);
+    private Program convertToEntity(ProgramPostDTO programPostDTO) {
+        Program program = modelMapper.map(programPostDTO, Program.class);
         if (program.getWorkouts() != null) program.setWorkouts(workoutRepository.findAllById(program.getWorkouts().stream()
                 .map(Workout::getWorkoutId).collect(Collectors.toList())));
         return program;
     }
 
     @Override
-    public ResponseEntity<String> addProgram(ProgramDTO programDTO) {
+    public ResponseEntity<String> addProgram(ProgramPostDTO programPostDTO) {
         try {
-            Program program = convertToEntity(programDTO);
+            Program program = convertToEntity(programPostDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("/api/v1/programs/" + programRepository.save(program).getProgramId());
@@ -48,12 +49,12 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<Program> getProgramById(Long programId) {
+    public ResponseEntity<ProgramGetDTO> getProgramById(Long programId) {
         try {
             if (programRepository.findById(programId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(programRepository.findById(programId).get());
+                        .body(modelMapper.map(programRepository.findById(programId).get(), ProgramGetDTO.class));
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -64,11 +65,13 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<List<Program>> getAllPrograms() {
+    public ResponseEntity<List<ProgramGetDTO>> getAllPrograms() {
         try {
+            List<ProgramGetDTO> programGetDTOList = programRepository.findAll().stream()
+                    .map(program -> modelMapper.map(program, ProgramGetDTO.class)).toList();
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(programRepository.findAll());
+                    .body(programGetDTOList);
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
@@ -77,9 +80,9 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ResponseEntity<String> updateProgramById(Long programId, ProgramDTO programDTO) {
+    public ResponseEntity<String> updateProgramById(Long programId, ProgramPostDTO programPostDTO) {
         try {
-            Program program = convertToEntity(programDTO);
+            Program program = convertToEntity(programPostDTO);
             Optional<Program> existingProgram = programRepository.findById(programId);
             if (existingProgram.isPresent()) {
                 program.setProgramId(programId);

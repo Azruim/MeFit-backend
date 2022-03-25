@@ -1,5 +1,6 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.dtos.getDtos.WorkoutGetDTO;
 import fi.experis.mefit.models.dtos.postDtos.WorkoutDTO;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.services.interfaces.WorkoutService;
@@ -28,14 +29,14 @@ public class WorkoutController {
     @Operation(summary = "Get all workouts")
     @GetMapping
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<List<Workout>> getAllWorkouts() {
+    public ResponseEntity<List<WorkoutGetDTO>> getAllWorkouts() {
         return workoutService.getAllWorkouts();
     }
 
     @Operation(summary = "Get workout by id")
     @GetMapping("/{workoutId}")
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<Workout> getWorkoutById(@Parameter(description = "Id of workout to be searched") @PathVariable Long workoutId) {
+    public ResponseEntity<WorkoutGetDTO> getWorkoutById(@Parameter(description = "Id of workout to be searched") @PathVariable Long workoutId) {
         return workoutService.getWorkoutById(workoutId);
     }
 

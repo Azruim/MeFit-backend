@@ -1,8 +1,8 @@
-package fi.experis.mefit.models.dtos.postDtos;
+package fi.experis.mefit.models.dtos.goalDto;
 
 import fi.experis.mefit.models.dtos.goalDto.ExerciseGoalDTO;
 
-public class SetDTO {
+public class SetGoalDTO {
 
     private Long setId;
     private int exerciseRepetitions;
