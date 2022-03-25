@@ -18,7 +18,7 @@ public class Set {
     @Column(columnDefinition = "int")
     private int exerciseRepetitions;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 

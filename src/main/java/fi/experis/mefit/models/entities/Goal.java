@@ -35,11 +35,11 @@ public class Goal {
     @JoinColumn(name = "program_id")
     private Program program;
 
-    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "goal")
     @JsonIgnore
     private List<GoalExercise> goalExercises;
 
-    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "goal")
     @JsonIgnore
     private List<GoalWorkout> goalWorkouts;
 
