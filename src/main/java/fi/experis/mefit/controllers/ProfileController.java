@@ -1,5 +1,8 @@
 package fi.experis.mefit.controllers;
 
+import fi.experis.mefit.models.dtos.getDtos.ProfileGetDTO;
+import fi.experis.mefit.models.dtos.postDtos.CreateProfileDTO;
+import fi.experis.mefit.models.dtos.postDtos.UpdateProfileDTO;
 import fi.experis.mefit.models.dtos.profileDtos.post.CreateProfileDTO;
 import fi.experis.mefit.models.dtos.profileDtos.patch.UpdateProfileDTO;
 import fi.experis.mefit.models.entities.Profile;
@@ -26,7 +29,7 @@ public class ProfileController {
 
     @Operation(summary = "Get profile by id")
     @GetMapping("/{profileId}")
-    public ResponseEntity<Profile> getProfileById(@Parameter(description = "Id of profile to be searched") @PathVariable String profileId) {
+    public ResponseEntity<ProfileGetDTO> getProfileById(@Parameter(description = "Id of profile to be searched") @PathVariable String profileId) {
         return profileService.getProfileById(profileId);
     }
 
