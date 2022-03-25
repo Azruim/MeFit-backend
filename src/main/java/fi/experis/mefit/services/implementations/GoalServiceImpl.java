@@ -15,68 +15,21 @@ import java.util.*;
 public class GoalServiceImpl implements GoalService {
 
     private final GoalRepository goalRepository;
-    private final ProfileRepository profileRepository;
-    private final ProgramRepository programRepository;
-    private final WorkoutRepository workoutRepository;
-    private final ExerciseRepository exerciseRepository;
     private final GoalWorkoutRepository goalWorkoutRepository;
     private final GoalExerciseRepository goalExerciseRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
 
-    public GoalServiceImpl(GoalRepository goalRepository, ProfileRepository profileRepository,
-                           ProgramRepository programRepository, WorkoutRepository workoutRepository,
-                           ExerciseRepository exerciseRepository, GoalWorkoutRepository goalWorkoutRepository,
+    public GoalServiceImpl(GoalRepository goalRepository, GoalWorkoutRepository goalWorkoutRepository,
                            GoalExerciseRepository goalExerciseRepository) {
         this.goalRepository = goalRepository;
-        this.profileRepository = profileRepository;
-        this.programRepository = programRepository;
-        this.workoutRepository = workoutRepository;
-        this.exerciseRepository = exerciseRepository;
         this.goalWorkoutRepository = goalWorkoutRepository;
         this.goalExerciseRepository = goalExerciseRepository;
     }
 
     private Goal convertToEntity(GoalDTO goalDTO) {
-        Goal goal = modelMapper.map(goalDTO, Goal.class);
-        if (goal.getProfile() != null) goal.setProfile(profileRepository.getById(goal.getProfile().getProfileId()));
-        if (goal.getProgram() != null) goal.setProgram(programRepository.getById(goal.getProgram().getProgramId()));
-        if (goal.getExercises() != null) {
-            // TODO: POST
-            //CREATE NEW GOAL WITH EXERCISE
-            List<Exercise> exercises = goal.getExercises().stream().map(exercise -> {
-                Optional<Exercise> oldExercise = exerciseRepository.findById(exercise.getExerciseId());
-                return oldExercise.orElse(null);
-            }).toList();
-            goal.setExercises(exercises);
-        }
-        if (goal.getWorkouts() != null) {
-            List<GoalWorkout> goalWorkouts = goal.getGoalWorkouts().stream().map(goalWorkout -> {
-                if (goalWorkout.getGoalWorkoutId() != null) {
-                    Optional<GoalWorkout> optionalGoalWorkout = goalWorkoutRepository.findById(goalWorkout.getGoalWorkoutId());
-                    if (optionalGoalWorkout.isPresent()) {
-                        optionalGoalWorkout.get().setComplete(goalWorkout.isComplete());
-                        goalWorkoutRepository.save(optionalGoalWorkout.get());
-                        return optionalGoalWorkout.get();
-                    }
-                    return null;
-                }else {
-                    GoalWorkout newGoalWorkout = new GoalWorkout();
-                    Optional<Workout> workout = workoutRepository.findById(goalWorkout.getWorkout().getWorkoutId());
-                    if (workout.isPresent()) {
-                        newGoalWorkout.setComplete(goalWorkout.isComplete());
-                        newGoalWorkout.setWorkout(workout.get());
-                    }
-                    return newGoalWorkout;
-                }
-            }).toList();
-            goal.setGoalWorkouts(goalWorkouts);
-            goal.setWorkouts(workoutRepository.findAllById(goal.getWorkouts().stream()
-                    .map(Workout::getWorkoutId).toList()));
-        }
-        goal.getGoalExercises().forEach(System.out::println);
-        return goal;
+        return modelMapper.map(goalDTO, Goal.class);
     }
 
     private GoalDTO convertToDTO(Goal goal) {
@@ -87,15 +40,31 @@ public class GoalServiceImpl implements GoalService {
     @Override
     public ResponseEntity<String> addGoal(GoalDTO goalDTO) {
         try {
-            Goal goal = convertToEntity(goalDTO);
-
-            Goal newGoal = goalRepository.save(goal);
-
-
+            Goal goalEntity = convertToEntity(goalDTO);
+            Goal newGoal = goalRepository.save(goalEntity);
+            if (goalEntity.getGoalWorkouts() != null) {
+                List<GoalWorkout> goalWorkouts = goalWorkoutRepository.
+                        saveAll(goalEntity.getGoalWorkouts().stream().
+                                peek(goalWorkout -> {
+                                    goalWorkout.setGoal(newGoal);
+                                    goalWorkout.setGoalWorkoutId(null);
+                                }).toList());
+                newGoal.setGoalWorkouts(goalWorkouts);
+            }
+            if (goalEntity.getGoalExercises() != null) {
+                List<GoalExercise> goalExercises = goalExerciseRepository.
+                        saveAll(goalEntity.getGoalExercises().stream().
+                                peek(goalExercise -> {
+                                    goalExercise.setGoal(newGoal);
+                                    goalExercise.setGoalExerciseId(null);
+                                }).toList());
+                newGoal.setGoalExercises(goalExercises);
+            }
+            Goal goal = goalRepository.save(newGoal);
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body("/api/v1/goals/" + newGoal.getGoalId());
+                    .body("/api/v1/goals/" + goal.getGoalId());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -124,24 +93,35 @@ public class GoalServiceImpl implements GoalService {
         try {
             Optional<Goal> oldGoal = goalRepository.findById(goalId);
             if (oldGoal.isPresent()) {
-                Goal goal = convertToEntity(goalDTO);
-                goal.setGoalId(goalId);
-                Goal updatedGoal = goalRepository.save(goal);
-                if (goal.getGoalWorkouts() != null) {
-                    goal.getGoalWorkouts().forEach(goalWorkout -> {
-                        goalWorkout.setGoal(updatedGoal);
-                        goalWorkoutRepository.save(goalWorkout);
-                    });
+                Goal goalEntity = convertToEntity(goalDTO);
+                goalEntity.setGoalId(goalId);
+                if (goalEntity.getGoalWorkouts() != null) {
+                    List<GoalWorkout> goalWorkouts = goalWorkoutRepository.findAllById(oldGoal.get().getGoalWorkouts().
+                            stream().map(GoalWorkout::getGoalWorkoutId).toList());
+                    List<GoalWorkout> goalWorkoutEntities = goalEntity.getGoalWorkouts();
+                    List<GoalWorkout> newGoalWorkouts = new ArrayList<>();
+                    for (int i = 0; i < goalWorkouts.size(); i++) {
+                        goalWorkouts.get(i).setCompleted(goalWorkoutEntities.get(i).isCompleted());
+                        newGoalWorkouts.add(goalWorkoutRepository.save(goalWorkouts.get(i)));
+
+                    }
+                    goalEntity.setGoalWorkouts(newGoalWorkouts);
                 }
-                if (goal.getGoalExercises() != null) {
-                    goal.getGoalExercises().forEach(goalExercise -> {
-                        goalExercise.setGoal(updatedGoal);
-                    });
-                    goalExerciseRepository.saveAll(goal.getGoalExercises());
+                if (goalEntity.getGoalExercises() != null) {
+                    List<GoalExercise> goalExercises = goalExerciseRepository.findAllById(oldGoal.get().getGoalExercises().
+                            stream().map(GoalExercise::getGoalExerciseId).toList());
+                    List<GoalExercise> goalExerciseEntities = goalEntity.getGoalExercises();
+                    List<GoalExercise> newGoalExercises = new ArrayList<>();
+                    for (int i = 0; i < goalExercises.size(); i++) {
+                        goalExercises.get(i).setCompleted(goalExerciseEntities.get(i).isCompleted());
+                        newGoalExercises.add(goalExerciseRepository.save(goalExercises.get(i)));
+                    }
+                    goalEntity.setGoalExercises(newGoalExercises);
                 }
+                Goal goal = goalRepository.save(goalEntity);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/goals/" + updatedGoal.getGoalId());
+                        .body("/api/v1/goals/" + goal.getGoalId());
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (RuntimeException e) {

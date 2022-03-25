@@ -41,38 +41,6 @@ public class Goal {
     @JsonIgnore
     private List<GoalWorkout> goalWorkouts;
 
-    @ManyToMany
-    @JoinTable(
-            name = "goal_workout",
-            joinColumns = { @JoinColumn(name = "goal_id")},
-            inverseJoinColumns = {@JoinColumn(name = "workout_id")})
-    private List<Workout> workouts;
-
-    @ManyToMany
-    @JoinTable(
-            name = "goal_exercise",
-            joinColumns = { @JoinColumn(name = "goal_id")},
-            inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
-    private List<Exercise> exercises;
-
-    @JsonGetter(value = "exercises")
-    public List<String> exerciseGetter() {
-        if (exercises != null) {
-            return exercises.stream()
-                    .map(exercise -> "/api/v1/exercises/" + exercise.getExerciseId()).collect(Collectors.toList());
-        }
-        return null;
-    }
-
-    @JsonGetter(value = "workouts")
-    public List<String> workoutsGetter() {
-        if (workouts != null) {
-            return workouts.stream()
-                    .map(workout -> "/api/v1/workouts/" + workout.getWorkoutId()).collect(Collectors.toList());
-        }
-        return null;
-    }
-
     @JsonGetter(value = "program")
     public String programGetter() {
         if (program != null) {
@@ -90,19 +58,18 @@ public class Goal {
     }
 
     public Goal() {
-        super();
     }
 
-    public Goal(Long goalId, Date endDate, Date startDate, boolean achieved,
-                Profile profile, Program program, List<Workout> workouts, List<Exercise> exercises) {
+    public Goal(Long goalId, Date endDate, Date startDate, Boolean achieved, Profile profile,
+                Program program, List<GoalExercise> goalExercises, List<GoalWorkout> goalWorkouts) {
         this.goalId = goalId;
         this.endDate = endDate;
         this.startDate = startDate;
         this.achieved = achieved;
         this.profile = profile;
         this.program = program;
-        this.workouts = workouts;
-        this.exercises = exercises;
+        this.goalExercises = goalExercises;
+        this.goalWorkouts = goalWorkouts;
     }
 
     public Long getGoalId() {
@@ -129,11 +96,11 @@ public class Goal {
         this.startDate = startDate;
     }
 
-    public boolean isAchieved() {
+    public Boolean getAchieved() {
         return achieved;
     }
 
-    public void setAchieved(boolean achieved) {
+    public void setAchieved(Boolean achieved) {
         this.achieved = achieved;
     }
 
@@ -151,30 +118,6 @@ public class Goal {
 
     public void setProgram(Program program) {
         this.program = program;
-    }
-
-    public List<Workout> getWorkouts() {
-        return workouts;
-    }
-
-    public void setWorkouts(List<Workout> workouts) {
-        this.workouts = workouts;
-    }
-
-    public List<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public void setExercises(List<Exercise> exercises) {
-        this.exercises = exercises;
-    }
-
-    public Boolean getAchieved() {
-        return achieved;
-    }
-
-    public void setAchieved(Boolean achieved) {
-        this.achieved = achieved;
     }
 
     public List<GoalExercise> getGoalExercises() {
@@ -202,8 +145,8 @@ public class Goal {
                 ", achieved=" + achieved +
                 ", profile=" + profile +
                 ", program=" + program +
-                ", workouts=" + workouts +
-                ", exercises=" + exercises +
+                ", goalExercises=" + goalExercises +
+                ", goalWorkouts=" + goalWorkouts +
                 '}';
     }
 }

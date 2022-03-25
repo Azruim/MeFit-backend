@@ -16,7 +16,7 @@ public class GoalWorkout {
     private Long goalWorkoutId;
 
     @Column
-    private boolean complete;
+    private boolean completed;
 
     @ManyToOne
     @JoinColumn(name = "workout_id")
@@ -39,26 +39,26 @@ public class GoalWorkout {
         super();
     }
 
-    public GoalWorkout(Long goalWorkoutId, boolean complete, Workout workout, Goal goal) {
+    public GoalWorkout(Long goalWorkoutId, boolean completed, Workout workout, Goal goal) {
         this.goalWorkoutId = goalWorkoutId;
-        this.complete = complete;
+        this.completed = completed;
         this.workout = workout;
         this.goal = goal;
     }
 
-    public boolean isComplete() {
-        return complete;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override
     public String toString() {
         return "GoalWorkout{" +
                 "goalWorkoutId=" + goalWorkoutId +
-                ", complete=" + complete +
+                ", complete=" + completed +
                 ", workout=" + workout +
                 ", goal=" + goal +
                 '}';

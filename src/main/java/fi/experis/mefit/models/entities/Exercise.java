@@ -35,14 +35,6 @@ public class Exercise {
     @JsonIgnore
     private List<GoalExercise> goalExercises;
 
-    @ManyToMany
-    @JsonIgnore
-    @JoinTable(
-            name = "goal_exercise",
-            joinColumns = { @JoinColumn(name = "exercise_id")},
-            inverseJoinColumns = {@JoinColumn(name = "goal_id")})
-    private List<Goal> goals;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "profile_id")
@@ -61,7 +53,6 @@ public class Exercise {
         this.image = image;
         this.fitnessLevel = fitnessLevel;
         this.vidLink = vidLink;
-        this.goals = goals;
         this.profile = profile;
     }
 
@@ -91,7 +82,6 @@ public class Exercise {
                 ", image='" + image + '\'' +
                 ", fitnessLevel='" + fitnessLevel + '\'' +
                 ", vidLink='" + vidLink + '\'' +
-                ", goals=" + goals +
                 ", profile=" + profile +
                 '}';
     }
@@ -142,14 +132,6 @@ public class Exercise {
 
     public void setVidLink(String vidLink) {
         this.vidLink = vidLink;
-    }
-
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
     }
 
     public List<GoalExercise> getGoalExercises() {

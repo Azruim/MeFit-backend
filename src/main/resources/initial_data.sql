@@ -61,9 +61,9 @@ insert into goal (achieved, end_date, profile_id, program_id)
     values (false, '2022-03-10', 'test', 1),
            (false, '2022-06-01', 'db97085a-067f-46b3-b87b-2725560977d1', 2);
 
-insert into goal_workout (goal_id, workout_id)
-    values (1, 1),
-            (1, 2);
+insert into goal_workout (goal_id, workout_id, completed)
+    values (1, 1, false),
+            (1, 2, false);
 
 
 

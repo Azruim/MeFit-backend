@@ -16,7 +16,7 @@ public class GoalExercise {
     private Long goalExerciseId;
 
     @Column
-    private boolean complete;
+    private boolean completed;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
@@ -39,9 +39,9 @@ public class GoalExercise {
         super();
     }
 
-    public GoalExercise(Long goalExerciseId, boolean complete, Exercise exercise, Goal goal) {
+    public GoalExercise(Long goalExerciseId, boolean completed, Exercise exercise, Goal goal) {
         this.goalExerciseId = goalExerciseId;
-        this.complete = complete;
+        this.completed = completed;
         this.exercise = exercise;
         this.goal = goal;
     }
@@ -54,12 +54,12 @@ public class GoalExercise {
         this.goalExerciseId = goalExerciseId;
     }
 
-    public boolean isComplete() {
-        return complete;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public Exercise getExercise() {
@@ -82,7 +82,7 @@ public class GoalExercise {
     public String toString() {
         return "GoalExercise{" +
                 "goalExerciseId=" + goalExerciseId +
-                ", complete=" + complete +
+                ", completed=" + completed +
                 ", exercise=" + exercise +
                 ", goal=" + goal +
                 '}';

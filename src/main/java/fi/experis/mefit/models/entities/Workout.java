@@ -27,14 +27,6 @@ public class Workout {
     private List<Program> programs;
 
     @ManyToMany
-    @JsonIgnore
-    @JoinTable(
-            name = "goal_workout",
-            joinColumns = { @JoinColumn(name = "workout_id")},
-            inverseJoinColumns = {@JoinColumn(name = "goal_id")})
-    private List<Goal> goals;
-
-    @ManyToMany
     @JoinTable(
             name = "workout_set",
             joinColumns = { @JoinColumn(name = "workout_id")},
@@ -55,12 +47,11 @@ public class Workout {
     }
 
     public Workout(Long workoutId, String name, String type, List<Program> programs,
-                   List<Goal> goals, List<Set> sets, Profile profile) {
+                   List<Set> sets, Profile profile) {
         this.workoutId = workoutId;
         this.name = name;
         this.type = type;
         this.programs = programs;
-        this.goals = goals;
         this.sets = sets;
         this.profile = profile;
     }
@@ -91,14 +82,6 @@ public class Workout {
 
     public String getType() {
         return type;
-    }
-
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
     }
 
     public void setType(String type) {
@@ -136,7 +119,6 @@ public class Workout {
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", programs=" + programs +
-                ", goals=" + goals +
                 ", sets=" + sets +
                 ", profile=" + profile +
                 '}';
