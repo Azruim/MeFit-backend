@@ -1,10 +1,10 @@
-package fi.experis.mefit.models.dtos.goalDto;
+package fi.experis.mefit.models.dtos.idDtos;
 
-public class ProgramGoalDTO {
+public class ProgramIdDTO {
 
     private Long programId;
 
-    public ProgramGoalDTO() {
+    public ProgramIdDTO() {
     }
 
     public Long getProgramId() {

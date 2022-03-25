@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.getDtos.ProgramGetDTO;
-import fi.experis.mefit.models.dtos.postDtos.ProgramPostDTO;
+import fi.experis.mefit.models.dtos.programDtos.get.ProgramGetDTO;
+import fi.experis.mefit.models.dtos.programDtos.post.ProgramPostDTO;
 import fi.experis.mefit.services.interfaces.ProgramService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;

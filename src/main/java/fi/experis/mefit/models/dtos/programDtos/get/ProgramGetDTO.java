@@ -1,6 +1,6 @@
-package fi.experis.mefit.models.dtos.getDtos;
+package fi.experis.mefit.models.dtos.programDtos.get;
 
-import fi.experis.mefit.models.dtos.nestedDtos.WorkoutProgramDTO;
+import fi.experis.mefit.models.dtos.workoutDtos.get.WorkoutGetDTO;
 
 import java.util.List;
 

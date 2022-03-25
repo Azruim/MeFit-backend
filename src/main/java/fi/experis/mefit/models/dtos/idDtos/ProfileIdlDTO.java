@@ -1,10 +1,10 @@
-package fi.experis.mefit.models.dtos.goalDto;
+package fi.experis.mefit.models.dtos.idDtos;
 
-public class ProfileGoalDTO {
+public class ProfileIdlDTO {
 
     private String profileId;
 
-    public ProfileGoalDTO() {
+    public ProfileIdlDTO() {
     }
 
     public String getProfileId() {

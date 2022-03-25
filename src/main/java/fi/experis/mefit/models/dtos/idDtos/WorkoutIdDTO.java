@@ -1,13 +1,13 @@
-package fi.experis.mefit.models.dtos.goalDto;
+package fi.experis.mefit.models.dtos.idDtos;
 
-public class WorkoutGoalDTO {
+public class WorkoutIdDTO {
 
     private Long workoutId;
 
-    public WorkoutGoalDTO() {
+    public WorkoutIdDTO() {
     }
 
-    public WorkoutGoalDTO(Long workoutId) {
+    public WorkoutIdDTO(Long workoutId) {
         this.workoutId = workoutId;
     }
 

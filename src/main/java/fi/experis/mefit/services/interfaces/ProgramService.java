@@ -1,7 +1,7 @@
 package fi.experis.mefit.services.interfaces;
 
-import fi.experis.mefit.models.dtos.getDtos.ProgramGetDTO;
-import fi.experis.mefit.models.dtos.postDtos.ProgramPostDTO;
+import fi.experis.mefit.models.dtos.programDtos.get.ProgramGetDTO;
+import fi.experis.mefit.models.dtos.programDtos.post.ProgramPostDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

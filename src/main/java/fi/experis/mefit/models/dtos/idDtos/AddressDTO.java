@@ -1,4 +1,4 @@
-package fi.experis.mefit.models.dtos.nestedDtos;
+package fi.experis.mefit.models.dtos.idDtos;
 
 public class AddressDTO {
 

@@ -1,7 +1,7 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.getDtos.ProgramGetDTO;
-import fi.experis.mefit.models.dtos.postDtos.ProgramPostDTO;
+import fi.experis.mefit.models.dtos.programDtos.get.ProgramGetDTO;
+import fi.experis.mefit.models.dtos.programDtos.post.ProgramPostDTO;
 import fi.experis.mefit.models.entities.Program;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.ProgramRepository;

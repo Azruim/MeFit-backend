@@ -1,19 +1,30 @@
-package fi.experis.mefit.models.dtos.goalDto;
+package fi.experis.mefit.models.dtos.goalDto.get;
+
+import fi.experis.mefit.models.dtos.goalDto.post.GoalExerciseDTO;
+import fi.experis.mefit.models.dtos.goalDto.post.GoalWorkoutDTO;
+import fi.experis.mefit.models.dtos.idDtos.ProfileIdlDTO;
+import fi.experis.mefit.models.dtos.idDtos.ProgramIdDTO;
 
 import java.util.Date;
 import java.util.List;
 
-public class GoalDTO {
+public class GoalGetDTO {
 
+    private Long goalId;
     private Date endDate;
     private Date startDate;
     private Boolean achieved;
-    private ProfileGoalDTO profile;
-    private ProgramGoalDTO program;
+    private ProfileIdlDTO profile;
+    private ProgramIdDTO program;
     private List<GoalWorkoutDTO> workouts;
     private List<GoalExerciseDTO> exercises;
 
-    public GoalDTO() {
+    public Long getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(Long goalId) {
+        this.goalId = goalId;
     }
 
     public Date getEndDate() {
@@ -40,19 +51,19 @@ public class GoalDTO {
         this.achieved = achieved;
     }
 
-    public ProfileGoalDTO getProfile() {
+    public ProfileIdlDTO getProfile() {
         return profile;
     }
 
-    public void setProfile(ProfileGoalDTO profile) {
+    public void setProfile(ProfileIdlDTO profile) {
         this.profile = profile;
     }
 
-    public ProgramGoalDTO getProgram() {
+    public ProgramIdDTO getProgram() {
         return program;
     }
 
-    public void setProgram(ProgramGoalDTO program) {
+    public void setProgram(ProgramIdDTO program) {
         this.program = program;
     }
 

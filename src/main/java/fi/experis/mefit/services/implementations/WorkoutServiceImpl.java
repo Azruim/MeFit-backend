@@ -1,7 +1,7 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.getDtos.WorkoutGetDTO;
-import fi.experis.mefit.models.dtos.postDtos.WorkoutDTO;
+import fi.experis.mefit.models.dtos.workoutDtos.get.WorkoutGetDTO;
+import fi.experis.mefit.models.dtos.workoutDtos.post.WorkoutPostDTO;
 import fi.experis.mefit.models.entities.Set;
 import fi.experis.mefit.models.entities.Workout;
 import fi.experis.mefit.repositories.ExerciseRepository;
@@ -31,7 +31,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         this.setRepository = setRepository;
     }
 
-    private Workout convertToEntity(WorkoutDTO workoutDTO) {
+    private Workout convertToEntity(WorkoutPostDTO workoutDTO) {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         Workout workout = modelMapper.map(workoutDTO, Workout.class);
         if (workout.getSets() != null) {
@@ -56,7 +56,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<String> addWorkout(WorkoutDTO workoutDTO) {
+    public ResponseEntity<String> addWorkout(WorkoutPostDTO workoutDTO) {
         try {
             Workout workout = convertToEntity(workoutDTO);
             return ResponseEntity
@@ -97,7 +97,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public ResponseEntity<String> updateWorkout(Long workoutId, WorkoutDTO workoutDTO) {
+    public ResponseEntity<String> updateWorkout(Long workoutId, WorkoutPostDTO workoutDTO) {
         try {
             Workout workout = convertToEntity(workoutDTO);
             Optional<Workout> existingWorkout = workoutRepository.findById(workoutId);

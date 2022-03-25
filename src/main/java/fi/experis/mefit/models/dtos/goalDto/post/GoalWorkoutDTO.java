@@ -1,9 +1,11 @@
-package fi.experis.mefit.models.dtos.goalDto;
+package fi.experis.mefit.models.dtos.goalDto.post;
+
+import fi.experis.mefit.models.dtos.idDtos.WorkoutIdDTO;
 
 public class GoalWorkoutDTO {
 
     private boolean completed;
-    private WorkoutGoalDTO workout;
+    private WorkoutIdDTO workout;
 
     public GoalWorkoutDTO() {
     }
@@ -16,11 +18,11 @@ public class GoalWorkoutDTO {
         this.completed = completed;
     }
 
-    public WorkoutGoalDTO getWorkout() {
+    public WorkoutIdDTO getWorkout() {
         return workout;
     }
 
-    public void setWorkout(WorkoutGoalDTO workout) {
+    public void setWorkout(WorkoutIdDTO workout) {
         this.workout = workout;
     }
 }

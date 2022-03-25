@@ -2,7 +2,7 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fi.experis.mefit.models.dtos.goalDto.ExerciseGoalDTO;
+import fi.experis.mefit.models.dtos.idDtos.ExerciseIdDTO;
 
 import javax.persistence.*;
 
@@ -23,9 +23,9 @@ public class GoalExercise {
     private Exercise exercise;
 
     @JsonGetter("exercise")
-    public ExerciseGoalDTO workoutGetter() {
+    public ExerciseIdDTO workoutGetter() {
         if (exercise != null) {
-            return new ExerciseGoalDTO(exercise.getExerciseId());
+            return new ExerciseIdDTO(exercise.getExerciseId());
         }
         return null;
     }

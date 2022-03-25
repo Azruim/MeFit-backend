@@ -1,6 +1,6 @@
-package fi.experis.mefit.models.dtos.postDtos;
+package fi.experis.mefit.models.dtos.profileDtos.patch;
 
-import fi.experis.mefit.models.dtos.nestedDtos.AddressDTO;
+import fi.experis.mefit.models.dtos.idDtos.AddressDTO;
 
 public class UpdateProfileDTO {
 

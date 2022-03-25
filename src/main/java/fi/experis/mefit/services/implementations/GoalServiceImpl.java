@@ -1,6 +1,7 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.goalDto.GoalDTO;
+import fi.experis.mefit.models.dtos.goalDto.get.GoalGetDTO;
+import fi.experis.mefit.models.dtos.goalDto.post.GoalPostDTO;
 import fi.experis.mefit.models.entities.*;
 import fi.experis.mefit.repositories.*;
 import fi.experis.mefit.services.interfaces.GoalService;
@@ -28,19 +29,14 @@ public class GoalServiceImpl implements GoalService {
         this.goalExerciseRepository = goalExerciseRepository;
     }
 
-    private Goal convertToEntity(GoalDTO goalDTO) {
-        return modelMapper.map(goalDTO, Goal.class);
-    }
-
-    private GoalDTO convertToDTO(Goal goal) {
-        modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        return modelMapper.map(goal, GoalDTO.class);
+    private Goal convertToEntity(GoalPostDTO goalPostDTO) {
+        return modelMapper.map(goalPostDTO, Goal.class);
     }
 
     @Override
-    public ResponseEntity<String> addGoal(GoalDTO goalDTO) {
+    public ResponseEntity<String> addGoal(GoalPostDTO goalPostDTO) {
         try {
-            Goal goalEntity = convertToEntity(goalDTO);
+            Goal goalEntity = convertToEntity(goalPostDTO);
             Goal newGoal = goalRepository.save(goalEntity);
             if (goalEntity.getGoalWorkouts() != null) {
                 List<GoalWorkout> goalWorkouts = goalWorkoutRepository.
@@ -72,14 +68,14 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<GoalDTO> getGoalById(Long goalId) {
+    public ResponseEntity<GoalGetDTO> getGoalById(Long goalId) {
         try {
             if (goalRepository.findById(goalId).isPresent()) {
                 Goal goal = goalRepository.findById(goalId).get();
-                GoalDTO goalDTO = convertToDTO(goal);
+                GoalGetDTO goalGetDTO = modelMapper.map(goal, GoalGetDTO.class);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(goalDTO);
+                        .body(goalGetDTO);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
@@ -89,11 +85,11 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public ResponseEntity<String> updateGoal(Long goalId, GoalDTO goalDTO) {
+    public ResponseEntity<String> updateGoal(Long goalId, GoalPostDTO goalPostDTO) {
         try {
             Optional<Goal> oldGoal = goalRepository.findById(goalId);
             if (oldGoal.isPresent()) {
-                Goal goalEntity = convertToEntity(goalDTO);
+                Goal goalEntity = convertToEntity(goalPostDTO);
                 goalEntity.setGoalId(goalId);
                 if (goalEntity.getGoalWorkouts() != null) {
                     List<GoalWorkout> goalWorkouts = goalWorkoutRepository.findAllById(oldGoal.get().getGoalWorkouts().

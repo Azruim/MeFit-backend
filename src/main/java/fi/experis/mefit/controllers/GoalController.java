@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.goalDto.GoalDTO;
-import fi.experis.mefit.models.entities.Goal;
+import fi.experis.mefit.models.dtos.goalDto.get.GoalGetDTO;
+import fi.experis.mefit.models.dtos.goalDto.post.GoalPostDTO;
 import fi.experis.mefit.services.interfaces.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,19 +25,19 @@ public class GoalController {
 
     @Operation(summary = "Get goal by id")
     @GetMapping("/{goalId}")
-    public ResponseEntity<GoalDTO> getGoalById(@Parameter(description = "Id of goal to be searched") @PathVariable Long goalId) {
+    public ResponseEntity<GoalGetDTO> getGoalById(@Parameter(description = "Id of goal to be searched") @PathVariable Long goalId) {
         return goalService.getGoalById(goalId);
     }
 
     @Operation(summary = "Create a new goal")
     @PostMapping
-    public ResponseEntity<String> addGoal(@RequestBody GoalDTO goal) {
+    public ResponseEntity<String> addGoal(@RequestBody GoalPostDTO goal) {
         return goalService.addGoal(goal);
     }
 
     @Operation(summary = "Update goal by id")
     @PatchMapping("/{goalId}")
-    public ResponseEntity<String> updateGoal(@Parameter(description = "Id of goal to be updated") @PathVariable Long goalId, @RequestBody GoalDTO goal) {
+    public ResponseEntity<String> updateGoal(@Parameter(description = "Id of goal to be updated") @PathVariable Long goalId, @RequestBody GoalPostDTO goal) {
         return goalService.updateGoal(goalId, goal);
     }
 
