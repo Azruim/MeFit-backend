@@ -33,7 +33,7 @@ public class Workout {
             inverseJoinColumns = {@JoinColumn(name = "set_id")})
     private List<Set> sets;
 
-    @OneToMany(mappedBy = "workout")
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<GoalWorkout> goalWorkouts;
 

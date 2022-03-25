@@ -31,7 +31,7 @@ public class Exercise {
     @Column(columnDefinition = "varchar(255)")
     private String vidLink;
 
-    @OneToMany(mappedBy = "exercise")
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<GoalExercise> goalExercises;
 

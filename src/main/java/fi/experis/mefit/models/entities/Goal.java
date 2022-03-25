@@ -2,6 +2,8 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,29 +35,13 @@ public class Goal {
     @JoinColumn(name = "program_id")
     private Program program;
 
-    @OneToMany(mappedBy = "goal")
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<GoalExercise> goalExercises;
 
-    @OneToMany(mappedBy = "goal")
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<GoalWorkout> goalWorkouts;
-
-    @JsonGetter(value = "program")
-    public String programGetter() {
-        if (program != null) {
-            return "/api/v1/programs/" + program.getProgramId();
-        }
-        return null;
-    }
-
-    @JsonGetter(value = "profile")
-    public String profileGetter() {
-        if (profile != null) {
-            return "/api/v1/profiles/" + profile.getProfileId();
-        }
-        return null;
-    }
 
     public Goal() {
     }

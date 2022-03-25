@@ -1,6 +1,8 @@
 package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,7 +21,13 @@ public class Program {
     @Column(columnDefinition = "varchar(40)")
     private String category;
 
-    @OneToMany(mappedBy = "goalId")
+    @PreRemove
+    private void preRemove() {
+        for (Goal goal : goals) {
+            goal.setProgram(null);
+        }
+    }
+    @OneToMany(mappedBy = "program")
     @JsonIgnore
     private List<Goal> goals;
 
