@@ -81,7 +81,7 @@ public class GoalServiceImpl implements GoalService {
                         .status(HttpStatus.OK)
                         .body(goalDTO);
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -123,7 +123,7 @@ public class GoalServiceImpl implements GoalService {
                         .status(HttpStatus.OK)
                         .body("/api/v1/goals/" + goal.getGoalId());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -134,10 +134,10 @@ public class GoalServiceImpl implements GoalService {
     public ResponseEntity<String> deleteGoalById(Long goalId) {
         try {
             goalRepository.deleteById(goalId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch(RuntimeException e){
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

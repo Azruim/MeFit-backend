@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +55,7 @@ public class ProgramServiceImpl implements ProgramService {
                         .status(HttpStatus.OK)
                         .body(programRepository.findById(programId).get());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
@@ -71,7 +72,7 @@ public class ProgramServiceImpl implements ProgramService {
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -79,11 +80,15 @@ public class ProgramServiceImpl implements ProgramService {
     public ResponseEntity<String> updateProgramById(Long programId, ProgramDTO programDTO) {
         try {
             Program program = convertToEntity(programDTO);
-            program.setProgramId(programId);
-            Program updatedProgram = programRepository.save(program);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("/api/v1/programs/" + updatedProgram.getProgramId());
+            Optional<Program> existingProgram = programRepository.findById(programId);
+            if (existingProgram.isPresent()) {
+                program.setProgramId(programId);
+                Program updatedProgram = programRepository.save(program);
+                return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .body("/api/v1/programs/" + updatedProgram.getProgramId());
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -94,11 +99,11 @@ public class ProgramServiceImpl implements ProgramService {
     public ResponseEntity<String> deleteProgramById(Long programId) {
         try {
             programRepository.deleteById(programId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

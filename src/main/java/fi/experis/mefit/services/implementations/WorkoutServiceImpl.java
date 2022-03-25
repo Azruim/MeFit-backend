@@ -75,7 +75,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                         .status(HttpStatus.OK)
                         .body(workoutRepository.findById(workoutId).get());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -98,11 +98,15 @@ public class WorkoutServiceImpl implements WorkoutService {
     public ResponseEntity<String> updateWorkout(Long workoutId, WorkoutDTO workoutDTO) {
         try {
             Workout workout = convertToEntity(workoutDTO);
-            workout.setWorkoutId(workoutId);
-            Workout updatedWorkout = workoutRepository.save(workout);
+            Optional<Workout> existingWorkout = workoutRepository.findById(workoutId);
+            if (existingWorkout.isPresent()) {
+                workout.setWorkoutId(workoutId);
+                Workout updatedWorkout = workoutRepository.save(workout);
                 return ResponseEntity
                         .status(HttpStatus.OK)
                         .body("/api/v1/workouts/" + updatedWorkout.getWorkoutId());
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -113,10 +117,10 @@ public class WorkoutServiceImpl implements WorkoutService {
     public ResponseEntity<String> deleteWorkoutById(Long workoutId) {
         try {
             workoutRepository.deleteById(workoutId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

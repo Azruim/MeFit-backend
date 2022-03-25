@@ -1,8 +1,10 @@
 package fi.experis.mefit.services.implementations;
 
+import fi.experis.mefit.models.dtos.postDtos.ExerciseDTO;
 import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.repositories.ExerciseRepository;
 import fi.experis.mefit.services.interfaces.ExerciseService;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +18,20 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
 
+    private final ModelMapper modelMapper = new ModelMapper();
+
     public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
         this.exerciseRepository = exerciseRepository;
     }
 
+    private Exercise convertToEntity(ExerciseDTO exerciseDTO) {
+        return modelMapper.map(exerciseDTO, Exercise.class);
+    }
+
     @Override
-    public ResponseEntity<String> addExercise(Exercise exercise) {
+    public ResponseEntity<String> addExercise(ExerciseDTO exerciseDTO) {
         try {
+            Exercise exercise = convertToEntity(exerciseDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
@@ -40,7 +49,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                         .status(HttpStatus.OK)
                         .body(exerciseRepository.findById(exerciseId).get());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -63,16 +72,18 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> updateExercise(Long exerciseId, Exercise exercise) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, ExerciseDTO exerciseDTO) {
         try {
-            Optional<Exercise> oldExercise = exerciseRepository.findById(exerciseId);
-            if (oldExercise.isPresent()) {
+            Exercise exercise = convertToEntity(exerciseDTO);
+            Optional<Exercise> existingExercise = exerciseRepository.findById(exerciseId);
+            if (existingExercise.isPresent()) {
                 exercise.setExerciseId(exerciseId);
+                Exercise updatedExercise = exerciseRepository.save(exercise);
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
+                        .body("/api/v1/exercises/" + updatedExercise.getExerciseId());
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -83,10 +94,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<String> deleteExerciseById(Long exerciseId) {
         try {
             exerciseRepository.deleteById(exerciseId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataAccessException e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
