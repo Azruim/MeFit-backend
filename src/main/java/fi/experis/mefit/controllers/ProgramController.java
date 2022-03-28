@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.programDtos.get.ProgramGetDTO;
-import fi.experis.mefit.models.dtos.programDtos.post.ProgramPostDTO;
+import fi.experis.mefit.models.dtos.programDtos.GetProgramDTO;
+import fi.experis.mefit.models.dtos.programDtos.CreateProgramDTO;
 import fi.experis.mefit.services.interfaces.ProgramService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
@@ -25,23 +25,23 @@ public class ProgramController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<List<ProgramGetDTO>> getAllPrograms() {
+    public ResponseEntity<List<GetProgramDTO>> getAllPrograms() {
         return programService.getAllPrograms();
     }
 
     @GetMapping("/{programId}")
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<ProgramGetDTO> getProgramById(@PathVariable Long programId) {
+    public ResponseEntity<GetProgramDTO> getProgramById(@PathVariable Long programId) {
         return programService.getProgramById(programId);
     }
 
     @PostMapping
-    public ResponseEntity<String> addProgram(@RequestBody ProgramPostDTO program) {
+    public ResponseEntity<String> addProgram(@RequestBody CreateProgramDTO program) {
         return programService.addProgram(program);
     }
 
     @PatchMapping("/{programId}")
-    public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody ProgramPostDTO program) {
+    public ResponseEntity<String> updateProgram(@PathVariable Long programId, @RequestBody CreateProgramDTO program) {
         return programService.updateProgramById(programId, program);
     }
 

@@ -1,13 +1,14 @@
-package fi.experis.mefit.models.dtos.exerciseDtos.post;
+package fi.experis.mefit.models.dtos.exerciseDtos;
 
-public class ExercisePostDTO {
+public class CreateExerciseDTO {
 
     private String name;
     private String description;
-    private String muscleGroup;
+    private String targetMuscleGroup;
     private String image;
     private String fitnessLevel;
     private String vidLink;
+    private ProfileIdDTO profile;
 
     public String getName() {
         return name;
@@ -15,6 +16,14 @@ public class ExercisePostDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ProfileIdDTO getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileIdDTO profile) {
+        this.profile = profile;
     }
 
     public String getDescription() {
@@ -25,12 +34,12 @@ public class ExercisePostDTO {
         this.description = description;
     }
 
-    public String getMuscleGroup() {
-        return muscleGroup;
+    public String getTargetMuscleGroup() {
+        return targetMuscleGroup;
     }
 
-    public void setMuscleGroup(String muscleGroup) {
-        this.muscleGroup = muscleGroup;
+    public void setTargetMuscleGroup(String targetMuscleGroup) {
+        this.targetMuscleGroup = targetMuscleGroup;
     }
 
     public String getImage() {
@@ -55,5 +64,21 @@ public class ExercisePostDTO {
 
     public void setVidLink(String vidLink) {
         this.vidLink = vidLink;
+    }
+
+    public static class ProfileIdDTO {
+
+        private String profileId;
+
+        public ProfileIdDTO() {
+        }
+
+        public String getProfileId() {
+            return profileId;
+        }
+
+        public void setProfileId(String profileId) {
+            this.profileId = profileId;
+        }
     }
 }

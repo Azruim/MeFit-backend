@@ -1,7 +1,7 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.workoutDtos.get.WorkoutGetDTO;
-import fi.experis.mefit.models.dtos.workoutDtos.post.WorkoutPostDTO;
+import fi.experis.mefit.models.dtos.workoutDtos.GetWorkoutDTO;
+import fi.experis.mefit.models.dtos.workoutDtos.CreateWorkoutDTO;
 import fi.experis.mefit.services.interfaces.WorkoutService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,26 +28,26 @@ public class WorkoutController {
     @Operation(summary = "Get all workouts")
     @GetMapping
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<List<WorkoutGetDTO>> getAllWorkouts() {
+    public ResponseEntity<List<GetWorkoutDTO>> getAllWorkouts() {
         return workoutService.getAllWorkouts();
     }
 
     @Operation(summary = "Get workout by id")
     @GetMapping("/{workoutId}")
     @PreAuthorize("hasRole('ROLE_regular-user')")
-    public ResponseEntity<WorkoutGetDTO> getWorkoutById(@Parameter(description = "Id of workout to be searched") @PathVariable Long workoutId) {
+    public ResponseEntity<GetWorkoutDTO> getWorkoutById(@Parameter(description = "Id of workout to be searched") @PathVariable Long workoutId) {
         return workoutService.getWorkoutById(workoutId);
     }
 
     @Operation(summary = "Create a new workout")
     @PostMapping("")
-    public ResponseEntity<String> addWorkout(@RequestBody WorkoutPostDTO workout) {
+    public ResponseEntity<String> addWorkout(@RequestBody CreateWorkoutDTO workout) {
         return workoutService.addWorkout(workout);
     }
 
     @Operation(summary = "Update workout by id")
     @PatchMapping("/{workoutId}")
-    public ResponseEntity<String> updateWorkout(@Parameter(description = "Id of workout to be updated") @PathVariable Long workoutId, @RequestBody WorkoutPostDTO workout) {
+    public ResponseEntity<String> updateWorkout(@Parameter(description = "Id of workout to be updated") @PathVariable Long workoutId, @RequestBody CreateWorkoutDTO workout) {
         return workoutService.updateWorkout(workoutId, workout);
     }
 

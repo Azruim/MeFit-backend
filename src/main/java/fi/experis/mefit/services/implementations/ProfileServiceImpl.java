@@ -1,8 +1,8 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.profileDtos.get.ProfileGetDTO;
-import fi.experis.mefit.models.dtos.profileDtos.post.CreateProfileDTO;
-import fi.experis.mefit.models.dtos.profileDtos.patch.UpdateProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.GetProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.CreateProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.UpdateProfileDTO;
 import fi.experis.mefit.models.entities.Address;
 import fi.experis.mefit.models.entities.Profile;
 import fi.experis.mefit.repositories.AddressRepository;
@@ -49,12 +49,12 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ResponseEntity<ProfileGetDTO> getProfileById(String profileId) {
+    public ResponseEntity<GetProfileDTO> getProfileById(String profileId) {
         try {
             if (profileRepository.findById(profileId).isPresent()) {
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body(modelMapper.map(profileRepository.findById(profileId).get(), ProfileGetDTO.class));
+                        .body(modelMapper.map(profileRepository.findById(profileId).get(), GetProfileDTO.class));
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {

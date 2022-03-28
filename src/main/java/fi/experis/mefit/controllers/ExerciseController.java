@@ -1,6 +1,6 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.exerciseDtos.post.ExercisePostDTO;
+import fi.experis.mefit.models.dtos.exerciseDtos.CreateExerciseDTO;
 import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.services.interfaces.ExerciseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,13 +41,13 @@ public class ExerciseController {
 
     @Operation(summary = "Create a new exercise")
     @PostMapping
-    public ResponseEntity<String> addExercise(@RequestBody ExercisePostDTO exercise) {
+    public ResponseEntity<String> addExercise(@RequestBody CreateExerciseDTO exercise) {
         return exerciseService.addExercise(exercise);
     }
 
     @Operation(summary = "Update exercise by id")
     @PatchMapping("/{exerciseId}")
-    public ResponseEntity<String> updateExercise(@Parameter(description = "Id of exercise to be updated") @PathVariable Long exerciseId, @RequestBody ExercisePostDTO exercise) {
+    public ResponseEntity<String> updateExercise(@Parameter(description = "Id of exercise to be updated") @PathVariable Long exerciseId, @RequestBody CreateExerciseDTO exercise) {
         return exerciseService.updateExercise(exerciseId, exercise);
     }
 

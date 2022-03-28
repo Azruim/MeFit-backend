@@ -1,8 +1,8 @@
 package fi.experis.mefit.controllers;
 
-import fi.experis.mefit.models.dtos.profileDtos.get.ProfileGetDTO;
-import fi.experis.mefit.models.dtos.profileDtos.post.CreateProfileDTO;
-import fi.experis.mefit.models.dtos.profileDtos.patch.UpdateProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.GetProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.CreateProfileDTO;
+import fi.experis.mefit.models.dtos.profileDtos.UpdateProfileDTO;
 import fi.experis.mefit.services.interfaces.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,7 +26,7 @@ public class ProfileController {
 
     @Operation(summary = "Get profile by id")
     @GetMapping("/{profileId}")
-    public ResponseEntity<ProfileGetDTO> getProfileById(@Parameter(description = "Id of profile to be searched") @PathVariable String profileId) {
+    public ResponseEntity<GetProfileDTO> getProfileById(@Parameter(description = "Id of profile to be searched") @PathVariable String profileId) {
         return profileService.getProfileById(profileId);
     }
 

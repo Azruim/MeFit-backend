@@ -2,7 +2,6 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fi.experis.mefit.models.dtos.idDtos.WorkoutIdDTO;
 
 import javax.persistence.*;
 
@@ -86,6 +85,26 @@ public class GoalWorkout {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
+    }
+
+    public static class WorkoutIdDTO {
+
+        private Long workoutId;
+
+        public WorkoutIdDTO() {
+        }
+
+        public WorkoutIdDTO(Long workoutId) {
+            this.workoutId = workoutId;
+        }
+
+        public Long getWorkoutId() {
+            return workoutId;
+        }
+
+        public void setWorkoutId(Long workoutId) {
+            this.workoutId = workoutId;
+        }
     }
 
 }

@@ -1,12 +1,12 @@
 package fi.experis.mefit.services.interfaces;
 
-import fi.experis.mefit.models.dtos.goalDto.get.GoalGetDTO;
-import fi.experis.mefit.models.dtos.goalDto.post.GoalPostDTO;
+import fi.experis.mefit.models.dtos.goalDto.GetGoalDTO;
+import fi.experis.mefit.models.dtos.goalDto.CreateGoalDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface GoalService {
-    ResponseEntity<String> addGoal(GoalPostDTO goal);
-    ResponseEntity<GoalGetDTO> getGoalById(Long goalId);
-    ResponseEntity<String> updateGoal(Long goalId, GoalPostDTO goal);
+    ResponseEntity<String> addGoal(CreateGoalDTO goal);
+    ResponseEntity<GetGoalDTO> getGoalById(Long goalId);
+    ResponseEntity<String> updateGoal(Long goalId, CreateGoalDTO goal);
     ResponseEntity<String> deleteGoalById(Long goal);
 }

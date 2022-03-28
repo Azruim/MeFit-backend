@@ -1,5 +1,6 @@
 package fi.experis.mefit.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -33,18 +34,12 @@ public class Exercise {
 
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Set> sets;
-
-    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<GoalExercise> goalExercises;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "profile_id")
     private Profile profile;
-
-
 
     public Exercise() {
         super();
@@ -76,14 +71,6 @@ public class Exercise {
 
     public void setFitnessLevel(String fitnessLevel) {
         this.fitnessLevel = fitnessLevel;
-    }
-
-    public List<Set> getSets() {
-        return sets;
-    }
-
-    public void setSets(List<Set> sets) {
-        this.sets = sets;
     }
 
     @Override
@@ -155,4 +142,5 @@ public class Exercise {
     public void setGoalExercises(List<GoalExercise> goalExercises) {
         this.goalExercises = goalExercises;
     }
+
 }

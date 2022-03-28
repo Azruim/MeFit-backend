@@ -2,7 +2,6 @@ package fi.experis.mefit.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fi.experis.mefit.models.dtos.idDtos.ExerciseIdDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Set {
     private Exercise exercise;
 
     @JsonGetter("exercise")
-    public ExerciseIdDTO exercisesGetter() {
+    public ExerciseIdDTO exerciseGetter() {
         if (exercise != null) {
             return new ExerciseIdDTO(exercise.getExerciseId());
         }
@@ -89,6 +88,26 @@ public class Set {
 
     public void setWorkout(List<Workout> workout) {
         this.workout = workout;
+    }
+
+    public static class ExerciseIdDTO {
+
+        private Long exerciseId;
+
+        public ExerciseIdDTO() {
+        }
+
+        public ExerciseIdDTO(Long exerciseId) {
+            this.exerciseId = exerciseId;
+        }
+
+        public Long getExerciseId() {
+            return exerciseId;
+        }
+
+        public void setExerciseId(Long exerciseId) {
+            this.exerciseId = exerciseId;
+        }
     }
 
 }

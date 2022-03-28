@@ -1,17 +1,17 @@
 package fi.experis.mefit.services.implementations;
 
-import fi.experis.mefit.models.dtos.exerciseDtos.post.ExercisePostDTO;
+import fi.experis.mefit.models.dtos.exerciseDtos.CreateExerciseDTO;
 import fi.experis.mefit.models.entities.Exercise;
 import fi.experis.mefit.repositories.ExerciseRepository;
 import fi.experis.mefit.services.interfaces.ExerciseService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -20,18 +20,21 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ModelMapper modelMapper = new ModelMapper();
 
+
     public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
         this.exerciseRepository = exerciseRepository;
     }
 
-    private Exercise convertToEntity(ExercisePostDTO exercisePostDTO) {
-        return modelMapper.map(exercisePostDTO, Exercise.class);
+    private Exercise convertToEntity(CreateExerciseDTO createExerciseDTO) {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT);
+        return modelMapper.map(createExerciseDTO, Exercise.class);
     }
 
     @Override
-    public ResponseEntity<String> addExercise(ExercisePostDTO exercisePostDTO) {
+    public ResponseEntity<String> addExercise(CreateExerciseDTO createExerciseDTO) {
         try {
-            Exercise exercise = convertToEntity(exercisePostDTO);
+            Exercise exercise = convertToEntity(createExerciseDTO);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("/api/v1/exercises/" + exerciseRepository.save(exercise).getExerciseId());
@@ -61,10 +64,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(exerciseRepository.findAll()
-                            .stream()
-                            .sorted(Comparator.comparing(Exercise::getTargetMuscleGroup))
-                            .collect(Collectors.toList()));
+                    .body(exerciseRepository.findAll());
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -72,9 +72,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ResponseEntity<String> updateExercise(Long exerciseId, ExercisePostDTO exercisePostDTO) {
+    public ResponseEntity<String> updateExercise(Long exerciseId, CreateExerciseDTO createExerciseDTO) {
         try {
-            Exercise exercise = convertToEntity(exercisePostDTO);
+            Exercise exercise = convertToEntity(createExerciseDTO);
             Optional<Exercise> existingExercise = exerciseRepository.findById(exerciseId);
             if (existingExercise.isPresent()) {
                 exercise.setExerciseId(exerciseId);
