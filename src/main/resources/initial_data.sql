@@ -1,19 +1,19 @@
 insert into address (address_line_1, address_line_2, address_line_3, city, country, postal_code)
-values ('Keskuskatu 1', null, null, 'Helsinki', 'Finland', '00100'),
-       ('Sunset Blvd 1', null, null, 'Los Angeles', 'USA', 'CA 90024');
+values ('Keskuskatu 1', '3rd floor', null, 'Helsinki', 'Finland', '00100'),
+       ('Sunset Blvd 1', 'Apartment A', null, 'Los Angeles', 'USA', 'CA 90024');
 
-insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id)
-values ('58aded87-e849-4181-b725-df80d3628e8f', 'None', 1.83, 'None', 91.3, 1),
-       ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2);
+insert into profile (profile_id, disabilities, height, medical_conditions, weight, address_id, fitness_level)
+values ('58aded87-e849-4181-b725-df80d3628e8f', 'None', 1.83, 'None', 91.3, 1, '5'),
+       ('db97085a-067f-46b3-b87b-2725560977d1', 'When beneficial', 186.7, 'The one requiring medical weed', 101.6, 2, '2');
 
-insert into exercise (description, image, name, target_muscle_group, vid_link, profile_id)
-    values ('Lift your arms', null, 'Bench Press', 'Chest', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Fold your arm', null, 'Bicep Curl', 'Biceps', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Stand up', null, 'Squat', 'Quads', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Pull yourself up to the bar with palms facing forward.', null, 'Pull-up', 'Biceps', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Rest on your hands and toes and lower yourself to the ground and push your weight back up.', null, 'Push-up', 'Chest', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Hang from a bar and raise your legs keeping them straight.', null, 'Leg raise', 'Abs', null, '58aded87-e849-4181-b725-df80d3628e8f'),
-           ('Hang from a bar for 10 seconds. Increase intensity by adding weight.', null, '10-second dead hang', 'Forearms', null, '58aded87-e849-4181-b725-df80d3628e8f');
+insert into exercise (description, image, name, target_muscle_group, vid_link, profile_id, fitness_level)
+    values ('Lift your arms', null, 'Bench Press', 'Chest', null, '58aded87-e849-4181-b725-df80d3628e8f', '4'),
+           ('Fold your arm', null, 'Bicep Curl', 'Biceps', null, '58aded87-e849-4181-b725-df80d3628e8f', '4'),
+           ('Stand up', null, 'Squat', 'Quads', null, '58aded87-e849-4181-b725-df80d3628e8f', '4'),
+           ('Pull yourself up to the bar with palms facing forward.', null, 'Pull-up', 'Biceps', null, '58aded87-e849-4181-b725-df80d3628e8f', '3'),
+           ('Rest on your hands and toes and lower yourself to the ground and push your weight back up.', null, 'Push-up', 'Chest', null, '58aded87-e849-4181-b725-df80d3628e8f', '3'),
+           ('Hang from a bar and raise your legs keeping them straight.', null, 'Leg raise', 'Abs', null, '58aded87-e849-4181-b725-df80d3628e8f', '3'),
+           ('Hang from a bar for 10 seconds. Increase intensity by adding weight.', null, '10-second dead hang', 'Forearms', null, '58aded87-e849-4181-b725-df80d3628e8f', '3');
 
 insert into set (exercise_repetitions, exercise_id)
     values (6, 1), (10, 1), (12, 1),

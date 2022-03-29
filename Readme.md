@@ -3,7 +3,7 @@
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![web](https://img.shields.io/static/v1?logo=heroku&message=Online&label=Heroku&color=430098)](https://movie-app-2022.herokuapp.com/swagger-ui/index.html)
 
-Noroff Java Fullstack bootcamp Assignment 7: Create a Web API and database with Spring
+Noroff Case Study
 
 - [PostgreSQL](https://www.postgresql.org/) database using [Hibernate](https://hibernate.org/)
 - [Spring](https://spring.io/) Web API to access endpoints, which are exposed and documentation provided by [Swagger](https://swagger.io/) OpenAPI

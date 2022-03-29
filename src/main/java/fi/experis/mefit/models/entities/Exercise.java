@@ -41,6 +41,18 @@ public class Exercise {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+
+    @PreRemove
+    private void preRemove() {
+        for (Set set: sets) {
+            set.setExercise(null);
+        }
+    }
+    @OneToMany(mappedBy = "exercise")
+    @JsonIgnore
+    private List<Set> sets;
+
+
     public Exercise() {
         super();
     }
@@ -71,6 +83,14 @@ public class Exercise {
 
     public void setFitnessLevel(String fitnessLevel) {
         this.fitnessLevel = fitnessLevel;
+    }
+
+    public List<Set> getSets() {
+        return sets;
+    }
+
+    public void setSets(List<Set> sets) {
+        this.sets = sets;
     }
 
     @Override
