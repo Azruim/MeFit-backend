@@ -27,6 +27,8 @@ Noroff Case Study
 Security layer added to app.
 
 - Keycloak access management is handling logging and registering of users
+- Authentication is done with an access token that must be sent with each API request
+- Some endpoints are also accessible only to certain roles
 
 ## Install
 
